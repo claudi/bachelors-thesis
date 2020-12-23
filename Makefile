@@ -5,7 +5,8 @@ TEX=$(SRC).tex
 OBJ=$(SRC).aux $(SRC).fls $(SRC).log $(SRC).synctex.gz
 
 $(PDF): $(TEX)
-	@pdflatex $< &> /dev/null
+	pdflatex $< #&> /dev/null
+	pdflatex $< #&> /dev/null
 
 .PHONY: view
 view: $(PDF)

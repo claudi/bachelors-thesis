@@ -2,18 +2,46 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
-\usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{lmodern}
 \usepackage{microtype}
 
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
 \begin{document}
-\section{Category Theory}
+\tableofcontents
+\clearpage
+\section{Monads in Category Theory}
+\subsection{Introduction to Category Theory}
+\begin{definition}[Category]
+\end{definition}
+\begin{definition}[Functor]
+\end{definition}
+\begin{definition}[Natural transformation]
+\end{definition}
+\subsection{Monads}
 
-\section{The Kleisly Category in Computer Science}
-
-\section{Monads in Haskell}
+\section{\texttt{The Kleisly Category} in Computer Science}
+\subsection{Motivation}
+\subsection{Kleisli Triple}
 
 \section{The Kleisly Category and Monads}
+\subsection{Adjuntions}
+\subsection{$\mathbb{T}$-algebras}
+\subsection{The Kleisli Category}
+
+\section{Monads in Haskell}
+\subsection{Haskell}
+\subsection{The Monad Typeclass}
+\subsection{Haskell Monads are Monads}
+\subsection{Kleisli triples are Haskell Monads}
 
 \end{document}
