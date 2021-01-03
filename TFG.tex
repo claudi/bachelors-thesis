@@ -7,6 +7,8 @@
 \usepackage{amsthm}
 \usepackage{lmodern}
 \usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{cd}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -17,6 +19,10 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+
+\DeclareMathOperator{\Obj}{Obj}
+
+\newcommand{\cat}[1]{\mathcal{#1}}
 
 \begin{document}
 \tableofcontents
@@ -32,8 +38,82 @@
 \subsection{Monads}
 
 \section{The Kleisli Category in Computer Science}
+
 \subsection{Motivation}
+\begin{example}[Partiality]
+\end{example}
+\begin{example}[Non-determinism]
+\end{example}
+\begin{example}[Side-effects]
+\end{example}
+\begin{example}[Exceptions]
+\end{example}
+
 \subsection{Kleisli Triple}
+\begin{definition}[Kleisli Triple]
+    A \emph{Kleisli Triple} over a category~\(\cat{C}\)
+    is a triple~\((T, \mu, (-)^{\ast})\),
+    consisting of
+    \begin{enumerate}
+        \item a class function
+            \(T\colon\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
+        \item \(\forall A\in\cat{C}\)
+            a morphism~\(\eta_{A}\colon A\longrightarrow TA\)
+            in~\(\cat{C}\).
+        \item \(\forall f\colon A\longrightarrow TB\)
+            a morphism~\(f^{\ast}\colon TA\longrightarrow TB\).
+    \end{enumerate}
+    such that
+    \begin{enumerate}
+        \item \(\forall A\in\cat{C}\) we have
+            \(\eta^{\ast}_{TA} = 1_{TA}\colon TA\longrightarrow TA\).
+        \item \(\forall A,B\in\cat{C}\)
+            and \(\forall f\colon A\longrightarrow TB\)
+            the diagram
+            \[\begin{tikzcd}
+                TA \arrow[r, "f^{\ast}"] & TB \\
+                A \arrow[u, "\eta_{A}"] \arrow[ur, "f", swap] &
+            \end{tikzcd}\]
+            commutes. This is~\(f^{\ast}\circ\eta_{A} = f\).
+        \item \(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\)
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    There is a bijective correspondence between Kleisli triples and monads.
+\end{proposition}
+\begin{proof}
+    Let~\((T, \mu, (-)^{\ast})\) be a Kleisli triple
+    and set
+    \begin{align*}
+        T\colon \cat{C} & \longrightarrow\cat{C} \\
+        C & \longmapsto TC \\
+        f\colon C\rightarrow C' & \longmapsto
+        (\eta_{C'}\circ f)^{\ast}\colon TC\longrightarrow TC'
+    \end{align*}
+    and
+    \[
+        \mu_{A} = (1_{TA})^{\ast}.
+    \]
+
+    Let's check that~\(T\) is a functor.
+    For every~\(f\colon C_{1}\longrightarrow C_{2}\)
+    and~\(g\colon C_{2}\longrightarrow C_{3}\)
+    \begin{align*}
+        Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
+                      (\eta_{C_{2}}\circ f)^{\ast} \\
+                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
+                      (\eta_{C_{2}}\circ f)\bigr)^{\ast} \\
+                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
+                      \eta_{C_{2}}\circ f\bigr)^{\ast} \\
+                   &= (\eta_{C_{3}}\circ g\circ f)^{\ast} \\
+                   &= T(g\circ f)
+    \end{align*}
+    and for all~\(c\in\cal{C}\),
+    \[
+        T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
+    \]
+\end{proof}
 
 \section{The Kleisli Category and Monads}
 \subsection{Adjuntions}
