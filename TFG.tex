@@ -93,38 +93,38 @@
 \begin{proposition}
     There is a bijective correspondence between Kleisli triples and monads.
 \end{proposition}
-%\begin{proof}
-    %Let~\((T, \mu, (-)^{\ast})\) be a Kleisli triple
-    %and set
-    %\begin{align*}
-        %T\colon \cat{C} & \longrightarrow\cat{C} \\
-        %C & \longmapsto TC \\
-        %f\colon C\rightarrow C' & \longmapsto
-        %(\eta_{C'}\circ f)^{\ast}\colon TC\longrightarrow TC'
-    %\end{align*}
-    %and
-    %\[
-        %\mu_{A} = (1_{TA})^{\ast}.
-    %\]
+\begin{proof}
+    Let~\((T, \mu, (-)^{\ast})\) be a Kleisli triple
+    and set
+    \begin{align*}
+        T\colon \cat{C} & \longrightarrow\cat{C} \\
+        C & \longmapsto TC \\
+        f\colon C\rightarrow C' & \longmapsto
+        (\eta_{C'}\circ f)^{\ast}\colon TC\longrightarrow TC'
+    \end{align*}
+    and
+    \[
+        \mu_{A} = (1_{TA})^{\ast}.
+    \]
 
-    %Let's check that~\(T\) is a functor.
-    %For every~\(f\colon C_{1}\longrightarrow C_{2}\)
-    %and~\(g\colon C_{2}\longrightarrow C_{3}\)
-    %\begin{align*}
-        %Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
-                      %(\eta_{C_{2}}\circ f)^{\ast} \\
-                   %&= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      %(\eta_{C_{2}}\circ f)\bigr)^{\ast} \\
-                   %&= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      %\eta_{C_{2}}\circ f\bigr)^{\ast} \\
-                   %&= (\eta_{C_{3}}\circ g\circ f)^{\ast} \\
-                   %&= T(g\circ f)
-    %\end{align*}
-    %and for all~\(c\in\cat{C}\),
-    %\[
-        %T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
-    %\]
-%\end{proof}
+    Let's check that~\(T\) is a functor.
+    For every~\(f\colon C_{1}\longrightarrow C_{2}\)
+    and~\(g\colon C_{2}\longrightarrow C_{3}\)
+    \begin{align*}
+        Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
+                      (\eta_{C_{2}}\circ f)^{\ast} \\
+                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
+                      (\eta_{C_{2}}\circ f)\bigr)^{\ast} \\
+                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
+                      \eta_{C_{2}}\circ f\bigr)^{\ast} \\
+                   &= (\eta_{C_{3}}\circ g\circ f)^{\ast} \\
+                   &= T(g\circ f)
+    \end{align*}
+    and for all~\(c\in\cat{C}\),
+    \[
+        T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
+    \]
+\end{proof}
 
 \section{The Kleisli Category and monads}
 \subsection{Adjuntions}
