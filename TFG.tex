@@ -63,32 +63,31 @@
 
 \subsection{Kleisli Triple}
 \begin{definition}[Kleisli Triple]
-    %A \emph{Kleisli Triple} over a category~\(\cat{C}\)
-    %is a triple~\((T, \mu, (-)^{\ast})\),
-    %consisting of
-    %\begin{enumerate}
-        %\item a class function
-            %\(T\colon\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
-        %\item \(\forall A\in\cat{C}\)
-            %a morphism~\(\eta_{A}\colon A\longrightarrow TA\)
-            %in~\(\cat{C}\).
-        %\item \(\forall f\colon A\longrightarrow TB\)
-            %a morphism~\(f^{\ast}\colon TA\longrightarrow TB\).
-    %\end{enumerate}
-    %such that
-    %\begin{enumerate}
-        %\item \(\forall A\in\cat{C}\) we have
-            %\(\eta^{\ast}_{TA} = 1_{TA}\colon TA\longrightarrow TA\).
-        %\item \(\forall A,B\in\cat{C}\)
-            %and \(\forall f\colon A\longrightarrow TB\)
-            %the diagram
-            %\[\begin{tikzcd}
-                %TA \arrow[r, "f^{\ast}"] & TB \\
-                %A \arrow[u, "\eta_{A}"] \arrow[ur, "f", swap] &
-            %\end{tikzcd}\]
-            %commutes. This is~\(f^{\ast}\circ\eta_{A} = f\).
-        %\item \(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\)
-    %\end{enumerate}
+    We define a \emph{Kleisli Triple} over a category~\(\cat{C}\)
+    as a triple~\((T, \mu, (-)^{\ast})\) consisting of
+    \begin{enumerate}
+        \item a class function
+            \(T\colon\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
+        \item \(\forall A\in\cat{C}\)
+            a morphism~\(\eta_{A}\colon A\longrightarrow TA\)
+            in~\(\cat{C}\).
+        \item \(\forall f\colon A\longrightarrow TB\)
+            a morphism~\(f^{\ast}\colon TA\longrightarrow TB\).
+    \end{enumerate}
+    such that
+    \begin{enumerate}
+        \item \(\forall A\in\cat{C}\) we have
+            \(\eta^{\ast}_{TA} = 1_{TA}\colon TA\longrightarrow TA\).
+        \item \(\forall A,B\in\cat{C}\)
+            and \(\forall f\colon A\longrightarrow TB\)
+            the diagram
+            \[\begin{tikzcd}
+                TA \arrow[r, "f^{\ast}"] & TB \\
+                A \arrow[u, "\eta_{A}"] \arrow[ur, "f", swap] &
+            \end{tikzcd}\]
+            commutes. This is~\(f^{\ast}\circ\eta_{A} = f\).
+        \item \(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\)
+    \end{enumerate}
 \end{definition}
 
 \begin{proposition}
