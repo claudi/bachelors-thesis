@@ -20,6 +20,7 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{notation}[theorem]{Notation}
 
 \DeclareMathOperator{\Obj}{Obj}
 \DeclareMathOperator{\Hom}{Hom}
@@ -39,6 +40,7 @@
 \clearpage
 \section{Monads in Category Theory}
 \subsection{Introduction to Category Theory}
+
 \begin{definition}[Category]
     \label{def:category}
     A \emph{category}~\(\cat{C}\) is composed of a collection~\(\Obj(\cat{C})\)
@@ -65,6 +67,12 @@
             \]
     \end{enumerate}
 \end{definition}
+
+\begin{notation}
+    We write~\(f:A\longrightarrow B\) or~\(A\overset{f}{\longrightarrow}B\) to
+    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(fg\) to mean~\(f\circ g\).
+\end{notation}
+
 \begin{definition}[Functor]
 \end{definition}
 \begin{definition}[Natural transformation]
