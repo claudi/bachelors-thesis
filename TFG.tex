@@ -74,7 +74,26 @@
 \end{notation}
 
 \begin{definition}[Functor]
+    \label{def:functor}
+    A~\emph{functor}~\(F\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
+    is a map~\(F:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) a
+    morphism~\(F(f):F(A)\longrightarrow F(B)\) in~\(\cat{D}\), such that~\(F\)
+    preserves
+    \begin{enumerate}
+        \item \emph{Composition}: for every two
+            morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
+            in~\(\cat{C}\) we have
+            \[
+                F(f \circ g) = F(f) \circ F(g).
+            \]
+        \item \emph{Units}: for each object~\(C\in\Obj{C}\) we have
+            \[
+                F(\id_{C}) = \id_{F(C)}.
+            \]
+    \end{enumerate}
 \end{definition}
+
 \begin{definition}[Natural transformation]
 \end{definition}
 \subsection{Monads}
