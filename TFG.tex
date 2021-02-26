@@ -67,19 +67,19 @@
     as a triple~\((T, \mu, (-)^{\ast})\) consisting of
     \begin{enumerate}
         \item a class function
-            \(T\colon\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
+            \(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
         \item \(\forall A\in\cat{C}\)
-            a morphism~\(\eta_{A}\colon A\longrightarrow TA\)
+            a morphism~\(\eta_{A}:A\longrightarrow TA\)
             in~\(\cat{C}\).
-        \item \(\forall f\colon A\longrightarrow TB\)
-            a morphism~\(f^{\ast}\colon TA\longrightarrow TB\).
+        \item \(\forall f:A\longrightarrow TB\)
+            a morphism~\(f^{\ast}:TA\longrightarrow TB\).
     \end{enumerate}
     such that
     \begin{enumerate}
         \item \(\forall A\in\cat{C}\) we have
-            \(\eta^{\ast}_{TA} = 1_{TA}\colon TA\longrightarrow TA\).
+            \(\eta^{\ast}_{TA} = 1_{TA}:TA\longrightarrow TA\).
         \item \(\forall A,B\in\cat{C}\)
-            and \(\forall f\colon A\longrightarrow TB\)
+            and \(\forall f:A\longrightarrow TB\)
             the diagram
             \[\begin{tikzcd}
                 TA \arrow[r, "f^{\ast}"] & TB \\
@@ -97,10 +97,10 @@
     Let~\((T, \mu, (-)^{\ast})\) be a Kleisli triple
     and set
     \begin{align*}
-        T\colon \cat{C} & \longrightarrow\cat{C} \\
+        T:\cat{C} & \longrightarrow\cat{C} \\
         C & \longmapsto TC \\
-        f\colon C\rightarrow C' & \longmapsto
-        (\eta_{C'}\circ f)^{\ast}\colon TC\longrightarrow TC'
+        f:C\rightarrow C' & \longmapsto
+        (\eta_{C'}\circ f)^{\ast}:TC\longrightarrow TC'
     \end{align*}
     and
     \[
@@ -108,8 +108,8 @@
     \]
 
     Let's check that~\(T\) is a functor.
-    For every~\(f\colon C_{1}\longrightarrow C_{2}\)
-    and~\(g\colon C_{2}\longrightarrow C_{3}\)
+    For every~\(f:C_{1}\longrightarrow C_{2}\)
+    and~\(g:{2}\longrightarrow C_{3}\)
     \begin{align*}
         Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
                       (\eta_{C_{2}}\circ f)^{\ast} \\
