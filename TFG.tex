@@ -22,6 +22,9 @@
 \newtheorem{definition}[theorem]{Definition}
 
 \DeclareMathOperator{\Obj}{Obj}
+\DeclareMathOperator{\Hom}{Hom}
+
+\newcommand{\id}{\mathrm{id}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -37,6 +40,30 @@
 \section{Monads in Category Theory}
 \subsection{Introduction to Category Theory}
 \begin{definition}[Category]
+    \label{def:category}
+    A \emph{category}~\(\cat{C}\) is composed of a collection~\(\Obj(\cat{C})\)
+    of \emph{objects}, for every two objects~\(A,B\in\Obj(\cat{C})\) a
+    set~\(\Hom(A,B)\) of \emph{morphisms} and a \emph{composition function}
+    \[
+        \circ\colon\Hom(A,B)\times\Hom(B,C) \longrightarrow
+        \Hom(A,C)
+    \]
+    that satisfies
+    \begin{enumerate}
+        \item \emph{Associativity}: for every three
+            morphisms~\(f\in\Hom(A,B)\),~\(g\in\Hom(B,C)\) and~\(h\in\Hom(C,D)\)
+            we have
+            \[
+                f \circ (g \circ h) = (f \circ g) \circ h.
+            \]
+        \item \emph{Left and right units}: for every two
+            objects~\(A,B\in\Obj(\cat{C})\) there exist unique
+            elements~\(\id_{A}\in\Hom(A,A)\),~\(\id_{B}\in\Hom(B,B)\) such that
+            for every morphism~\(f\in\Hom(A,B)\) we have
+            \[
+                \id_{A} \circ f = f = f \circ \id_{B}.
+            \]
+    \end{enumerate}
 \end{definition}
 \begin{definition}[Functor]
 \end{definition}
