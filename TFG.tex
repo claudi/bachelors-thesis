@@ -100,7 +100,23 @@
 \end{notation}
 
 \begin{definition}[Natural transformation]
+    \label{def:natural-transformation}
+    Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
+    transformation}~\(\tau:S\longrightarrow T\) is a
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow SB\}_{A\in\Obj(A)}\) of morphisms
+    in~\(\cat{B}\) such that for all~\(f:A\longrightarrow A'\) in~\(\cat{A}\)
+    \[
+        \tau_{A} \circ Tf = Sf \circ \tau_{A'},
+    \]
+    that is, making the following diagram commutative
+    \[
+        \begin{tikzcd}
+            SA \arrow[r, "\tau_{A}"] \arrow[d, "Sf"] & TA \arrow[d, "Tf"] \\
+            SA' \arrow[r, "\tau_{A'}"] & TA'
+        \end{tikzcd}
+    \]
 \end{definition}
+
 \subsection{Monads}
 \begin{definition}[Monad]
 \end{definition}
