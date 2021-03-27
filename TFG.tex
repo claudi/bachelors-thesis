@@ -26,6 +26,7 @@
 \DeclareMathOperator{\Hom}{Hom}
 
 \newcommand{\id}{\mathrm{id}}
+\newcommand{\Set}{\mathrm{Set}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -44,7 +45,8 @@
     \label{def:category}
     A \emph{category}~\(\cat{C}\) is composed of a collection~\(\Obj(\cat{C})\)
     of \emph{objects}, for every two objects~\(A,B\in\Obj(\cat{C})\) a
-    set~\(\Hom_{\cat{C}}(A,B)\) of \emph{morphisms} and a \emph{composition function}
+    set~\(\Hom_{\cat{C}}(A,B)\) of \emph{morphisms} and a \emph{composition
+    function}
     \[
         \circ:\Hom_{\cat{C}}(A,B)\times\Hom_{\cat{C}}(B,C) \longrightarrow
         \Hom_{\cat{C}}(A,C)
@@ -52,15 +54,16 @@
     that satisfies
     \begin{enumerate}
         \item \emph{Associativity}: for every three
-            morphisms~\(f\in\Hom_{\cat{C}}(A,B)\),~\(g\in\Hom_{\cat{C}}(B,C)\) and~\(h\in\Hom_{\cat{C}}(C,D)\)
+            morphisms~\(f\in\Hom_{\cat{C}}(A,B)\),~\(g\in\Hom_{\cat{C}}(B,C)\)
+            and~\(h\in\Hom_{\cat{C}}(C,D)\)
             we have
             \[
                 f \circ (g \circ h) = (f \circ g) \circ h.
             \]
         \item \emph{Left and right units}: for every two
             objects~\(A,B\in\Obj(\cat{C})\) there exist unique
-            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\) such that
-            for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
+            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\)
+            such that for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
             \[
                 \id_{A} \circ f = f = f \circ \id_{B}.
             \]
@@ -72,56 +75,144 @@
     mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(fg\) to mean~\(f\circ g\).
 \end{notation}
 
+\begin{example}[Category of sets]
+    \label{cat:set}
+    There is a category~\(\Set\), where the objects are sets and morphisms are
+    maps between sets.
+\end{example}
+
 \begin{definition}[Functor]
     \label{def:functor}
-    A~\emph{functor}~\(F\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
-    is a map~\(F:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
+    A~\emph{functor}~\(T\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
+    is a map~\(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
     morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) a
-    morphism~\(F(f):F(A)\longrightarrow F(B)\) in~\(\cat{D}\), such that~\(F\)
+    morphism~\(T(f):T(A)\longrightarrow T(B)\) in~\(\cat{D}\), such that~\(T\)
     preserves
     \begin{enumerate}
         \item \emph{Composition}: for every two
             morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
             in~\(\cat{C}\) we have
             \[
-                F(f \circ g) = F(f) \circ F(g).
+                T(f \circ g) = T(f) \circ T(g).
             \]
         \item \emph{Units}: for each object~\(C\in\Obj{C}\) we have
             \[
-                F(\id_{C}) = \id_{F(C)}.
+                T(\id_{C}) = \id_{T(C)}.
             \]
     \end{enumerate}
 \end{definition}
 
 \begin{notation}
-    We write~\(f:\cat{C}\longrightarrow\cat{D}\) to mean~\(F\) is a functor from
-    a category~\(A\) to a category~\(B\).
+    We write~\(T:\cat{C}\longrightarrow\cat{D}\) to mean~\(T\) is a functor from
+    a category~\(\cat{C}\) to a category~\(\cat{D}\).
+    We may also shorten~\(T(A)\) to~\(TA\) or~\(T(f)\) to~\(Tf\), given~\(A\) an
+    object in~\(\cat{C}\) and~\(f\) a morphism in~\(\cat{C}\).
 \end{notation}
 
 \begin{definition}[Natural transformation]
     \label{def:natural-transformation}
     Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
     transformation}~\(\tau:S\longrightarrow T\) is a
-    family~\(\tau=\{\tau_{A}:SA\longrightarrow SB\}_{A\in\Obj(A)}\) of morphisms
-    in~\(\cat{B}\) such that for all~\(f:A\longrightarrow A'\) in~\(\cat{A}\)
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(A)}\) of morphisms
+    in~\(\cat{B}\) such that for every morphism~\(f:A\longrightarrow B\)
+    in~\(\cat{A}\)
     \[
-        \tau_{A} \circ Tf = Sf \circ \tau_{A'},
+        \tau_{A} \circ Tf = Sf \circ \tau_{B},
     \]
     that is, making the following diagram commutative
     \[
         \begin{tikzcd}
             SA \arrow[r, "\tau_{A}"] \arrow[d, "Sf"] & TA \arrow[d, "Tf"] \\
-            SA' \arrow[r, "\tau_{A'}"] & TA'
+            SB \arrow[r, "\tau_{B}"] & TB
         \end{tikzcd}
     \]
 \end{definition}
 
 \subsection{Monads}
 \begin{definition}[Monad]
+    \label{def:monad}
+    A~\emph{monad} over a category~\(\cat{C}\) is a triple~\((T,\eta,\mu)\)
+    where~\(T:\cat{C}\longrightarrow\cat{C}\) is a functor
+    and~\(\eta:\id\longrightarrow T\) and~\(\mu:TT\longrightarrow T\) are two
+    natural transformations such that for every object~\(X\in\Obj(\cat{C})\) the
+    diagrams
+    \[
+        \begin{tikzcd}
+            TX \arrow[r, "T\eta_{X}"] & TTX \arrow[d, "\mu_{X}"] & TX \arrow[l,
+            swap, "\eta_{TX}"] \\
+                                      & TX \arrow[ul, equal] \arrow[ur, equal] &
+        \end{tikzcd}
+        \qquad\text{and}\qquad
+        \begin{tikzcd}
+            TTTX \arrow[r, "\mu_{TX}"] \arrow[d, "T\mu_{X}"] & TTX \arrow[d,
+            "\mu_{X}"] \\
+            TTX \arrow[r, "\mu_{X}"] & TX
+        \end{tikzcd}
+    \]
+    are commutative. This is
+    \[
+        \mu_{X}\circ T\eta_{X} = \id_{TX} = \mu_{X}\circ\eta_{TX}
+        \qquad\text{and}\qquad
+        \mu_{X}\circ \mu_{TX}
+        = \mu_{X} \circ T\mu_{X}.
+    \]
+    We call~\(\eta\) and~\(\mu\) the \emph{unit} and the \emph{product} of the
+    monad, respectively.
 \end{definition}
+
 \begin{example}[Pointed set monad]
+    \label{monad:maybe}
+    We define the pointed set monad~\((M,\eta,\mu)\) on the~\(\Set\) category as
+    follows.
+    \begin{enumerate}
+        \item The functor~\(M\) for any object~\(A\) or
+            morphism~\(f:A\longrightarrow B\) is defined as
+            \begin{gather*}
+                MA = A\sqcup\{\bot\}
+                \qquad\text{and}\qquad
+                \begin{split}
+                    Mf:MA&\longrightarrow MB \\
+                    \bot&\longmapsto\bot \\
+                    A\ni x&\longmapsto f(x)
+                \end{split}
+            \end{gather*}
+        \item The unit~\(\eta\) for any object~\(A\) is defined as the inclusion
+            of~\(A\) into~\(MA\).
+        \item The product~\(\mu\) for any object~\(A\) is defined as
+            \begin{align*}
+                \mu_{A}:MMA&\longrightarrow MA \\
+                \bot_{1}&\longmapsto \bot \\
+                \bot_{2}&\longmapsto \bot \\
+                A\ni x&\longmapsto x
+            \end{align*}
+            where we've denoted~\(MMA=A\sqcup\{\bot_{1}\}\sqcup\{\bot_{2}\}\)
+            and~\(MA=A\sqcup\{\bot\}\).
+    \end{enumerate}
 \end{example}
-\begin{example}[Words monad]
+
+\begin{example}[Power set monad]
+    \label{monad:power-set}
+    We define the power set monad~\((P,\eta,\mu)\) on the~\(\Set\) category as
+    follows.
+    \begin{enumerate}
+        \item The functor~\(P\) for any object~\(A\) or
+            morphism~\(f:A\longrightarrow B\) is defined as
+            \begin{gather*}
+                PA = \mathcal{P}(A)
+                \qquad\text{and}\qquad
+                \begin{split}
+                    Pf:PA&\longrightarrow PB \\
+                    S&\longmapsto\mathcal{P}\bigl(\{f(x)\in B \mid x\in S\}\bigr)
+                \end{split}
+            \end{gather*}
+        \item The unit~\(\eta\) for any object~\(A\) is defined
+            as~\(\eta_{A}(x)=\{x\}\).
+        \item The product~\(\mu\) for any object~\(A\) is defined as
+            \begin{align*}
+                \mu_{A}:PPA&\longrightarrow PA \\
+                S&\longmapsto \bigcup_{X\in S}X
+            \end{align*}
+    \end{enumerate}
 \end{example}
 
 \section{The Kleisli Category in Computer Science}
