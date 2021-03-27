@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage[new]{old-arrows}
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{tikz}
@@ -159,7 +160,35 @@
 \end{definition}
 
 \begin{example}[Pointed set monad]
+    \label{monad:maybe}
+    We define de pointed set monad~\((M,\eta,\mu)\) on the~\(\Set\) category as
+    follows.
+    \begin{enumerate}
+        \item The functor~\(M\) for any object~\(A\) or
+            morphism~\(f:A\longrightarrow B\) is defined as
+            \begin{gather*}
+                MA = A\sqcup\{\bot\}
+                \qquad\text{and}\qquad
+                \begin{split}
+                    Mf:MA&\longrightarrow MB \\
+                    \bot&\longmapsto\bot \\
+                    A\ni x&\longmapsto f(x)
+                \end{split}
+            \end{gather*}
+        \item The unit~\(\eta\) for any object~\(A\) is defined as the inclusion
+            of~\(A\) into~\(MA\).
+        \item The product~\(\mu\) for any object~\(A\) is defined as
+            \begin{align*}
+                \mu_{A}:MMA&\longrightarrow MA \\
+                \bot_{1}&\longmapsto \bot \\
+                \bot_{2}&\longmapsto \bot \\
+                A\ni x&\longmapsto x
+            \end{align*}
+            where we've denoted~\(MMA=A\sqcup\{\bot_{1}\}\sqcup\{\bot_{2}\}\)
+            and~\(MA=A\sqcup\{\bot\}\).
+    \end{enumerate}
 \end{example}
+
 \begin{example}[Words monad]
 \end{example}
 
