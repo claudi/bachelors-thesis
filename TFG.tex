@@ -44,7 +44,8 @@
     \label{def:category}
     A \emph{category}~\(\cat{C}\) is composed of a collection~\(\Obj(\cat{C})\)
     of \emph{objects}, for every two objects~\(A,B\in\Obj(\cat{C})\) a
-    set~\(\Hom_{\cat{C}}(A,B)\) of \emph{morphisms} and a \emph{composition function}
+    set~\(\Hom_{\cat{C}}(A,B)\) of \emph{morphisms} and a \emph{composition
+    function}
     \[
         \circ:\Hom_{\cat{C}}(A,B)\times\Hom_{\cat{C}}(B,C) \longrightarrow
         \Hom_{\cat{C}}(A,C)
@@ -52,15 +53,16 @@
     that satisfies
     \begin{enumerate}
         \item \emph{Associativity}: for every three
-            morphisms~\(f\in\Hom_{\cat{C}}(A,B)\),~\(g\in\Hom_{\cat{C}}(B,C)\) and~\(h\in\Hom_{\cat{C}}(C,D)\)
+            morphisms~\(f\in\Hom_{\cat{C}}(A,B)\),~\(g\in\Hom_{\cat{C}}(B,C)\)
+            and~\(h\in\Hom_{\cat{C}}(C,D)\)
             we have
             \[
                 f \circ (g \circ h) = (f \circ g) \circ h.
             \]
         \item \emph{Left and right units}: for every two
             objects~\(A,B\in\Obj(\cat{C})\) there exist unique
-            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\) such that
-            for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
+            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\)
+            such that for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
             \[
                 \id_{A} \circ f = f = f \circ \id_{B}.
             \]
