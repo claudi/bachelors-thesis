@@ -172,9 +172,9 @@
     and set
     \begin{align*}
         T:\cat{C} & \longrightarrow\cat{C} \\
-        C & \longmapsto TC \\
-        f:C\rightarrow C' & \longmapsto
-        (\eta_{C'}\circ f)^{\ast}:TC\longrightarrow TC'
+        A & \longmapsto TA \\
+        f:A\rightarrow B & \longmapsto
+        (\eta_{B}\circ f)^{\ast}:TA\longrightarrow TB
     \end{align*}
     and
     \[
@@ -182,16 +182,16 @@
     \]
 
     Let's check that~\(T\) is a functor.
-    For every~\(f:C_{1}\longrightarrow C_{2}\)
-    and~\(g:C_{2}\longrightarrow C_{3}\)
+    For every~\(f:A\longrightarrow B\)
+    and~\(g:B\longrightarrow C\)
     \begin{align*}
-        Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
-                      (\eta_{C_{2}}\circ f)^{\ast} \\
-                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      (\eta_{C_{2}}\circ f)\bigr)^{\ast} \\
-                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      \eta_{C_{2}}\circ f\bigr)^{\ast} \\
-                   &= (\eta_{C_{3}}\circ g\circ f)^{\ast} \\
+        Tg\circ Tf &= (\eta_{C}\circ g)^{\ast}\circ
+                      (\eta_{B}\circ f)^{\ast} \\
+                   &= \bigl((\eta_{C}\circ g)^{\ast}\circ
+                      (\eta_{B}\circ f)\bigr)^{\ast} \\
+                   &= \bigl((\eta_{C}\circ g)^{\ast}\circ
+                      \eta_{B}\circ f\bigr)^{\ast} \\
+                   &= (\eta_{C}\circ g\circ f)^{\ast} \\
                    &= T(g\circ f)
     \end{align*}
     and for all~\(c\in\cat{C}\),
