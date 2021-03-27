@@ -103,16 +103,16 @@
     \label{def:natural-transformation}
     Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
     transformation}~\(\tau:S\longrightarrow T\) is a
-    family~\(\tau=\{\tau_{A}:SA\longrightarrow SB\}_{A\in\Obj(A)}\) of morphisms
-    in~\(\cat{B}\) such that for all~\(f:A\longrightarrow A'\) in~\(\cat{A}\)
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(A)}\) of morphisms
+    in~\(\cat{B}\) such that for all~\(f:A\longrightarrow B\) in~\(\cat{A}\)
     \[
-        \tau_{A} \circ Tf = Sf \circ \tau_{A'},
+        \tau_{A} \circ Tf = Sf \circ \tau_{B},
     \]
     that is, making the following diagram commutative
     \[
         \begin{tikzcd}
             SA \arrow[r, "\tau_{A}"] \arrow[d, "Sf"] & TA \arrow[d, "Tf"] \\
-            SA' \arrow[r, "\tau_{A'}"] & TA'
+            SB \arrow[r, "\tau_{B}"] & TB
         \end{tikzcd}
     \]
 \end{definition}
