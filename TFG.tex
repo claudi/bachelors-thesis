@@ -74,44 +74,47 @@
 
 \begin{definition}[Functor]
     \label{def:functor}
-    A~\emph{functor}~\(F\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
-    is a map~\(F:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
+    A~\emph{functor}~\(T\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
+    is a map~\(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
     morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) a
-    morphism~\(F(f):F(A)\longrightarrow F(B)\) in~\(\cat{D}\), such that~\(F\)
+    morphism~\(T(f):T(A)\longrightarrow T(B)\) in~\(\cat{D}\), such that~\(T\)
     preserves
     \begin{enumerate}
         \item \emph{Composition}: for every two
             morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
             in~\(\cat{C}\) we have
             \[
-                F(f \circ g) = F(f) \circ F(g).
+                T(f \circ g) = T(f) \circ T(g).
             \]
         \item \emph{Units}: for each object~\(C\in\Obj{C}\) we have
             \[
-                F(\id_{C}) = \id_{F(C)}.
+                T(\id_{C}) = \id_{T(C)}.
             \]
     \end{enumerate}
 \end{definition}
 
 \begin{notation}
-    We write~\(f:\cat{C}\longrightarrow\cat{D}\) to mean~\(F\) is a functor from
-    a category~\(A\) to a category~\(B\).
+    We write~\(T:\cat{C}\longrightarrow\cat{D}\) to mean~\(T\) is a functor from
+    a category~\(\cat{C}\) to a category~\(\cat{D}\).
+    We may also shorten~\(T(A)\) to~\(TA\) or~\(T(f)\) to~\(Tf\), given~\(A\) an
+    object in~\(\cat{C}\) and~\(f\) a morphism in~\(\cat{C}\).
 \end{notation}
 
 \begin{definition}[Natural transformation]
     \label{def:natural-transformation}
     Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
     transformation}~\(\tau:S\longrightarrow T\) is a
-    family~\(\tau=\{\tau_{A}:SA\longrightarrow SB\}_{A\in\Obj(A)}\) of morphisms
-    in~\(\cat{B}\) such that for all~\(f:A\longrightarrow A'\) in~\(\cat{A}\)
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(A)}\) of morphisms
+    in~\(\cat{B}\) such that for every morphishm~\(f:A\longrightarrow B\)
+    in~\(\cat{A}\)
     \[
-        \tau_{A} \circ Tf = Sf \circ \tau_{A'},
+        \tau_{A} \circ Tf = Sf \circ \tau_{B},
     \]
     that is, making the following diagram commutative
     \[
         \begin{tikzcd}
             SA \arrow[r, "\tau_{A}"] \arrow[d, "Sf"] & TA \arrow[d, "Tf"] \\
-            SA' \arrow[r, "\tau_{A'}"] & TA'
+            SB \arrow[r, "\tau_{B}"] & TB
         \end{tikzcd}
     \]
 \end{definition}
