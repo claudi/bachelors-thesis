@@ -26,6 +26,7 @@
 \DeclareMathOperator{\Hom}{Hom}
 
 \newcommand{\id}{\mathrm{id}}
+\newcommand{\Set}{\mathrm{Set}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -71,6 +72,12 @@
     We write~\(f:A\longrightarrow B\) or~\(A\overset{f}{\longrightarrow}B\) to
     mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(fg\) to mean~\(f\circ g\).
 \end{notation}
+
+\begin{example}[Category of sets]
+    \label{cat:set}
+    There is a category~\(\Set\), where the objects are sets and morphisms are
+    maps between sets.
+\end{example}
 
 \begin{definition}[Functor]
     \label{def:functor}
