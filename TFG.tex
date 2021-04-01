@@ -134,27 +134,27 @@
     A~\emph{monad} over a category~\(\cat{C}\) is a triple~\((T,\eta,\mu)\)
     where~\(T:\cat{C}\longrightarrow\cat{C}\) is a functor
     and~\(\eta:\id\longrightarrow T\) and~\(\mu:TT\longrightarrow T\) are two
-    natural transformations such that for every object~\(X\in\Obj(\cat{C})\) the
+    natural transformations such that for every object~\(A\in\Obj(\cat{C})\) the
     diagrams
     \[
         \begin{tikzcd}
-            TX \arrow[r, "T\eta_{X}"] & TTX \arrow[d, "\mu_{X}"] & TX \arrow[l,
-            swap, "\eta_{TX}"] \\
-                                      & TX \arrow[ul, equal] \arrow[ur, equal] &
+            TA \arrow[r, "T\eta_{A}"] & TTA \arrow[d, "\mu_{A}"] & TA \arrow[l,
+            swap, "\eta_{TA}"] \\
+                                      & TA \arrow[ul, equal] \arrow[ur, equal] &
         \end{tikzcd}
         \qquad\text{and}\qquad
         \begin{tikzcd}
-            TTTX \arrow[r, "\mu_{TX}"] \arrow[d, "T\mu_{X}"] & TTX \arrow[d,
-            "\mu_{X}"] \\
-            TTX \arrow[r, "\mu_{X}"] & TX
+            TTTA \arrow[r, "\mu_{TA}"] \arrow[d, "T\mu_{A}"] & TTA \arrow[d,
+            "\mu_{A}"] \\
+            TTA \arrow[r, "\mu_{A}"] & TA
         \end{tikzcd}
     \]
     are commutative. This is
     \[
-        \mu_{X}\circ T\eta_{X} = \id_{TX} = \mu_{X}\circ\eta_{TX}
+        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
         \qquad\text{and}\qquad
-        \mu_{X}\circ \mu_{TX}
-        = \mu_{X} \circ T\mu_{X}.
+        \mu_{A}\circ \mu_{TA}
+        = \mu_{A} \circ T\mu_{A}.
     \]
     We call~\(\eta\) and~\(\mu\) the \emph{unit} and the \emph{product} of the
     monad, respectively.
