@@ -326,6 +326,17 @@
     \end{split}
     \end{gather*}
     and we have proved that~\(\mu\) is a natural transformation.
+
+    Finally, we can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also
+    a natural transformation.
+    By expanding~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\), we have
+    \[
+        Tf \circ \eta_{A}
+        = (\eta_{B}\circ f)^{\ast} \circ \eta_{A}
+        = \eta_{B} \circ f,
+    \]
+    and this proves that a Kleisli Triple induces a monad.
 \end{proof}
 
 \section{The Kleisli Category and monads}
