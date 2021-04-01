@@ -262,16 +262,20 @@
     Let~\((T, \eta, (-)^{\ast})\) be a Kleisli triple
     over a category~\(\cat{C}\)
     and set
-    \begin{align*}
-        T:\cat{C} & \longrightarrow\cat{C} \\
-        A & \longmapsto TA \\
-        f:A\rightarrow B & \longmapsto
-        (\eta_{B}\circ f)^{\ast}:TA\longrightarrow TB
-    \end{align*}
+    \begin{equation}
+        \label{eq:monad-unit-in-kleisli-trip}
+        \begin{split}
+            T:\cat{C} & \longrightarrow\cat{C} \\
+            A & \longmapsto TA \\
+            f:A\rightarrow B & \longmapsto
+            (\eta_{B}\circ f)^{\ast}:TA\longrightarrow TB
+        \end{split}
+    \end{equation}
     and
-    \[
+    \begin{equation}
+        \label{eq:monad-prod-in-kleisli-trip}
         \mu_{A} = (\id_{TA})^{\ast}.
-    \]
+    \end{equation}
 
     Let's check that~\(T\) is a functor.
     For every two~\(f:A\longrightarrow B\)
