@@ -9,6 +9,7 @@
 \usepackage{microtype}
 \usepackage{tikz}
 \usetikzlibrary{cd}
+\usepackage{minted}
 \usepackage[hidelinks, pdfencoding=auto]{hyperref}
 
 \theoremstyle{plain}
@@ -217,6 +218,26 @@
 
 \section{The Kleisli Category in Computer Science}
 \subsection{Motivation}
+When trying to model computer functions with mathematical functions we face some
+adversity, which may lead us to think that they are inherently different.
+
+Mathematical functions must be defined on their domain, while computer functions
+may not be, as the program that encapsulates them may abort during the
+function's execution.
+For example, the factorial mathematical function is not defined on negative
+integers, but the computer function
+\begin{minted}{python}
+def factorial(n):
+    if n == 0:
+        return 1
+    elif n >= 1:
+        return n * factorial(n - 1)
+\end{minted}
+is perfectly valid, but will crash a program that tries to evaluate it on a
+negative integer.
+We call this a~\emph{partial} function.
+
+Let's forget category theory and see how we could work around some of these:
 \begin{example}[Partiality]
 \end{example}
 \begin{example}[Non-determinism]
