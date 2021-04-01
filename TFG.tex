@@ -337,6 +337,28 @@
         = \eta_{B} \circ f,
     \]
     and this proves that a Kleisli Triple induces a monad.
+
+    Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
+    morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}\) set
+    \begin{equation}
+        \label{eq:kleisli-ast-in-monad}
+        f^{\ast} = \mu_{B} \circ Tf.
+    \end{equation}
+    By the monad unit law we have
+    \[
+        \eta_{TA}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
+    \]
+    and for any two morphisms~\(f:A\longrightarrow TB\)
+    and~\(g:B\longrightarrow TC\) in~\(\cat{C}\) we have
+    \begin{align*}
+        g^{\ast}\circ f^{\ast} &= \mu_{C} \circ Tg \circ \mu_{B} \circ Tf \\
+                               &= \mu_{C} \circ \mu_{TC} \circ TTg \circ Tf \\
+                               &= \mu_{C} \circ T\mu_{C} \circ TTg \circ Tf \\
+                               &= \mu_{C} \circ T(\mu_{C} \circ Tg \circ f) \\
+                               &= \mu_{C} \circ T(g^{\ast} \circ f) \\
+                               &= (g^{\ast} \circ f)^{\ast}
+    \end{align*}
+    and this proves that every monad induces a Kleisli Triple.
 \end{proof}
 
 \section{The Kleisli Category and monads}
