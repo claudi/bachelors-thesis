@@ -28,6 +28,8 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
 
+\newcommand{\adjoint}{\mathrel{\vdash}}
+
 \newcommand{\cat}[1]{\mathcal{#1}}
 
 \title{Monads in Haskell}
@@ -293,7 +295,27 @@
 
 \section{The Kleisli Category and monads}
 \subsection{Adjuntions}
-\begin{definition}[Adjuction]
+\begin{definition}[Adjunction]
+    Two functors~\(F:\cat{C}\leftrightarrows\cat{D}:G\) are said to
+    be~\emph{adjoint} if there exist two natural
+    transformations~\(\eta_{\cat{C}}:1\longrightarrow GF\)
+    and~\(\epsilon:FG\longrightarrow 1\) making the following diagrams commute
+    \[
+        \begin{tikzcd}
+            F \arrow[r, "F\ast\eta", Rightarrow] \arrow[dr, equal] & FGF \arrow[d, "\epsilon\ast F", Rightarrow] \\
+              & F
+        \end{tikzcd}
+        \qquad
+        \begin{tikzcd}
+            G \arrow[r, "\eta\ast G", Rightarrow] \arrow[dr, equal] & GFG \arrow[d, "G\ast\epsilon", Rightarrow] \\
+              & G
+        \end{tikzcd}
+    \]
+
+    We say that~\(F\) is the left adjoint while~\(G\) is the right adjoint,
+    and write~\(F\adjoint G\).
+    We also call~\(\eta\) the~\emph{unit} and~\(\epsilon\) the~\emph{counit}
+    of the adjunction.
 \end{definition}
 \begin{proposition}
     Equivalent definitions to adjunction.
