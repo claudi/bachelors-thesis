@@ -317,12 +317,20 @@
     We also call~\(\eta\) the~\emph{unit} and~\(\epsilon\) the~\emph{counit}
     of the adjunction.
 \end{definition}
+
 \begin{proposition}
     Equivalent definitions to adjunction.
 \end{proposition}
+
 \begin{proposition}
     Every adjunction induces a monad.
 \end{proposition}
+\begin{proof}
+    If we consider the composite functor~\(T=GF:\cat{C}\longrightarrow\cat{C}\)
+    the natural transformation~\(\mu:G\ast\epsilon\ast F:TT\longrightarrow T\),
+    we can show that the triple~\((T,\mu,\eta)\) is a monad over~\(\cat{C}\).
+\end{proof}
+
 \begin{proposition}
     Every monad induces an adjunction.
 \end{proposition}
