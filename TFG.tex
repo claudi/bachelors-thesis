@@ -328,8 +328,42 @@
 \end{proposition}
 \begin{proof}
     If we consider the composite functor~\(T=GF:\cat{C}\longrightarrow\cat{C}\)
-    the natural transformation~\(\mu:G\ast\epsilon\ast F:TT\longrightarrow T\),
+    and the natural transformation~\(\mu:G\ast\epsilon\ast F:TT\longrightarrow T\),
     we can show that the triple~\((T,\mu,\eta)\) is a monad over~\(\cat{C}\).
+    We must prove that
+    \[
+        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
+        \qquad\text{and}\qquad
+        \mu_{A}\circ\mu_{TA} = \mu_{A}\circ T\mu_{A},
+    \]
+    this is that the diagrams
+    \[
+        \begin{tikzcd}
+            GF \arrow[r, "GF\ast\eta", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] & GF \arrow[l, "\eta\ast GF", Rightarrow, swap] \arrow[dl, equal] \\
+                 & GF &
+        \end{tikzcd}
+        \qquad\text{and}\qquad
+        \begin{tikzcd}
+            GFGFGF \arrow[r, "G\ast\epsilon\ast FGF", Rightarrow] \arrow[d, "GFG\ast\epsilon\ast F", Rightarrow] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
+            GFGF \arrow[r, "G\ast\epsilon\ast F", Rightarrow] & GF
+        \end{tikzcd}
+    \]
+    commute.
+
+    For the monadic unit law, if we compose with~\(G\) or pre-compose with~\(F\)
+    the triangle inequalities of adjunctions, respectively, we get
+    \[
+        \begin{tikzcd}
+            GF \arrow[r, "GF\ast\eta", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
+              & GF
+        \end{tikzcd}
+        \qquad
+        \begin{tikzcd}
+            GF \arrow[r, "\eta\ast GF", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
+              & GF
+        \end{tikzcd}
+    \]
+    which complete the first diagram.
 \end{proof}
 
 \begin{proposition}
