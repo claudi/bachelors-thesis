@@ -28,6 +28,8 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
 
+\newcommand{\adjoint}{\mathrel{\vdash}}
+
 \newcommand{\cat}[1]{\mathcal{#1}}
 
 \title{Monads in Haskell}
@@ -215,7 +217,7 @@
     \end{enumerate}
 \end{example}
 
-\section{The Kleisli Category in Computer Science}
+\section{The Kleisli Triples in Computer Science}
 \subsection{Motivation}
 \begin{example}[Partiality]
 \end{example}
@@ -290,27 +292,6 @@
         T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
     \]
 \end{proof}
-
-\section{The Kleisli Category and monads}
-\subsection{Adjuntions}
-\begin{definition}[Adjuction]
-\end{definition}
-\begin{proposition}
-    Equivalent definitions to adjunction.
-\end{proposition}
-\begin{proposition}
-    Every adjunction induces a monad.
-\end{proposition}
-\begin{proposition}
-    Every monad induces an adjunction.
-\end{proposition}
-\subsection{Free \texorpdfstring{$\mathbb{T}$}{T}-algebras}
-\begin{definition}[Free $\mathbb{T}$-algebras]
-\end{definition}
-\subsection{The Kleisli Category}
-\begin{proposition}
-    That statement on free $\mathbb{T}$-algebras and the Kleisli Category.
-\end{proposition}
 
 \section{Monads in Haskell}
 \subsection{Haskell}
