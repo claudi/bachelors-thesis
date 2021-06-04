@@ -217,7 +217,7 @@
     \end{enumerate}
 \end{example}
 
-\section{The Kleisli Category in Computer Science}
+\section{The Kleisli Triples in Computer Science}
 \subsection{Motivation}
 \begin{example}[Partiality]
 \end{example}
@@ -292,90 +292,6 @@
         T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
     \]
 \end{proof}
-
-\section{The Kleisli Category and monads}
-\subsection{Adjunctions}
-\begin{definition}[Adjunction]
-    Two functors~\(F:\cat{C}\leftrightarrows\cat{D}:G\) are said to
-    be~\emph{adjoint} if there exist two natural
-    transformations~\(\eta_{\cat{C}}:1\longrightarrow GF\)
-    and~\(\epsilon:FG\longrightarrow 1\) making the following diagrams commute
-    \[
-        \begin{tikzcd}
-            F \arrow[r, "F\ast\eta", Rightarrow] \arrow[dr, equal] & FGF \arrow[d, "\epsilon\ast F", Rightarrow] \\
-              & F
-        \end{tikzcd}
-        \qquad
-        \begin{tikzcd}
-            G \arrow[r, "\eta\ast G", Rightarrow] \arrow[dr, equal] & GFG \arrow[d, "G\ast\epsilon", Rightarrow] \\
-              & G
-        \end{tikzcd}
-    \]
-    which are called the~\emph{triangle inequalities} of adjunctions.
-
-    We say that~\(F\) is the left adjoint while~\(G\) is the right adjoint,
-    and write~\(F\adjoint G\).
-    We also call~\(\eta\) the~\emph{unit} and~\(\epsilon\) the~\emph{counit}
-    of the adjunction.
-\end{definition}
-
-\begin{proposition}
-    Equivalent definitions to adjunction.
-\end{proposition}
-
-\begin{proposition}
-    Every adjunction induces a monad.
-\end{proposition}
-\begin{proof}
-    If we consider the composite functor~\(T=GF:\cat{C}\longrightarrow\cat{C}\)
-    and the natural transformation~\(\mu:G\ast\epsilon\ast F:TT\longrightarrow T\),
-    we can show that the triple~\((T,\mu,\eta)\) is a monad over~\(\cat{C}\).
-    We must prove that
-    \[
-        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
-        \qquad\text{and}\qquad
-        \mu_{A}\circ\mu_{TA} = \mu_{A}\circ T\mu_{A},
-    \]
-    this is that the diagrams
-    \[
-        \begin{tikzcd}
-            GF \arrow[r, "GF\ast\eta", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] & GF \arrow[l, "\eta\ast GF", Rightarrow, swap] \arrow[dl, equal] \\
-                 & GF &
-        \end{tikzcd}
-        \qquad\text{and}\qquad
-        \begin{tikzcd}
-            GFGFGF \arrow[r, "G\ast\epsilon\ast FGF", Rightarrow] \arrow[d, "GFG\ast\epsilon\ast F", Rightarrow] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
-            GFGF \arrow[r, "G\ast\epsilon\ast F", Rightarrow] & GF
-        \end{tikzcd}
-    \]
-    commute.
-
-    For the monadic unit law, if we compose with~\(G\) or pre-compose with~\(F\)
-    the triangle inequalities of adjunctions, respectively, we get
-    \[
-        \begin{tikzcd}
-            GF \arrow[r, "GF\ast\eta", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
-              & GF
-        \end{tikzcd}
-        \qquad
-        \begin{tikzcd}
-            GF \arrow[r, "\eta\ast GF", Rightarrow] \arrow[dr, equal] & GFGF \arrow[d, "G\ast\epsilon\ast F", Rightarrow] \\
-              & GF
-        \end{tikzcd}
-    \]
-    which complete the first diagram.
-\end{proof}
-
-\begin{proposition}
-    Every monad induces an adjunction.
-\end{proposition}
-\subsection{Free \texorpdfstring{$\mathbb{T}$}{T}-algebras}
-\begin{definition}[Free $\mathbb{T}$-algebras]
-\end{definition}
-\subsection{The Kleisli Category}
-\begin{proposition}
-    That statement on free $\mathbb{T}$-algebras and the Kleisli Category.
-\end{proposition}
 
 \section{Monads in Haskell}
 \subsection{Haskell}
