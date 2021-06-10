@@ -9,6 +9,7 @@
 \usepackage{microtype}
 \usepackage{tikz}
 \usetikzlibrary{cd}
+\usepackage{minted}
 \usepackage[hidelinks, pdfencoding=auto]{hyperref}
 
 \theoremstyle{plain}
@@ -219,6 +220,26 @@
 
 \section{The Kleisli Triples in Computer Science}
 \subsection{Motivation}
+When trying to model computer functions with mathematical functions we face some
+adversity, which may lead us to think that they are inherently different.
+
+Mathematical functions must be defined on their domain, while computer functions
+may not be, as the program that encapsulates them may abort during the
+function's execution.
+For example, the factorial mathematical function is not defined on negative
+integers, but the computer function
+\begin{minted}{python}
+def factorial(n):
+    if n == 0:
+        return 1
+    elif n >= 1:
+        return n * factorial(n - 1)
+\end{minted}
+is perfectly valid, but will crash a program that tries to evaluate it on a
+negative integer.
+We call this a~\emph{partial} function.
+
+Let's forget category theory and see how we could work around some of these:
 \begin{example}[Partiality]
 \end{example}
 \begin{example}[Non-determinism]
@@ -231,7 +252,7 @@
 \subsection{Kleisli Triple}
 \begin{definition}[Kleisli Triple]
     We define a \emph{Kleisli Triple} over a category~\(\cat{C}\)
-    as a triple~\((T, \mu, (-)^{\ast})\) consisting of
+    as a triple~\((T, \eta, (-)^{\ast})\) consisting of
     \begin{enumerate}
         \item a class function
             \(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{C})\).
@@ -244,7 +265,7 @@
     such that
     \begin{enumerate}
         \item \(\forall A\in\cat{C}\) we have
-            \(\eta^{\ast}_{TA} = 1_{TA}:TA\longrightarrow TA\).
+            \(\eta^{\ast}_{TA} = \id_{TA}:TA\longrightarrow TA\).
         \item \(\forall A,B\in\cat{C}\)
             and \(\forall f:A\longrightarrow TB\)
             the diagram
@@ -258,39 +279,109 @@
 \end{definition}
 
 \begin{proposition}
-    There is a bijective correspondence between Kleisli triples and monads.
+    Let~\(\cat{C}\) be a category.
+    There is a bijective correspondence between Kleisli Triples over~\(\cat{C}\)
+    and monads over~\(\cat{C}\).
 \end{proposition}
 \begin{proof}
-    Let~\((T, \mu, (-)^{\ast})\) be a Kleisli triple
-    and set
-    \begin{align*}
-        T:\cat{C} & \longrightarrow\cat{C} \\
-        C & \longmapsto TC \\
-        f:C\rightarrow C' & \longmapsto
-        (\eta_{C'}\circ f)^{\ast}:TC\longrightarrow TC'
-    \end{align*}
+    Let~\((T, \eta, (-)^{\ast})\) be a Kleisli triple over~\(\cat{C}\) and set
+    \begin{equation}
+        \label{eq:monad-unit-in-kleisli-trip}
+        \begin{split}
+            T:\cat{C} & \longrightarrow\cat{C} \\
+            A & \longmapsto TA \\
+            f:A\rightarrow B & \longmapsto
+            (\eta_{B}\circ f)^{\ast}:TA\longrightarrow TB
+        \end{split}
+    \end{equation}
     and
-    \[
-        \mu_{A} = (1_{TA})^{\ast}.
-    \]
+    \begin{equation}
+        \label{eq:monad-prod-in-kleisli-trip}
+        \mu_{A} = (\id_{TA})^{\ast}.
+    \end{equation}
 
     Let's check that~\(T\) is a functor.
-    For every~\(f:C_{1}\longrightarrow C_{2}\)
-    and~\(g:{2}\longrightarrow C_{3}\)
+    For every two~\(f:A\longrightarrow B\)
+    and~\(g:B\longrightarrow C\)
+    morphisms in~\(\cat{C}\)
+    we have
     \begin{align*}
-        Tg\circ Tf &= (\eta_{C_{3}}\circ g)^{\ast}\circ
-                      (\eta_{C_{2}}\circ f)^{\ast} \\
-                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      (\eta_{C_{2}}\circ f)\bigr)^{\ast} \\
-                   &= \bigl((\eta_{C_{3}}\circ g)^{\ast}\circ
-                      \eta_{C_{2}}\circ f\bigr)^{\ast} \\
-                   &= (\eta_{C_{3}}\circ g\circ f)^{\ast} \\
+        Tg\circ Tf &= (\eta_{C}\circ g)^{\ast}\circ
+                      (\eta_{B}\circ f)^{\ast} \\
+                   &= \bigl((\eta_{C}\circ g)^{\ast}\circ
+                      (\eta_{B}\circ f)\bigr)^{\ast} \\
+                   &= \bigl((\eta_{C}\circ g)^{\ast}\circ
+                      \eta_{B}\circ f\bigr)^{\ast} \\
+                   &= (\eta_{C}\circ g\circ f)^{\ast} \\
                    &= T(g\circ f)
     \end{align*}
-    and for all~\(c\in\cat{C}\),
+    and for all~\(A\in\cat{C}\),
     \[
-        T1_{C} = (\eta_{C}\circ 1_{C})^{\ast} = \eta_{C}^{\ast} = 1_{TC}.
+        T\id_{A} = (\eta_{A}\circ \id_{A})^{\ast} = \eta_{A}^{\ast} = \id_{TA},
     \]
+    which proves that~\(T\) is a functor.
+
+    Next we want to see that~\(\mu=\{\mu_{A}\}_{A\in\Obj(\cat{C})}\) is a
+    natural transformation.
+    Given morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) we want to prove that
+    \[
+        Tf \circ \mu_{A} = \mu_{B} \circ TTf.
+    \]
+    Expanding~\eqref{eq:monad-prod-in-kleisli-trip} we get
+    \begin{gather*}
+        \begin{split}
+            Tf \circ \mu_{A} &= Tf \circ (\id_{TA})^{\ast} \\
+                &= Tf \circ (T\id_{A})^{\ast} \\
+                &= (\eta_{B} \circ f)^{\ast} \circ (T\id_{A})^{\ast} \\
+                &= \bigl((\eta_{B} \circ f)^{\ast} \circ T\id_{A}\bigr)^{\ast} \\
+                &= \bigl((\eta_{B} \circ f)^{\ast}\bigr)^{\ast} \\
+                &= \bigl(Tf\bigr)^{\ast}
+        \end{split}
+        \qquad\text{and}\qquad
+        \begin{split}
+            \mu_{B} \circ TTf &= (\id_{TB})^{\ast} \circ TTf \\
+                &= (\id_{TB})^{\ast} \circ TTf \\
+                &= (\id_{TB})^{\ast} \circ (\eta_{TB} \circ Tf)^{\ast} \\
+                &= \bigl((\id_{TB})^{\ast} \circ \eta_{TB} \circ Tf\bigr)^{\ast} \\
+                &= \bigl(\id_{TB} \circ Tf\bigr)^{\ast} \\
+                %&= \bigl(T\id_{B} \circ Tf\bigr)^{\ast} \\
+                &= \bigl(Tf\bigr)^{\ast}
+    \end{split}
+    \end{gather*}
+    and we have proved that~\(\mu\) is a natural transformation.
+
+    Finally, we can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also
+    a natural transformation.
+    By expanding~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\), we have
+    \[
+        Tf \circ \eta_{A}
+        = (\eta_{B}\circ f)^{\ast} \circ \eta_{A}
+        = \eta_{B} \circ f,
+    \]
+    and this proves that a Kleisli Triple induces a monad.
+
+    Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
+    morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}\) set
+    \begin{equation}
+        \label{eq:kleisli-ast-in-monad}
+        f^{\ast} = \mu_{B} \circ Tf.
+    \end{equation}
+    By the monad unit law we have
+    \[
+        \eta_{TA}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
+    \]
+    and for any two morphisms~\(f:A\longrightarrow TB\)
+    and~\(g:B\longrightarrow TC\) in~\(\cat{C}\) we have
+    \begin{align*}
+        g^{\ast}\circ f^{\ast} &= \mu_{C} \circ Tg \circ \mu_{B} \circ Tf \\
+                               &= \mu_{C} \circ \mu_{TC} \circ TTg \circ Tf \\
+                               &= \mu_{C} \circ T\mu_{C} \circ TTg \circ Tf \\
+                               &= \mu_{C} \circ T(\mu_{C} \circ Tg \circ f) \\
+                               &= \mu_{C} \circ T(g^{\ast} \circ f) \\
+                               &= (g^{\ast} \circ f)^{\ast}
+    \end{align*}
+    and this proves that every monad induces a Kleisli Triple.
 \end{proof}
 
 \section{Monads in Haskell}
