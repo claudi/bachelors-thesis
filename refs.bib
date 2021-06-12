@@ -24,3 +24,35 @@
     ?_note    = "",
 }
 
+@Article{SussPureFunctionParallelization,
+    author={S{\"u}{\ss}, Tim
+            and Nagel, Lars
+            and Vef, Marc-Andr{\'e}
+            and Brinkmann, Andr{\'e}
+            and Feld, Dustin
+            and Soddemann, Thomas},
+    title={Pure Functions in C: A Small Keyword for Automatic Parallelization},
+    journal={International Journal of Parallel Programming},
+    year={2021},
+    month={Feb},
+    day={01},
+    volume={49},
+    number={1},
+    pages={1-24},
+    abstract={The need for parallel task execution has been steadily growing in recent years since manufacturers mainly improve processor performance by increasing the number of installed cores instead of scaling the processor's frequency. To make use of this potential, an essential technique to increase the parallelism of a program is to parallelize loops. Several automatic loop nest parallelizers have been developed in the past such as PluTo. The main restriction of these tools is that the loops must be statically analyzable which, among other things, disallows function calls within the loops. In this article, we present a seemingly simple extension to the C programming language which marks functions without side-effects. These functions can then basically be ignored when the automatic parallelizer checks the parallelizability of loops. We integrated the approach into the GCC compiler toolchain and evaluated it by running several real-world applications. Our experiments show that the C extension helps to identify additional parallelization opportunities and, thus, to significantly increase the performance of applications.},
+    issn={1573-7640},
+    doi={10.1007/s10766-020-00660-4},
+    url={https://doi.org/10.1007/s10766-020-00660-4}
+}
+
+@article{frostMemorization,
+  title={Using memorization to achieve polynomial complexity of purely functional executable specifications of non-deterministic top-down parsers},
+  author={Frost, Richard A.},
+  journal={ACM SIGPLAN Notices},
+  volume={29},
+  number={4},
+  pages={23--30},
+  year={1994},
+  publisher={ACM New York, NY, USA}
+}
+

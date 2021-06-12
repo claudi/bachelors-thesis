@@ -9,6 +9,8 @@
 \usepackage{microtype}
 \usepackage{tikz}
 \usetikzlibrary{cd}
+\usepackage{biblatex}
+\bibliography{refs.bib}
 \usepackage{minted}
 \usepackage[hidelinks, pdfencoding=auto]{hyperref}
 
@@ -424,10 +426,25 @@ it has side effects, which mathematical functions do not have.
 So, the~\texttt{malloc()} function is impure, and a function that outputs the
 result of squaring an integer is pure.
 
+In theory, a compiler could use its knowledge of certain functions being pure to
+better reason about code, which can be used to obtain benefits such as
+
+\begin{enumerate}
+    \item If a pure function is called more than once with the
+        same input, the result calculated on the previous run can be reused
+        without having to call the function again~\cite{frostMemorization}. This
+        is usually called~\emph{memorization}
+
+    \item Since pure functions have no side-effects, it is usually safe to call
+        them on separate threads \cite{SussPureFunctionParallelization}.
+\end{enumerate}
+
 \subsection{Haskell}
 \subsection{The monad typeclass}
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
+
+\printbibliography
 
 \end{document}
 
