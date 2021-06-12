@@ -33,6 +33,9 @@
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
+\newcommand{\ie}{{i}.{e}., }
+\newcommand{\eg}{{e}.{g}. }
+
 \title{Monads in Haskell}
 \author{Claudi Lleyda Moltó}
 \date{}
@@ -403,8 +406,12 @@ function. The first one means it is not well defined, and the second one means
 it has side effects, which mathematical functions do not have.
 
 \begin{definition}[Pure function]
-    We say that a procedure that does \textbf{not} satisfy the above stated
-    properties is~\emph{pure}.
+    We say that a procedure that
+    \begin{enumerate}
+        \item outputs the same result for the same inputs (\ie is well defined),
+        \item does not modify global state.
+    \end{enumerate}
+    is a~\emph{pure} procedure.
     Conversely, we say a procedure that is not pure is~\emph{impure}.
 \end{definition}
 
