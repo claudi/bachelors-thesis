@@ -402,6 +402,15 @@ These properties are incompatible with the definition of a mathematical
 function. The first one means it is not well defined, and the second one means
 it has side effects, which mathematical functions do not have.
 
+\begin{definition}[Pure function]
+    We say that a procedure that does \textbf{not} satisfy the above stated
+    properties is~\emph{pure}.
+    Conversely, we say a procedure that is not pure is~\emph{impure}.
+\end{definition}
+
+So, the~\texttt{malloc()} procedure is impure, and a procedure that outputs the
+result of squaring an integer is pure.
+
 \subsection{Haskell}
 \subsection{The monad typeclass}
 \subsection{Haskell monads are monads}
