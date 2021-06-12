@@ -395,14 +395,14 @@ behave like functions in mathematics.
 
 Unfortunately, it is common to call computer functions and mathematical
 functions both functions. In this report we will do so, as it is usually clear
-by the context, specifying when there might be confusion. In these situations, a
-computer function may be called a~\emph{procedure}.
+by the context, specifying when there might be confusion. In these situations,
+we may refer to a computer function as a~\emph{procedure}.
 
 An example of this is the \texttt{malloc()} function found in
-the~\texttt{stdlib} library in the~\texttt{C} programming language, which takes
-a size in number of bits as input and outputs an unique pointer to an address to
-a block of memory allocated to fit the requested size, which is marked as
-reserved. This function
+the~\texttt{stdlib.h} library in the~\texttt{C} programming language, which
+takes a size in number of bits as input and outputs an unique pointer to an
+address to a block of memory allocated to fit the requested size, which is
+marked as reserved. This function
 
 \begin{enumerate}
     \item generally outputs a different pointer on calls with the same input,
@@ -436,7 +436,7 @@ better reason about code, which can be used to obtain benefits such as
         is usually called~\emph{memorization}
 
     \item Since pure functions have no side-effects, it is usually safe to call
-        them on separate threads \cite{SussPureFunctionParallelization}.
+        them in parallel \cite{SussPureFunctionParallelization}.
 \end{enumerate}
 
 \subsection{Haskell}
