@@ -398,12 +398,13 @@ computer function may be called a~\emph{procedure}.
 
 An example of this is the \texttt{malloc()} function found in
 the~\texttt{stdlib} library in the~\texttt{C} programming language, which takes
-a size in number of bits and outputs an unique pointer to an address to memory
-allocated to fit the requested size. This function
+a size in number of bits and outputs an unique pointer to an address to a block
+of memory allocated to fit the requested size, which is marked as reserved. This
+function
 
 \begin{enumerate}
     \item generally outputs a different pointer on calls with the same input,
-    \item modifies global state by marking allocated memory as being used.
+    \item modifies global state by marking allocated memory as reserved.
 \end{enumerate}
 
 These properties are incompatible with the definition of a mathematical
