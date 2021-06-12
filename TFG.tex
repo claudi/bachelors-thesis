@@ -388,13 +388,18 @@ Let's forget category theory and see how we could work around some of these:
 \end{proof}
 
 \section{Monads in Haskell}
-We begin with an observation: functions found in computer programming, which we
-call~\emph{procedures}, may not behave like functions in mathematics.
+We begin with an observation: functions found in computer programming may not
+behave like functions in mathematics.
 
-An example of this is the \texttt{malloc()} procedure found in
+Unfortunately, it is common to call computer functions and mathematical
+functions both functions. In this report we will do so, as it is usually clear
+by the context, specifying when there might be confusion. In these situations, a
+computer function may be called a~\emph{procedure}.
+
+An example of this is the \texttt{malloc()} function found in
 the~\texttt{stdlib} library in the~\texttt{C} programming language, which takes
 a size in number of bits and outputs an unique pointer to an address to memory
-allocated to fit the requested size. This procedure
+allocated to fit the requested size. This function
 
 \begin{enumerate}
     \item generally outputs a different pointer on calls with the same input,
@@ -405,17 +410,17 @@ These properties are incompatible with the definition of a mathematical
 function. The first one means it is not well defined, and the second one means
 it has side effects, which mathematical functions do not have.
 
-\begin{definition}[Pure procedure]
+\begin{definition}[Pure function]
     We say that a procedure that
     \begin{enumerate}
         \item outputs the same result for the same inputs (\ie is well defined),
         \item does not modify global state.
     \end{enumerate}
-    is a~\emph{pure} procedure.
+    is~\emph{pure}.
     Conversely, we say a procedure that is not pure is~\emph{impure}.
 \end{definition}
 
-So, the~\texttt{malloc()} procedure is impure, and a procedure that outputs the
+So, the~\texttt{malloc()} function is impure, and a function that outputs the
 result of squaring an integer is pure.
 
 \subsection{Haskell}
