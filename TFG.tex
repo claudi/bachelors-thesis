@@ -385,6 +385,23 @@ Let's forget category theory and see how we could work around some of these:
 \end{proof}
 
 \section{Monads in Haskell}
+We begin with an observation: functions found in computer programming may not
+behave like functions in mathematics; they are not mathematical functions.
+
+An example is the \texttt{malloc()} function found in the~\texttt{stdlib}
+library in the~\texttt{C} programming language, which takes a size in number of
+bits and outputs an unique pointer to an address to memory allocated to fit the
+requested size. This function
+
+\begin{enumerate}
+    \item generally outputs a different pointer on calls with the same input,
+    \item modifies global state by marking allocated memory as being used.
+\end{enumerate}
+
+These properties are incompatible with the definition of a mathematical
+function. The first one means it is not well defined, and the second one means
+it has side effects, which mathematical functions do not have.
+
 \subsection{Haskell}
 \subsection{The monad typeclass}
 \subsection{Haskell monads are monads}
