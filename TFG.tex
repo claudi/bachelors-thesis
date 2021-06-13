@@ -55,6 +55,7 @@
 \clearpage
 
 \section{Motivation}
+\label{sec:motivation}
 We begin with an observation: functions found in computer programming may not
 behave like functions in mathematics.
 
@@ -298,33 +299,40 @@ programming language.
 \end{example}
 
 \section{The Kleisli Triples in Computer Science}
-\subsection{Motivation}
-When trying to model computer functions with mathematical functions we face some
-adversity, which may lead us to think that they are inherently different.
+In section~\ref{sec:motivation} we established that pure functions present some
+deficits. Let's put category theory aside and see how we could work around some
+of these, which we will then generalize through categorical notions.
+\begin{example}[Non-determinism]
+\end{example}
+\begin{example}[Side-effects]
+\end{example}
 
-Mathematical functions must be defined on their domain, while computer functions
-may not be, as the program that encapsulates them may abort during the
-function's execution.
-For example, the factorial mathematical function is not defined on negative
-integers, but the computer function
+While not being problems inherent to pure functions, there are other situations
+commonly found in computer programming that are also foreign to mathematical
+functions, which pure functions behave like.
+
+For example, it is difficult to specify the domain and codomain of a procedure,
+which often leads to functions that are not defined on all of their input. An
+instance of this is the factorial function, which may be written as
 \begin{minted}{python}
-def factorial(n):
+def factorial(n: int):
     if n == 0:
         return 1
     elif n >= 1:
         return n * factorial(n - 1)
 \end{minted}
-is perfectly valid, but will crash a program that tries to evaluate it on a
-negative integer.
-We call this a~\emph{partial} function.
+This implementation of the factorial function accepts an integer as its input,
+but it is not defined for negative values. We call this~\emph{partiality}.
 
-Let's forget category theory and see how we could work around some of these:
 \begin{example}[Partiality]
 \end{example}
-\begin{example}[Non-determinism]
-\end{example}
-\begin{example}[Side-effects]
-\end{example}
+
+Another example are~\emph{exceptions}. Procedures often encounter errors during
+their execution, which mathematical functions do not, and must signal them to
+other functions that have to deal with them, either by passing the exception up
+the call chain (eventually aborting the program) or by directly dealing with it
+during their execution.
+
 \begin{example}[Exceptions]
 \end{example}
 
