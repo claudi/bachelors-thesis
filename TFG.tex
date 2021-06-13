@@ -61,8 +61,8 @@ behave like functions in mathematics.
 
 Unfortunately, it is common to call computer functions and mathematical
 functions both functions. In this report we will do so, as it is usually clear
-by the context, specifying when there might be confusion. In these situations,
-we may refer to a computer function as a~\emph{procedure}.
+by the context, and only specifying when there might be confusion. In these
+situations, we may refer to a computer function as a~\emph{procedure}.
 
 An example of this is the \texttt{malloc()} function found in
 the~\texttt{stdlib.h} library in the~\texttt{C} programming language, which
@@ -100,10 +100,11 @@ better reason about code, which can be used to obtain benefits such as
     \item If a pure function is called more than once with the
         same input, the result calculated on the previous run can be reused
         without having to call the function again~\cite{frostMemorization}. This
-        is usually called~\emph{memorization}
+        is called~\emph{memorization}
 
     \item Since pure functions have no side-effects, it is usually safe to call
-        them in parallel \cite{SussPureFunctionParallelization}.
+        them in parallel \cite{SussPureFunctionParallelization}, leading to
+        great optimization.
 \end{enumerate}
 
 While pure functions present some significant benefits, they also come with some
@@ -118,7 +119,7 @@ applied, and the deficits can be handled by impure functions.
 As of this point, the problems we mentioned are only apparent, and while it is
 not at all obvious how they could be avoided, there is also no definitive proof
 they cannot. We promise to provide an abstraction that solves these limitations,
-and then we will see how it can be successfully implemented into an useful
+and then we will see how it can be successfully implemented into a useful
 programming language.
 
 \section{Monads in Category Theory}
@@ -268,7 +269,7 @@ programming language.
                 \bot_{2}&\longmapsto \bot \\
                 A\ni x&\longmapsto x
             \end{align*}
-            where we've denoted~\(MMA=A\sqcup\{\bot_{1}\}\sqcup\{\bot_{2}\}\)
+            where we have denoted~\(MMA=A\sqcup\{\bot_{1}\}\sqcup\{\bot_{2}\}\)
             and~\(MA=A\sqcup\{\bot\}\) for convenience.
     \end{enumerate}
 \end{example}
