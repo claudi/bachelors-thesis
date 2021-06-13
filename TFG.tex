@@ -444,6 +444,16 @@ apparent deficits. For example, it is not obvious how pure functions could react
 to user input or output anything to the screen, such as debugging information or
 logs. They also seem to be limited to not using global variables.
 
+Most languages circumvent these problems by providing an interface to define
+both pure and impure functions. In this way, some of the benefits can be
+applied, and the deficits can be handled by impure functions.
+
+As of this point, the problems we mentioned are only apparent, and while it is
+not at all obvious how they could be avoided, there is also no definitive proof
+they cannot. We promise to provide an abstraction that solves these limitations,
+and then we will see how it can be successfully implemented into an useful
+programming language.
+
 \subsection{Haskell}
 \subsection{The monad typeclass}
 \subsection{Haskell monads are monads}
