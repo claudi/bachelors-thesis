@@ -144,12 +144,16 @@ programming language.
             \[
                 h \circ (g \circ f) = (h \circ g) \circ f.
             \]
-        \item \emph{Left and right units}: for every two
-            objects~\(A,B\in\Obj(\cat{C})\) there exist unique
-            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\)
+        \item \emph{Left and right units}: for every
+            object~\(A\in\Obj(\cat{C})\) there exists a unique
+            element~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\)
             such that for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
             \[
-                \id_{A} \circ f = f = f \circ \id_{B}.
+                f \circ \id_{B} = f,
+            \]
+            and for every morphism~\(g\in\Hom_{\cat{C}}(B,A)\) we have
+            \[
+                \id_{A} \circ g = g.
             \]
     \end{enumerate}
 \end{definition}
