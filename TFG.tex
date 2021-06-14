@@ -173,9 +173,9 @@ programming language.
     \label{def:functor}
     A~\emph{functor}~\(T\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
     is a map~\(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
-    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) a
-    morphism~\(T(f):T(A)\longrightarrow T(B)\) in~\(\cat{D}\), such that~\(T\)
-    preserves
+    pair of objects~\(A,B\in\Obj{C}\) a
+    map~\(T:\Hom_{\cat{C}}(A,B)\longrightarrow\Hom_{\cat{D}}(TA,TB)\),
+    such that~\(T\) preserves
     \begin{enumerate}
         \item \emph{Composition}: for every two
             morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
