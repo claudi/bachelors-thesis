@@ -356,17 +356,18 @@ during their execution.
     \end{enumerate}
     such that
     \begin{enumerate}
-        \item \(\forall A\in\cat{C}\) we have
+        \item For all~\(A\in\cat{C}\) we have
             \(\eta^{\ast}_{TA} = \id_{TA}:TA\longrightarrow TA\).
-        \item \(\forall A,B\in\cat{C}\)
-            and \(\forall f:A\longrightarrow TB\)
+        \item For all~\(A,B\in\cat{C}\)
+            and \(f:A\longrightarrow TB\)
             the diagram
             \[\begin{tikzcd}
                 TA \arrow[r, "f^{\ast}"] & TB \\
                 A \arrow[u, "\eta_{A}"] \arrow[ur, "f", swap] &
             \end{tikzcd}\]
-            commutes. This is~\(f^{\ast}\circ\eta_{A} = f\).
-        \item \(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\)
+            commutes. That is~\(f^{\ast}\circ\eta_{A} = f\).
+        \item For all~\(f:A\to TB,g:B\to TC\) we
+            have~\(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\).
     \end{enumerate}
 \end{definition}
 
