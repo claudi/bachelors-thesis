@@ -142,7 +142,7 @@ programming language.
             and~\(h\in\Hom_{\cat{C}}(C,D)\)
             we have
             \[
-                f \circ (g \circ h) = (f \circ g) \circ h.
+                h \circ (g \circ f) = (h \circ g) \circ f.
             \]
         \item \emph{Left and right units}: for every two
             objects~\(A,B\in\Obj(\cat{C})\) there exist unique
@@ -156,7 +156,7 @@ programming language.
 
 \begin{notation}
     We write~\(f:A\longrightarrow B\) or~\(A\overset{f}{\longrightarrow}B\) to
-    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(fg\) to mean~\(f\circ g\).
+    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(gf\) to mean~\(g\circ f\).
 \end{notation}
 
 \begin{example}[Category of sets]
@@ -177,7 +177,7 @@ programming language.
             morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
             in~\(\cat{C}\) we have
             \[
-                T(f \circ g) = T(f) \circ T(g).
+                T(g \circ f) = T(g) \circ T(f).
             \]
         \item \emph{Units}: for each object~\(C\in\Obj{C}\) we have
             \[
