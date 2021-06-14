@@ -425,21 +425,19 @@ during their execution.
     \begin{gather*}
         \begin{split}
             Tf \circ \mu_{A} &= Tf \circ (\id_{TA})^{\ast} \\
-                &= Tf \circ (T\id_{A})^{\ast} \\
-                &= (\eta_{B} \circ f)^{\ast} \circ (T\id_{A})^{\ast} \\
-                &= \bigl((\eta_{B} \circ f)^{\ast} \circ T\id_{A}\bigr)^{\ast} \\
+                &= (\eta_{B} \circ f)^{\ast} \circ (\id_{TA})^{\ast} \\
+                &= \bigl((\eta_{B} \circ f)^{\ast} \circ \id_{TA}\bigr)^{\ast} \\
                 &= \bigl((\eta_{B} \circ f)^{\ast}\bigr)^{\ast} \\
-                &= \bigl(Tf\bigr)^{\ast}
+                &= (Tf)^{\ast}
         \end{split}
         \qquad\text{and}\qquad
         \begin{split}
             \mu_{B} \circ TTf &= (\id_{TB})^{\ast} \circ TTf \\
-                &= (\id_{TB})^{\ast} \circ TTf \\
                 &= (\id_{TB})^{\ast} \circ (\eta_{TB} \circ Tf)^{\ast} \\
                 &= \bigl((\id_{TB})^{\ast} \circ \eta_{TB} \circ Tf\bigr)^{\ast} \\
                 &= \bigl(\id_{TB} \circ Tf\bigr)^{\ast} \\
                 %&= \bigl(T\id_{B} \circ Tf\bigr)^{\ast} \\
-                &= \bigl(Tf\bigr)^{\ast}
+                &= (Tf)^{\ast}
     \end{split}
     \end{gather*}
     and we have proved that~\(\mu\) is a natural transformation.
