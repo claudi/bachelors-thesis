@@ -391,6 +391,7 @@ during their execution.
         \label{eq:monad-prod-in-kleisli-trip}
         \mu_{A} = (\id_{TA})^{\ast}.
     \end{equation}
+    We will see that~\((T,\eta,\mu)\) is a monad.
 
     Let's check that~\(T\) is a functor.
     For every two~\(f:A\longrightarrow B\)
@@ -459,6 +460,8 @@ during their execution.
         \label{eq:kleisli-ast-in-monad}
         f^{\ast} = \mu_{B} \circ Tf.
     \end{equation}
+    We want to check that~\((T,\eta,(-)^{\ast})\) is a Kleisli triple.
+
     By the monad unit law we have
     \[
         \eta_{TA}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
