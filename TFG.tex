@@ -142,21 +142,25 @@ programming language.
             and~\(h\in\Hom_{\cat{C}}(C,D)\)
             we have
             \[
-                f \circ (g \circ h) = (f \circ g) \circ h.
+                h \circ (g \circ f) = (h \circ g) \circ f.
             \]
-        \item \emph{Left and right units}: for every two
-            objects~\(A,B\in\Obj(\cat{C})\) there exist unique
-            elements~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\),~\(\id_{B}\in\Hom_{\cat{C}}(B,B)\)
+        \item \emph{Left and right units}: for every
+            object~\(A\in\Obj(\cat{C})\) there exists a unique
+            element~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\)
             such that for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
             \[
-                \id_{A} \circ f = f = f \circ \id_{B}.
+                f \circ \id_{B} = f,
+            \]
+            and for every morphism~\(g\in\Hom_{\cat{C}}(B,A)\) we have
+            \[
+                \id_{A} \circ g = g.
             \]
     \end{enumerate}
 \end{definition}
 
 \begin{notation}
     We write~\(f:A\longrightarrow B\) or~\(A\overset{f}{\longrightarrow}B\) to
-    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(fg\) to mean~\(f\circ g\).
+    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(gf\) to mean~\(g\circ f\).
 \end{notation}
 
 \begin{example}[Category of sets]
@@ -169,19 +173,19 @@ programming language.
     \label{def:functor}
     A~\emph{functor}~\(T\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
     is a map~\(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
-    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) a
-    morphism~\(T(f):T(A)\longrightarrow T(B)\) in~\(\cat{D}\), such that~\(T\)
-    preserves
+    pair of objects~\(A,B\in\Obj{C}\) a
+    map~\(T:\Hom_{\cat{C}}(A,B)\longrightarrow\Hom_{\cat{D}}(TA,TB)\),
+    such that~\(T\) preserves
     \begin{enumerate}
         \item \emph{Composition}: for every two
             morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
             in~\(\cat{C}\) we have
             \[
-                T(f \circ g) = T(f) \circ T(g).
+                T(g \circ f) = T(g) \circ T(f).
             \]
-        \item \emph{Units}: for each object~\(C\in\Obj{C}\) we have
+        \item \emph{Units}: for each object~\(A\in\Obj{C}\) we have
             \[
-                T(\id_{C}) = \id_{T(C)}.
+                T(\id_{A}) = \id_{T(A)}.
             \]
     \end{enumerate}
 \end{definition}
@@ -197,9 +201,9 @@ programming language.
     \label{def:natural-transformation}
     Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
     transformation}~\(\tau:S\longrightarrow T\) is a
-    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(A)}\) of morphisms
-    in~\(\cat{B}\) such that for every morphism~\(f:A\longrightarrow B\)
-    in~\(\cat{A}\)
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(\cat{C})}\) of
+    morphisms in~\(\cat{D}\) such that for every
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\)
     \[
         Tf \circ \tau_{A} = \tau_{B} \circ Sf,
     \]
@@ -240,14 +244,14 @@ programming language.
         \mu_{A}\circ \mu_{TA}
         = \mu_{A} \circ T\mu_{A}.
     \]
-    We call~\(\eta\) and~\(\mu\) the \emph{unit} and the \emph{product} of the
-    monad, respectively.
+    We call~\(\eta\) and~\(\mu\) the \emph{unit} and the \emph{multiplication}
+    of the monad, respectively.
 \end{definition}
 
 \begin{example}[Pointed set monad]
     \label{monad:maybe}
-    We define the pointed set monad~\((M,\eta,\mu)\) on the~\(\Set\) category as
-    follows.
+    We define the pointed set monad~\((M,\eta,\mu)\) on the category of
+    sets as follows.
     \begin{enumerate}
         \item The functor~\(M\) for any object~\(A\) or
             morphism~\(f:A\longrightarrow B\) is defined as
@@ -262,7 +266,7 @@ programming language.
             \end{gather*}
         \item The unit~\(\eta\) for any object~\(A\) is defined as the inclusion
             of~\(A\) into~\(MA\).
-        \item The product~\(\mu\) for any object~\(A\) is defined as
+        \item The multiplication~\(\mu\) for any object~\(A\) is defined as
             \begin{align*}
                 \mu_{A}:MMA&\longrightarrow MA \\
                 \bot_{1}&\longmapsto \bot \\
@@ -276,7 +280,7 @@ programming language.
 
 \begin{example}[Power set monad]
     \label{monad:power-set}
-    We define the power set monad~\((P,\eta,\mu)\) on the~\(\Set\) category as
+    We define the power set monad~\((P,\eta,\mu)\) on the category of sets as
     follows.
     \begin{enumerate}
         \item The functor~\(P\) for any object~\(A\) or
@@ -286,12 +290,12 @@ programming language.
                 \qquad\text{and}\qquad
                 \begin{split}
                     Pf:PA&\longrightarrow PB \\
-                    S&\longmapsto\mathcal{P}\bigl(\{f(x)\in B \mid x\in S\}\bigr)
+                    S&\longmapsto\{f(x)\in B \mid x\in S\}
                 \end{split}
             \end{gather*}
         \item The unit~\(\eta\) for any object~\(A\) is defined
             as~\(\eta_{A}(x)=\{x\}\).
-        \item The product~\(\mu\) for any object~\(A\) is defined as
+        \item The multiplication~\(\mu\) for any object~\(A\) is defined as
             \begin{align*}
                 \mu_{A}:PPA&\longrightarrow PA \\
                 S&\longmapsto \bigcup_{X\in S}X
@@ -352,17 +356,18 @@ during their execution.
     \end{enumerate}
     such that
     \begin{enumerate}
-        \item \(\forall A\in\cat{C}\) we have
+        \item For all~\(A\in\cat{C}\) we have
             \(\eta^{\ast}_{TA} = \id_{TA}:TA\longrightarrow TA\).
-        \item \(\forall A,B\in\cat{C}\)
-            and \(\forall f:A\longrightarrow TB\)
+        \item For all~\(A,B\in\cat{C}\)
+            and \(f:A\longrightarrow TB\)
             the diagram
             \[\begin{tikzcd}
                 TA \arrow[r, "f^{\ast}"] & TB \\
                 A \arrow[u, "\eta_{A}"] \arrow[ur, "f", swap] &
             \end{tikzcd}\]
-            commutes. This is~\(f^{\ast}\circ\eta_{A} = f\).
-        \item \(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\)
+            commutes. That is~\(f^{\ast}\circ\eta_{A} = f\).
+        \item For all~\(f:A\to TB,g:B\to TC\) we
+            have~\(g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}\).
     \end{enumerate}
 \end{definition}
 
@@ -387,6 +392,7 @@ during their execution.
         \label{eq:monad-prod-in-kleisli-trip}
         \mu_{A} = (\id_{TA})^{\ast}.
     \end{equation}
+    We will see that~\((T,\eta,\mu)\) is a monad.
 
     Let's check that~\(T\) is a functor.
     For every two~\(f:A\longrightarrow B\)
@@ -415,32 +421,30 @@ during their execution.
     \[
         Tf \circ \mu_{A} = \mu_{B} \circ TTf.
     \]
-    Expanding~\eqref{eq:monad-prod-in-kleisli-trip} we get
+    Using~\eqref{eq:monad-prod-in-kleisli-trip} we get
     \begin{gather*}
         \begin{split}
             Tf \circ \mu_{A} &= Tf \circ (\id_{TA})^{\ast} \\
-                &= Tf \circ (T\id_{A})^{\ast} \\
-                &= (\eta_{B} \circ f)^{\ast} \circ (T\id_{A})^{\ast} \\
-                &= \bigl((\eta_{B} \circ f)^{\ast} \circ T\id_{A}\bigr)^{\ast} \\
+                &= (\eta_{B} \circ f)^{\ast} \circ (\id_{TA})^{\ast} \\
+                &= \bigl((\eta_{B} \circ f)^{\ast} \circ \id_{TA}\bigr)^{\ast} \\
                 &= \bigl((\eta_{B} \circ f)^{\ast}\bigr)^{\ast} \\
-                &= \bigl(Tf\bigr)^{\ast}
+                &= (Tf)^{\ast}
         \end{split}
         \qquad\text{and}\qquad
         \begin{split}
             \mu_{B} \circ TTf &= (\id_{TB})^{\ast} \circ TTf \\
-                &= (\id_{TB})^{\ast} \circ TTf \\
                 &= (\id_{TB})^{\ast} \circ (\eta_{TB} \circ Tf)^{\ast} \\
                 &= \bigl((\id_{TB})^{\ast} \circ \eta_{TB} \circ Tf\bigr)^{\ast} \\
                 &= \bigl(\id_{TB} \circ Tf\bigr)^{\ast} \\
                 %&= \bigl(T\id_{B} \circ Tf\bigr)^{\ast} \\
-                &= \bigl(Tf\bigr)^{\ast}
+                &= (Tf)^{\ast}
     \end{split}
     \end{gather*}
     and we have proved that~\(\mu\) is a natural transformation.
 
     Finally, we can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also
     a natural transformation.
-    By expanding~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
+    By using~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
     morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\), we have
     \[
         Tf \circ \eta_{A}
@@ -455,6 +459,8 @@ during their execution.
         \label{eq:kleisli-ast-in-monad}
         f^{\ast} = \mu_{B} \circ Tf.
     \end{equation}
+    We want to check that~\((T,\eta,(-)^{\ast})\) is a Kleisli triple.
+
     By the monad unit law we have
     \[
         \eta_{TA}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
@@ -470,6 +476,8 @@ during their execution.
                                &= (g^{\ast} \circ f)^{\ast}
     \end{align*}
     and this proves that every monad induces a Kleisli Triple.
+
+    It is clear that these two constructions are inverse to each other.
 \end{proof}
 
 \section{Monads in Haskell}
