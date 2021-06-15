@@ -483,6 +483,41 @@ during their execution.
 \section{Monads in Haskell}
 \subsection{Haskell}
 \subsection{The monad typeclass}
+The Haskell language allows users to define~\emph{typeclasses}, which area set
+of constraints we give to a certain set of types.
+They are similar to interfaces, which appear in other languages.
+
+For our purposes, we can picture them as a definition. A typeclass describes a
+behavior we expect.
+
+Let's see an example. The Functor typeclass is
+\begin{minted}{Haskell}
+class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+\end{minted}
+From the usage of~\texttt{f a} and~\texttt{f b}, The Haskell compiler can infer
+that~\texttt{f} must be a parametric type with one parameter, and with this
+information we can read the previous statement as
+\begin{quote}
+    For a parametric datatype~\texttt{f} with one parameter to be called a
+    Functor, it must be equipped with a structure
+
+    \texttt{fmap :: (a -> b) -> f a -> f b}
+\end{quote}
+
+Let's see an example of an implementation. If we define the parametric data
+type~\texttt{Maybe} as follows
+\begin{minted}{Haskell}
+data Maybe a = Just a | None
+\end{minted}
+we can make it into a Functor by writing
+\begin{minted}{Haskell}
+instance Functor Maybe m where
+    fmap :: (a -> b) -> m a -> m b
+    fmap _ Nothing  = Nothing
+    fmap f (Just x) = Just (f x)
+\end{minted}
+
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
 
