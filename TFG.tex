@@ -64,11 +64,11 @@ functions both functions. In this report we will do so, as it is usually clear
 by the context, and only specifying when there might be confusion. In these
 situations, we may refer to a computer function as a~\emph{procedure}.
 
-An example of this is the \texttt{malloc()} function found in
-the~\texttt{stdlib.h} library in the~\texttt{C} programming language, which
-takes a size in number of bits as input and outputs an unique pointer to an
-address to a block of memory allocated to fit the requested size, which is
-marked as reserved. This function
+An example of this is the \mintinline{C}{malloc()} function found in
+the~\mintinline{C}{stdlib.h} library in the~\mintinline{C}{C} programming
+language, which takes a size in number of bits as input and outputs an unique
+pointer to an address to a block of memory allocated to fit the requested size,
+which is marked as reserved. This function
 
 \begin{enumerate}
     \item generally outputs a different pointer on calls with the same input,
@@ -90,8 +90,8 @@ the following definitions:
     Conversely, we say a procedure that is not pure is~\emph{impure}.
 \end{definition}
 
-So, the~\texttt{malloc()} function is impure, and a function that outputs the
-result of squaring an integer is pure.
+So, the~\mintinline{C}{malloc()} function is impure, and a function that outputs
+the result of squaring an integer is pure.
 
 In theory, a compiler could use its knowledge of certain functions being pure to
 better reason about code, which can be used to obtain benefits such as
@@ -495,18 +495,18 @@ Let's see an example. The Functor typeclass is
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 \end{minted}
-From the usage of~\texttt{f a} and~\texttt{f b}, The Haskell compiler can infer
-that~\texttt{f} must be a parametric type with one parameter, and with this
-information we can read the previous statement as
+From the usage of~\mintinline{Haskell}{f}, the Haskell compiler can infer
+that it must be a parametric type with one parameter, and
+with this information we can read the previous statement as
 \begin{quote}
-    For a parametric datatype~\texttt{f} with one parameter to be called a
-    Functor, it must be equipped with a structure
+    For a parametric datatype~\mintinline{Haskell}{f} with one parameter to be
+    called a Functor, it must be equipped with a structure
 
-    \texttt{fmap :: (a -> b) -> f a -> f b}
+    \mintinline{Haskell}{fmap :: (a -> b) -> f a -> f b}
 \end{quote}
 
 Let's see an example of an implementation. If we define the parametric data
-type~\texttt{Maybe} as follows
+type~\mintinline{Haskell}{Maybe} as follows
 \begin{minted}{Haskell}
 data Maybe a = Just a | None
 \end{minted}
