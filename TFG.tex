@@ -517,6 +517,9 @@ instance Functor Maybe m where
     fmap _ Nothing  = Nothing
     fmap f (Just x) = Just (f x)
 \end{minted}
+where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
+is a Functor, which we do by providing a definition
+for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
 
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
