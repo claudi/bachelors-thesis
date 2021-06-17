@@ -530,12 +530,12 @@ datatype itself acts on types, by transforming an existing type into a new one.
 In the~\Hask{} category, this is very similar to a functor.
 
 This is no enough for a function on objects and morphisms to be a functor. The
-functor laws must be satisfied as well. Unfortunately, Haskell does not provide
-a way to express such laws, since for this it would need a way to write and
-validate proofs, which would add too much complexity to the language. Haskell
-assumes any typeclass implementations it encounters satisfy such properties,
-which are only generally found in external documentation. Failing to satisfy
-these laws could lead to buggy code and unintended behaviour.
+functor laws must be satisfied as well. The Haskell language does not provide a
+way to express such laws, since for this it would need a way to write and
+validate proofs, which would add too much complexity to the language. The
+compiler assumes any typeclass implementations it encounters satisfy such
+properties, which are only generally found in external documentation. Failing to
+satisfy these laws could lead to buggy code and unintended behaviour.
 
 The laws for the functor typeclass are
 \begin{minted}{Haskell}
