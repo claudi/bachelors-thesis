@@ -30,6 +30,7 @@
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
+\newcommand{\Hask}{\ensuremath{\mathrm{Hask}}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -520,6 +521,28 @@ instance Functor Maybe m where
 where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
 is a Functor, which we do by providing a definition
 for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
+
+Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
+provides a function which can be understood as having
+type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
+the property of functors to act on functions. Additionally, the parametric
+datatype itself acts on types, by transforming an existing type into a new one.
+In the~\Hask{} category, this is very similar to a functor.
+
+This is no enough for a function on objects and morphisms to be a functor. The
+functor laws must be satisfied as well. Unfortunately, Haskell does not provide
+a way to express such laws, since for this it would need a way to write and
+validate proofs, which would add too much complexity to the language. Haskell
+assumes any typeclass implementations it encounters satisfy such properties,
+which are only generally found in external documentation. Failing to satisfy
+these laws could lead to buggy code and unintended behaviour.
+
+The laws for the functor typeclass are
+\begin{minted}{Haskell}
+fmap id == id
+fmap (f . g) == (fmap f . fmap g)
+\end{minted}
+which are clearly equivalent to the functor laws found in~\ref{def:functor}.
 
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
