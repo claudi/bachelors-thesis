@@ -442,8 +442,8 @@ during their execution.
     \end{gather*}
     and we have proved that~\(\mu\) is a natural transformation.
 
-    Finally, we can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also
-    a natural transformation.
+    We can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also a
+    natural transformation.
     By using~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
     morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\), we have
     \[
@@ -451,6 +451,26 @@ during their execution.
         = (\eta_{B}\circ f)^{\ast} \circ \eta_{A}
         = \eta_{B} \circ f,
     \]
+    which shows that~\(\mu\) is a natural transformation.
+
+    Finally, we can check that~\(\mu\) and~\(\eta\) satisfy the monad laws
+    \[
+        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
+        \qquad\text{and}\qquad
+        \mu_{A}\circ \mu_{TA}
+        = \mu_{A} \circ T\mu_{A}.
+    \]
+    Using the Kleisli triple laws calculate
+    \begin{align*}
+        \mu_{A} \circ T\eta_{A}
+            &= \mu_{A} \circ (\eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= \id_{TA}^{\ast} \circ (\eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= (\id_{TA}^{\ast} \circ \eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= \bigl((T\id_{A}^{\ast} \circ \eta_{TA}) \circ \eta_{A}\bigr)^{\ast} \\
+            &= (T\id_{A} \circ \eta_{A})^{\ast} \\
+            &= \eta_{A}^{\ast} \\
+            &= \id_{TA}
+    \end{align*}
     and this proves that a Kleisli Triple induces a monad.
 
     Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
