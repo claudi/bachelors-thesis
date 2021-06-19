@@ -357,7 +357,7 @@ during their execution.
     such that
     \begin{enumerate}
         \item For all~\(A\in\cat{C}\) we have
-            \(\eta^{\ast}_{TA} = \id_{TA}:TA\longrightarrow TA\).
+            \({\eta_{A}}^{\ast} = \id_{TA}:TA\longrightarrow TA\).
         \item For all~\(A,B\in\cat{C}\)
             and \(f:A\longrightarrow TB\)
             the diagram
@@ -384,7 +384,7 @@ during their execution.
             T:\cat{C} & \longrightarrow\cat{C} \\
             A & \longmapsto TA \\
             f:A\rightarrow B & \longmapsto
-            (\eta_{B}\circ f)^{\ast}:TA\longrightarrow TB
+            (\eta_{B}\circ f)^{\ast}:TA\rightarrow TB
         \end{split}
     \end{equation}
     and
@@ -438,12 +438,12 @@ during their execution.
                 &= \bigl(\id_{TB} \circ Tf\bigr)^{\ast} \\
                 %&= \bigl(T\id_{B} \circ Tf\bigr)^{\ast} \\
                 &= (Tf)^{\ast}
-    \end{split}
+        \end{split}
     \end{gather*}
     and we have proved that~\(\mu\) is a natural transformation.
 
-    Finally, we can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also
-    a natural transformation.
+    We can check that~\(\eta=\{\eta_{A}\}_{A\in\Obj(\cat{C})}\) is also a
+    natural transformation.
     By using~\eqref{eq:monad-unit-in-kleisli-trip} we can see that, for any
     morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\), we have
     \[
@@ -451,6 +451,40 @@ during their execution.
         = (\eta_{B}\circ f)^{\ast} \circ \eta_{A}
         = \eta_{B} \circ f,
     \]
+    which shows that~\(\mu\) is a natural transformation.
+
+    Finally, we can check that~\(\mu\) and~\(\eta\) satisfy the monad laws
+    \[
+        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
+        \qquad\text{and}\qquad
+        \mu_{A}\circ \mu_{TA}
+        = \mu_{A} \circ T\mu_{A}.
+    \]
+    Using the Kleisli triple laws calculate
+    \begin{align*}
+        \mu_{A} \circ T\eta_{A}
+            &= \mu_{A} \circ (\eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= {\id_{TA}}^{\ast} \circ (\eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= ({\id_{TA}}^{\ast} \circ \eta_{TA} \circ \eta_{A})^{\ast} \\
+            &= \bigl(({T\id_{A}}^{\ast} \circ \eta_{TA}) \circ \eta_{A}\bigr)^{\ast} \\
+            &= (T\id_{A} \circ \eta_{A})^{\ast} \\
+            &= {\eta_{A}}^{\ast} \\
+            &= \id_{TA} \\
+            &= {\id_{TA}}^{\ast} \circ \eta_{TA} \\
+            &= \mu_{A} \circ \eta_{TA}
+    \end{align*}
+    and
+    \begin{align*}
+        \mu_{A} \circ \mu_{TA}
+            &= {\id_{TA}}^{\ast} \circ {\id_{TTA}}^{\ast} \\
+            &= ({\id_{TA}}^{\ast} \circ \id_{TTA})^{\ast} \\
+            &= {\id_{TA}}^{\ast\ast} \\
+            &= \bigl(\id_{TA} \circ (\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= \bigl({\id_{TA}}^{\ast} \circ \eta_{TA}\circ(\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= {\id_{TA}}^{\ast} \circ \bigl(\eta_{TA}\circ(\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= {\id_{TA}}^{\ast} \circ T(\id_{TA})^{\ast} \\
+            &= \mu_{A} \circ T\mu_{A}
+    \end{align*}
     and this proves that a Kleisli Triple induces a monad.
 
     Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
@@ -463,7 +497,7 @@ during their execution.
 
     By the monad unit law we have
     \[
-        \eta_{TA}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
+        {\eta_{TA}}^{\ast} = \mu_{TA} \circ T\eta_{TA} = \id_{TA},
     \]
     and for any two morphisms~\(f:A\longrightarrow TB\)
     and~\(g:B\longrightarrow TC\) in~\(\cat{C}\) we have
@@ -474,6 +508,16 @@ during their execution.
                                &= \mu_{C} \circ T(\mu_{C} \circ Tg \circ f) \\
                                &= \mu_{C} \circ T(g^{\ast} \circ f) \\
                                &= (g^{\ast} \circ f)^{\ast}
+    \end{align*}
+
+    Then, for any morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}\) we can use
+    the unit law to get
+    \begin{align*}
+        f^{\ast} \circ \eta_{A}
+            &= \mu_{B} \circ Tf \circ \eta_{A} \\
+            &= \mu_{B} \circ \eta_{TB} \circ f \\
+            &= \id_{TB} \circ f \\
+            &= f
     \end{align*}
     and this proves that every monad induces a Kleisli Triple.
 
