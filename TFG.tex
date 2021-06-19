@@ -473,6 +473,18 @@ during their execution.
             &= {\id_{TA}}^{\ast} \circ \eta_{TA} \\
             &= \mu_{A} \circ \eta_{TA}
     \end{align*}
+    and
+    \begin{align*}
+        \mu_{A} \circ \mu_{TA}
+            &= {\id_{TA}}^{\ast} \circ {\id_{TTA}}^{\ast} \\
+            &= ({\id_{TA}}^{\ast} \circ \id_{TTA})^{\ast} \\
+            &= {\id_{TA}}^{\ast\ast} \\
+            &= \bigl(\id_{TA} \circ (\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= \bigl({\id_{TA}}^{\ast} \circ \eta_{TA}\circ(\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= {\id_{TA}}^{\ast} \circ \bigl(\eta_{TA}\circ(\id_{TA})^{\ast}\bigr)^{\ast} \\
+            &= {\id_{TA}}^{\ast} \circ T(\id_{TA})^{\ast} \\
+            &= \mu_{A} \circ T\mu_{A}
+    \end{align*}
     and this proves that a Kleisli Triple induces a monad.
 
     Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
