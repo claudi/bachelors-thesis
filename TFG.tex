@@ -509,6 +509,16 @@ during their execution.
                                &= \mu_{C} \circ T(g^{\ast} \circ f) \\
                                &= (g^{\ast} \circ f)^{\ast}
     \end{align*}
+
+    Then, for any morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}\) we can use
+    the unit law to get
+    \begin{align*}
+        f^{\ast} \circ \eta_{A}
+            &= \mu_{B} \circ Tf \circ \eta_{A} \\
+            &= \mu_{B} \circ \eta_{TB} \circ f \\
+            &= \id_{TB} \circ f \\
+            &= f
+    \end{align*}
     and this proves that every monad induces a Kleisli Triple.
 
     It is clear that these two constructions are inverse to each other.
