@@ -523,11 +523,11 @@ is a Functor, which we do by providing a definition
 for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
 
 Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
-provides a function which can be understood as having
+provides a function that can be understood as having
 type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
 the property of functors to act on functions. Additionally, the parametric
-datatype itself acts on types, by transforming an existing type into a new one.
-In the~\Hask{} category, this is very similar to a functor.
+datatype itself acts on types, by transforming an existing type into a new one,
+behaviour similar to that of a functor.
 
 This is no enough for a function on objects and morphisms to be a functor. The
 functor laws must be satisfied as well. The Haskell language does not provide a
@@ -542,7 +542,7 @@ The laws for the functor typeclass are
 fmap id == id
 fmap (f . g) == (fmap f . fmap g)
 \end{minted}
-which are clearly equivalent to the functor laws found in~\ref{def:functor}.
+that are clearly equivalent to the functor laws found in~\ref{def:functor}.
 
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
