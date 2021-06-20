@@ -30,6 +30,7 @@
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
+\newcommand{\Hask}{\ensuremath{\mathrm{Hask}}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -64,11 +65,11 @@ functions both functions. In this report we will do so, as it is usually clear
 by the context, and only specifying when there might be confusion. In these
 situations, we may refer to a computer function as a~\emph{procedure}.
 
-An example of this is the \texttt{malloc()} function found in
-the~\texttt{stdlib.h} library in the~\texttt{C} programming language, which
-takes a size in number of bits as input and outputs an unique pointer to an
-address to a block of memory allocated to fit the requested size, which is
-marked as reserved. This function
+An example of this is the \mintinline{C}{malloc()} function found in
+the~\mintinline{C}{stdlib.h} library in the~\mintinline{C}{C} programming
+language, which takes a size in number of bits as input and outputs an unique
+pointer to an address to a block of memory allocated to fit the requested size,
+which is marked as reserved. This function
 
 \begin{enumerate}
     \item generally outputs a different pointer on calls with the same input,
@@ -90,8 +91,8 @@ the following definitions:
     Conversely, we say a procedure that is not pure is~\emph{impure}.
 \end{definition}
 
-So, the~\texttt{malloc()} function is impure, and a function that outputs the
-result of squaring an integer is pure.
+So, the~\mintinline{C}{malloc()} function is impure, and a function that outputs
+the result of squaring an integer is pure.
 
 In theory, a compiler could use its knowledge of certain functions being pure to
 better reason about code, which can be used to obtain benefits such as
@@ -526,7 +527,141 @@ during their execution.
 
 \section{Monads in Haskell}
 \subsection{Haskell}
-\subsection{The monad typeclass}
+\subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
+The Haskell language allows users to define~\emph{typeclasses}, which area set
+of constraints we give to a certain set of types.
+They are similar to interfaces, which appear in other languages.
+
+For our purposes, we can picture them as a definition. A typeclass describes a
+behavior we expect.
+
+Let's see an example. The~\mintinline{Haskell}{Functor} typeclass is
+\begin{minted}{Haskell}
+class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+\end{minted}
+From the usage of~\mintinline{Haskell}{f}, the Haskell compiler can infer
+that it must be a parametric type with one parameter, and
+with this information we can read the previous statement as
+\begin{quote}
+    For a parametric datatype~\mintinline{Haskell}{f} with one parameter to be
+    called a Functor, it must be equipped with a structure
+
+    \mintinline{Haskell}{fmap :: (a -> b) -> f a -> f b}
+\end{quote}
+
+Let's see an example of an implementation. If we define the parametric data
+type~\mintinline{Haskell}{Maybe} as follows
+\begin{minted}{Haskell}
+data Maybe a = Just a | None
+\end{minted}
+we can make it into a Functor by writing
+\begin{minted}{Haskell}
+instance Functor Maybe where
+    fmap :: (a -> b) -> Maybe a -> Maybe b
+    fmap _ Nothing  = Nothing
+    fmap f (Just x) = Just (f x)
+\end{minted}
+where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
+is a~\mintinline{Haskell}{Functor}, which we do by providing a definition
+for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
+
+Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
+provides a function that can be understood as having
+type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
+the property of functors to act on functions. Additionally, the parametric
+datatype itself acts on types, by transforming an existing type into a new one,
+behaviour similar to that of a functor.
+
+This is no enough for a function on objects and morphisms to be a functor. The
+functor laws must be satisfied as well. The Haskell language does not provide a
+way to express such laws, since for this it would need a way to write and
+validate proofs, which would add too much complexity to the language. The
+compiler assumes any typeclass implementations it encounters satisfy such
+properties, which are only generally found in external documentation. Failing to
+satisfy these laws could lead to buggy code and unintended behaviour.
+
+We will not prove typeclass laws for specific instances we provide in this
+section, as the proofs are usually straightforward but uncomfortable to write.
+
+The laws for the functor typeclass are
+\begin{minted}{Haskell}
+fmap id = id
+fmap (f . g) = (fmap f . fmap g)
+\end{minted}
+that are clearly equivalent to the functor laws found in~\ref{def:functor}.
+
+There is a notion of~\emph{inheritance} of typeclasses. Typeclass inheritance is
+when a typeclass has a superclass. This is a way of expressing that a typeclass
+requires another typeclass to be available for a given type before you can write
+an instance. For example, Haskell provides a class that inherits
+from~\mintinline{Haskell}{Functor}
+\begin{minted}{Haskell}
+class Functor f => Applicative f where
+    (<*>) :: f (a -> b) -> f a -> f b
+    pure :: a -> f a
+\end{minted}
+the~\mintinline{Haskell}{=>} notation is unfortunate, as in math it is usually
+associated with an implication.
+
+In this situation, to prove that a datatype is
+an~\mintinline{Haskell}{Applicative}, we must first prove it is
+a~\mintinline{Haskell}{Functor}, and then provide implementations for the two
+required functions.
+The laws for the~\mintinline{Haskell}{Applicative} typeclass are
+\begin{minted}{Haskell}
+pure id <*> v = v
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
+pure f <*> pure x = pure (f x)
+u <*> pure y = pure ($ y) <*> u
+\end{minted}
+and we can make~\mintinline{Haskell}{Maybe}, which we know to be
+a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
+\begin{minted}{Haskell}
+instance Applicative Maybe where
+    (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
+    (<*>) (Just f) m = fmap f m
+    (<*>) _ _ = Nothing
+
+    pure :: a -> Maybe a
+    pure = Just
+\end{minted}
+this class coincides with the notion of lax monoidal functor, which is not
+related to our topic. They are used to define the~\mintinline{Haskell}{Monad}
+typeclass.
+
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: (a -> m b) -> m a -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+where~\mintinline{Haskell}{(>>=)} is called~\emph{bind}.
+Any~\mintinline{Haskell}{Monad} implementation must satisfy
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+finally, we can make~\mintinline{Haskell}{Maybe}, which we know to be
+an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
+\begin{minted}{Haskell}
+instance Monad Maybe where
+    (>>=) :: (a -> Maybe b) -> Maybe a -> Maybe b
+    Just x  >>= k = k x
+    Nothing >>= _ = Nothing
+
+    (>>) :: Maybe a -> Maybe b -> Maybe b
+    Just _  >> m = m
+    Nothing >> _ = Nothing
+
+    return :: a -> Maybe a
+    return = pure
+\end{minted}
+
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
 
