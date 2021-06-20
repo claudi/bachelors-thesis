@@ -547,7 +547,7 @@ fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 that are clearly equivalent to the functor laws found in~\ref{def:functor}.
 
-There is a notion of ``inheritance'' of typeclasses. Typeclass inheritance is
+There is a notion of~\emph{inheritance} of typeclasses. Typeclass inheritance is
 when a typeclass has a superclass. This is a way of expressing that a typeclass
 requires another typeclass to be available for a given type before you can write
 an instance. For example, Haskell provides a class that inherits
@@ -592,7 +592,7 @@ class Applicative m => Monad m where
     (>>) :: m a -> m b -> m b
     return :: a -> m a
 \end{minted}
-where~\mintinline{Haskell}{(>>=)} is called ``bind''.
+where~\mintinline{Haskell}{(>>=)} is called~\emph{bind}.
 Any~\mintinline{Haskell}{Monad} implementation must satisfy
 \begin{minted}{Haskell}
 return a >>= k = k a
