@@ -513,8 +513,8 @@ data Maybe a = Just a | None
 \end{minted}
 we can make it into a Functor by writing
 \begin{minted}{Haskell}
-instance Functor Maybe m where
-    fmap :: (a -> b) -> m a -> m b
+instance Functor Maybe where
+    fmap :: (a -> b) -> Maybe a -> Maybe b
     fmap _ Nothing  = Nothing
     fmap f (Just x) = Just (f x)
 \end{minted}
