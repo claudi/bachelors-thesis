@@ -583,6 +583,38 @@ this class coincides with the notion of lax monoidal functor, which is not
 related to our topic. They are used to define the~\mintinline{Haskell}{Monad}
 typeclass.
 
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: (a -> m b) -> m a -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+where~\mintinline{Haskell}{(>>=)} is called ``bind''.
+Any~\mintinline{Haskell}{Monad} implementation must satisfy
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+finally, we can make~\mintinline{Haskell}{Maybe}, which we know to be
+an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
+\begin{minted}{Haskell}
+instance Monad Maybe where
+    (>>=) :: (a -> Maybe b) -> Maybe a -> Maybe b
+    Just x  >>= k = k x
+    Nothing >>= _ = Nothing
+
+    (>>) :: Maybe a -> Maybe b -> Maybe b
+    Just _  >> m = m
+    Nothing >> _ = Nothing
+
+    return :: a -> Maybe a
+    return = pure
+\end{minted}
+
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
 
