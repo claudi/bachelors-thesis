@@ -537,6 +537,9 @@ compiler assumes any typeclass implementations it encounters satisfy such
 properties, which are only generally found in external documentation. Failing to
 satisfy these laws could lead to buggy code and unintended behaviour.
 
+We will not prove typeclass laws for specific instances we provide in this
+section, as the proofs are usually straightforward but uncomfortable to write.
+
 The laws for the functor typeclass are
 \begin{minted}{Haskell}
 fmap id = id
