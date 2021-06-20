@@ -544,6 +544,45 @@ fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 that are clearly equivalent to the functor laws found in~\ref{def:functor}.
 
+There is a notion of ``inheritance'' of typeclasses. Typeclass inheritance is
+when a typeclass has a superclass. This is a way of expressing that a typeclass
+requires another typeclass to be available for a given type before you can write
+an instance. For example, Haskell provides a class that inherits
+from~\mintinline{Haskell}{Functor}
+\begin{minted}{Haskell}
+class Functor f => Applicative f where
+    (<*>) :: f (a -> b) -> f a -> f b
+    pure :: a -> f a
+\end{minted}
+the~\mintinline{Haskell}{=>} notation is unfortunate, as in math it is usually
+associated with an implication.
+
+In this situation, to prove that a datatype is
+an~\mintinline{Haskell}{Applicative}, we must first prove it is
+a~\mintinline{Haskell}{Functor}, and then provide implementations for the two
+required functions.
+The laws for the~\mintinline{Haskell}{Applicative} typeclass are
+\begin{minted}{Haskell}
+pure id <*> v = v
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
+pure f <*> pure x = pure (f x)
+u <*> pure y = pure ($ y) <*> u
+\end{minted}
+and we can make~\mintinline{Haskell}{Maybe}, which we know to be
+a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
+\begin{minted}{Haskell}
+instance Applicative Maybe where
+    (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
+    (<*>) (Just f) m = fmap f m
+    (<*>) _ _ = Nothing
+
+    pure :: a -> Maybe a
+    pure = Just
+\end{minted}
+this class coincides with the notion of lax monoidal functor, which is not
+related to our topic. They are used to define the~\mintinline{Haskell}{Monad}
+typeclass.
+
 \subsection{Haskell monads are monads}
 \subsection{Kleisli triples are Haskell monads}
 
