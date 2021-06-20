@@ -539,8 +539,8 @@ satisfy these laws could lead to buggy code and unintended behaviour.
 
 The laws for the functor typeclass are
 \begin{minted}{Haskell}
-fmap id == id
-fmap (f . g) == (fmap f . fmap g)
+fmap id = id
+fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 that are clearly equivalent to the functor laws found in~\ref{def:functor}.
 
