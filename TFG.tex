@@ -526,6 +526,24 @@ during their execution.
 \end{proof}
 
 \subsection{The Kleisli category}
+\begin{proposition}[The Kleisli category]
+    Given a Kleisli triple~\((T,\eta,(-)^{\ast})\) over a category~\(\cat{C}\),
+    the following data forms a category~\(\cat{C}_{T}\), which we call
+    the~\emph{Kleisli category}.
+    \begin{enumerate}
+        \item The objects~\(\Obj(\cat{C}_{T}) = \Obj(\cat{C})\).
+        \item For any two objects~\(A,B\) in~\(\cat{C}_{T}\), the morphisms
+            \[
+                \Hom_{\cat{C}_{T}}(A,B) = \Hom_{C}(A,TB).
+            \]
+        \item For any two
+            morphisms~\(f:A\longrightarrow TB\),~\(g:B\longrightarrow TC\)
+            in~\(\cat{C}_{T}\), the composition
+            \[
+                g \circ_{T} f = g^{\ast} \circ f.
+            \]
+    \end{enumerate}
+\end{proposition}
 
 \section{Monads in Haskell}
 \subsection{Haskell}
