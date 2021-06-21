@@ -407,8 +407,13 @@ around some of these, which we will then generalize through categorical notions.
 
     Now, given two functions~\(f:A\longrightarrow TB\)
     and~\(g:B\longrightarrow TC\), we could compose them by, again,
-    extending~\(g\) to~\(g^{\ast}:TA\longrightarrow TB\) and defining their
-    composition to be~\(g^{\ast} \circ f\).
+    extending~\(g\) to
+    \begin{align*}
+        g^{\ast}:TA&\longrightarrow TB \\
+        s\mapsto\bigl(g_{1}(s),g_{2}(s)\bigr)&\longmapsto
+        s\mapsto\bigl(g\circ g_{1}(s),g_{2}(s)\bigr)
+    \end{align*}
+    and defining their composition to be~\(g^{\ast} \circ f\).
 
     We can also define the inclusion
     \begin{align*}
