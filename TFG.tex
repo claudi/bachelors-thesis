@@ -590,6 +590,11 @@ fmap id = id
 fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 that are clearly equivalent to the functor laws found in~\ref{def:functor}.
+The~\mintinline{Haskell}{f} that appears in these laws is different from
+the~\mintinline{Haskell}{f} found in the definition of
+the~\mintinline{Haskell}{Functor} typeclass, since it now corresponds to an
+arbitrary function. This misleading use of notation happens often in Haskell,
+and will be repeated in further typeclass laws in this document.
 
 There is a notion of~\emph{inheritance} of typeclasses. Typeclass inheritance is
 when a typeclass has a superclass. This is a way of expressing that a typeclass
