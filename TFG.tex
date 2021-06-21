@@ -544,6 +544,45 @@ during their execution.
             \]
     \end{enumerate}
 \end{proposition}
+\begin{proof}
+    We start by checking that the composition is associative. For any three
+    morphisms~\(f:A\longrightarrow TB\),~\(g:B\longrightarrow TC\)
+    and~\(h:C\longrightarrow TD\) in~\(\cat{C}_{T}\) we have
+    \begin{align*}
+        h \circ_{T} (g \circ_{T} f)
+            &= h^{\ast} \circ (g \circ_{T} f) \\
+            &= h^{\ast} \circ (g^{\ast} \circ f) \\
+            &= (h^{\ast} \circ g^{\ast}) \circ f \\
+            &= (h^{\ast} \circ g)^{\ast} \circ f \\
+            &= (h^{\ast} \circ g) \circ_{T} f \\
+            &= (h \circ_{T} g) \circ_{T} f,
+    \end{align*}
+    were we have used the third property of Kleisli triples.
+
+    We can also see that for every object~\(A\) in~\(\Obj(\cat{C}_{T})\) there
+    is a unit morphism~\(\id_{A}\). If we take
+    \[
+        \id_{A} = \eta_{A}
+    \]
+    then for every morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}_{T}\) we have
+    \[
+        f \circ_{T} \id_{A}
+        = f \circ_{T} \eta_{A}
+        = f^{\ast} \circ \eta_{A}
+        = f,
+    \]
+    and for every morphism~\(g:B\longrightarrow TA\) in~\(\cat{C}_{T}\) we have
+    \[
+        \id_{A} \circ_{T} g
+        = \eta_{A} \circ_{T} g
+        = \eta_{A}^{\ast} \circ g
+        = \id_{TA} \circ g
+        = g.
+    \]
+
+    This is enough to check that the construction satisfies the definition of a
+    category given in~\ref{def:category}.
+\end{proof}
 
 \section{Monads in Haskell}
 \subsection{Haskell}
