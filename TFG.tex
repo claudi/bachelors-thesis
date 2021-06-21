@@ -573,20 +573,21 @@ their composition and units.
         \id_{A} = \eta_{A}
     \]
     then for every morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}_{T}\) we have
-    \[
+    \begin{align*}
         f \circ_{T} \id_{A}
-        = f \circ_{T} \eta_{A}
-        = f^{\ast} \circ \eta_{A}
-        = f,
-    \]
+        &= f \circ_{T} \eta_{A} \\
+        &= f^{\ast} \circ \eta_{A} \\
+        &= f
+    \end{align*}
     and for every morphism~\(g:B\longrightarrow TA\) in~\(\cat{C}_{T}\) we have
-    \[
+    \begin{align*}
         \id_{A} \circ_{T} g
-        = \eta_{A} \circ_{T} g
-        = \eta_{A}^{\ast} \circ g
-        = \id_{TA} \circ g
-        = g.
-    \]
+        &= \eta_{A} \circ_{T} g \\
+        &= \eta_{A}^{\ast} \circ g \\
+        &= \id_{TA} \circ g \\
+        &= g
+    \end{align*}
+    by using the first and second properties of Kleisli triples.
 
     This is enough to check that the construction satisfies the definition of a
     category given in~\ref{def:category}.
