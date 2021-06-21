@@ -632,7 +632,7 @@ typeclass.
 
 \begin{minted}{Haskell}
 class Applicative m => Monad m where
-    (>>=) :: (a -> m b) -> m a -> m b
+    (>>=) :: m a -> (a -> m b) -> m b
     (>>) :: m a -> m b -> m b
     return :: a -> m a
 \end{minted}
@@ -650,7 +650,7 @@ finally, we can make~\mintinline{Haskell}{Maybe}, which we know to be
 an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
 \begin{minted}{Haskell}
 instance Monad Maybe where
-    (>>=) :: (a -> Maybe b) -> Maybe a -> Maybe b
+    (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
     Just x  >>= k = k x
     Nothing >>= _ = Nothing
 
