@@ -17,7 +17,6 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{example}[theorem]{Example}
 
@@ -344,6 +343,7 @@ during their execution.
 
 \subsection{Kleisli Triple}
 \begin{definition}[Kleisli Triple]
+    \label{def:kleisli-triple}
     We define a \emph{Kleisli Triple} over a category~\(\cat{C}\)
     as a triple~\((T, \eta, (-)^{\ast})\) consisting of
     \begin{enumerate}
@@ -372,11 +372,12 @@ during their execution.
     \end{enumerate}
 \end{definition}
 
-\begin{proposition}
+\begin{theorem}
+    \label{thm:kleisli-triples-and-monads-correspondence}
     Let~\(\cat{C}\) be a category.
     There is a bijective correspondence between Kleisli Triples over~\(\cat{C}\)
     and monads over~\(\cat{C}\).
-\end{proposition}
+\end{theorem}
 \begin{proof}
     Let~\((T, \eta, (-)^{\ast})\) be a Kleisli triple over~\(\cat{C}\) and set
     \begin{equation}
@@ -590,6 +591,11 @@ fmap id = id
 fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 that are clearly equivalent to the functor laws found in~\ref{def:functor}.
+The~\mintinline{Haskell}{f} that appears in these laws is different from
+the~\mintinline{Haskell}{f} found in the definition of
+the~\mintinline{Haskell}{Functor} typeclass, since it now corresponds to an
+arbitrary function. This misleading use of notation happens often in Haskell,
+and will be repeated in further typeclass laws in this document.
 
 There is a notion of~\emph{inheritance} of typeclasses. Typeclass inheritance is
 when a typeclass has a superclass. This is a way of expressing that a typeclass
@@ -632,7 +638,7 @@ typeclass.
 
 \begin{minted}{Haskell}
 class Applicative m => Monad m where
-    (>>=) :: (a -> m b) -> m a -> m b
+    (>>=) :: m a -> (a -> m b) -> m b
     (>>) :: m a -> m b -> m b
     return :: a -> m a
 \end{minted}
@@ -643,6 +649,8 @@ return a >>= k = k a
 m >>= return = m
 m >>= (\x -> k x >>= h) = (m >>= k) >>= h
 
+k >> f = k >>= \_ -> f
+
 pure = return
 m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
 \end{minted}
@@ -650,7 +658,7 @@ finally, we can make~\mintinline{Haskell}{Maybe}, which we know to be
 an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
 \begin{minted}{Haskell}
 instance Monad Maybe where
-    (>>=) :: (a -> Maybe b) -> Maybe a -> Maybe b
+    (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
     Just x  >>= k = k x
     Nothing >>= _ = Nothing
 
@@ -663,7 +671,49 @@ instance Monad Maybe where
 \end{minted}
 
 \subsection{Haskell monads are monads}
-\subsection{Kleisli triples are Haskell monads}
+The~\mintinline{Haskell}{Monad} structure defined by Haskell
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: m a -> (a -> m b) -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+subject to the laws
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+k >> f = k >>= \_ -> f
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+does not correspond, at first sight, to the definition of monad given
+in~\ref{def:monad}.
+
+We begin observing that the~\mintinline{Haskell}{Monad}
+operation~\mintinline{Haskell}{(>>)} can be uniquely determined in terms
+of~\mintinline{Haskell}{(>>=)}, the bind operation.
+This means that we can omit this operation from our reasoning. In fact, it is
+only defined because it is useful in a programming setting, and bears no
+particular mathematical relevance to us.
+
+Our next observation lies on the bind operation. If we flip its arguments, we
+get an operation with type signature
+\begin{minted}{Haskell}
+(a -> m b) -> (m a -> m b)
+\end{minted}
+which coincides with the~\((-)^{\ast}\) operation, while the type signature for
+the~\mintinline{Haskell}{return} function coincides with~\(\eta_{A}\)
+(where~\(A\) is determined by context in the Haskell program), as defined in the
+definition of Kleisli triple in~\ref{def:kleisli-triple}.
+
+With this correspondence we can now prove that the~\mintinline{Haskell}{Monad}
+structure defined by Haskell is a monad by first showing that it is a Kleisli
+triple, and then using
+theorem~\ref{thm:kleisli-triples-and-monads-correspondence}. This can be shown
+directly from the first three~\mintinline{Haskell}{Monad} laws.
 
 \printbibliography
 
