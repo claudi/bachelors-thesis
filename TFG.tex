@@ -643,6 +643,8 @@ return a >>= k = k a
 m >>= return = m
 m >>= (\x -> k x >>= h) = (m >>= k) >>= h
 
+k >> f = k >>= \_ -> f
+
 pure = return
 m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
 \end{minted}
