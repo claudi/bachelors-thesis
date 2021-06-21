@@ -665,6 +665,27 @@ instance Monad Maybe where
 \end{minted}
 
 \subsection{Haskell monads are monads}
+The~\mintinline{Haskell}{Monad} structure defined by Haskell
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: m a -> (a -> m b) -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+subject to the laws
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+k >> f = k >>= \_ -> f
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+does not correspond, at first sight, to the definition of monad given
+in~\ref{def:monad}.
+
 \subsection{Kleisli triples are Haskell monads}
 
 \printbibliography
