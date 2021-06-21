@@ -30,6 +30,7 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
 \newcommand{\Hask}{\ensuremath{\mathrm{Hask}}}
+\newcommand{\ev}{\mathrm{ev}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -301,6 +302,35 @@ programming language.
                 S&\longmapsto \bigcup_{X\in S}X
             \end{align*}
     \end{enumerate}
+\end{example}
+
+\begin{definition}[Cartesian closed category]
+    \label{def:product}
+    \label{def:cartesian-closed}
+    \label{def:exponential object}
+    We say that a category~\(\cat{C}\) is~\emph{Cartesian closed} if
+    \begin{enumerate}
+        \item For any finite, possibly empty, family of
+            objects~\(\{A_{i}\}_{i\in I}\) in~\(\cat{C}\) there is an
+            object~\(A=\prod_{i\in I}A_{i}\) in~\(\cat{C}\).
+        \item For any two objects~\(A\) and~\(B\) in~\(\cat{C}\) there is
+            object~\(B^{A}\) together with a
+            morphism~\(\ev:B^{A}\times A\longrightarrow B\) such that for every
+            other object~\(C\) and morphism~\(g:C\times A\longrightarrow B\)
+            in~\(\cat{C}\) there is a unique
+            morphism~\(\lambda g:C\longrightarrow B^{A}\) such that the diagram
+            \[\begin{tikzcd}
+                C\times A \arrow[dr, "g"] \arrow[d, "\lambda g\times\id_{A}", swap] & \\
+                B^{A}\times C \arrow[r, "\ev"] & B
+            \end{tikzcd}\]
+            commutes.
+    \end{enumerate}
+    We say that~\(B^{A}\) is the~\emph{exponential object}, and~\(\times\) is
+    the~\emph{product}.
+\end{definition}
+
+\begin{example}
+    The category of sets is Cartesian closed.
 \end{example}
 
 \section{The Kleisli Triples in Computer Science}
