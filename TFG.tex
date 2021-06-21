@@ -443,6 +443,37 @@ This implementation of the factorial function accepts an integer as its input,
 but it is not defined for negative values. We call this~\emph{partiality}.
 
 \begin{example}[Partiality]
+    \label{ex:kleisli-partiality}
+    Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
+    and is deterministic, but instead is partial. To model its behaviour we can
+    approach the problem by adding an ``special element'', denoted with~\(\bot\)
+    to output in case we hit an input that does not have a defined output. This
+    induces a function
+    \[
+        f:A\longrightarrow B\sqcup\{\bot\}
+    \]
+    Now, given two such functions~\(f:A\longrightarrow B\sqcup\{\bot\}\)
+    and~\(g:B\longrightarrow C\sqcup\{\bot\}\) we can compose them by
+    extending~\(g\) to~\(g^{\ast}:TB\longrightarrow TC\) as
+    \begin{align*}
+        g^{\ast}:TB&\longrightarrow TC \\
+        b\in B&\longmapsto g(b) \\
+        \bot&\longmapsto\bot
+    \end{align*}
+    and then defining their composition as~\(g^{\ast}\circ f\). With the same
+    functions, notice that the composition and~\((-)^{\ast}\) satisfy
+    \[
+        g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}.
+    \]
+
+    We can also consider the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow A\sqcup\{\bot\} \\
+        b&\longmapsto b
+    \end{align*}
+    and we get that~\(\eta_{A}^{\ast}=\id_{PA}\) and, with our previously
+    defined composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
+    function~\(f:A\longrightarrow B\sqcup\{\bot\}\).
 \end{example}
 
 Another example are~\emph{exceptions}. Procedures often encounter errors during
