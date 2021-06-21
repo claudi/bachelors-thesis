@@ -526,6 +526,13 @@ during their execution.
 \end{proof}
 
 \subsection{The Kleisli category}
+For this definition to be useful we must also show that the defined morphisms
+are well behaved in some sense. At the very minimum, we should be able to
+compose them and there should be a unit function.
+
+We show that they actually form a category, and give an explicit formula for
+their composition and units.
+
 \begin{proposition}[The Kleisli category]
     Given a Kleisli triple~\((T,\eta,(-)^{\ast})\) over a category~\(\cat{C}\),
     the following data forms a category~\(\cat{C}_{T}\), which we call
