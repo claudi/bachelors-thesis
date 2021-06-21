@@ -17,7 +17,6 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{example}[theorem]{Example}
 
@@ -372,11 +371,12 @@ during their execution.
     \end{enumerate}
 \end{definition}
 
-\begin{proposition}
+\begin{theorem}
+    \label{thm:kleisli-triples-and-monads-correspondence}
     Let~\(\cat{C}\) be a category.
     There is a bijective correspondence between Kleisli Triples over~\(\cat{C}\)
     and monads over~\(\cat{C}\).
-\end{proposition}
+\end{theorem}
 \begin{proof}
     Let~\((T, \eta, (-)^{\ast})\) be a Kleisli triple over~\(\cat{C}\) and set
     \begin{equation}
