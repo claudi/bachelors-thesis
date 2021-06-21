@@ -343,6 +343,7 @@ during their execution.
 
 \subsection{Kleisli Triple}
 \begin{definition}[Kleisli Triple]
+    \label{def:kleisli-triple}
     We define a \emph{Kleisli Triple} over a category~\(\cat{C}\)
     as a triple~\((T, \eta, (-)^{\ast})\) consisting of
     \begin{enumerate}
@@ -690,6 +691,29 @@ m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
 \end{minted}
 does not correspond, at first sight, to the definition of monad given
 in~\ref{def:monad}.
+
+We begin observing that the~\mintinline{Haskell}{Monad}
+operation~\mintinline{Haskell}{(>>)} can be uniquely determined in terms
+of~\mintinline{Haskell}{(>>=)}, the bind operation.
+This means that we can omit this operation from our reasoning. In fact, it is
+only defined because it is useful in a programming setting, and bears no
+particular mathematical relevance to us.
+
+Our next observation lies on the bind operation. If we flip its arguments, we
+get an operation with type signature
+\begin{minted}{Haskell}
+(a -> m b) -> (m a -> m b)
+\end{minted}
+which coincides with the~\((-)^{\ast}\) operation, while the type signature for
+the~\mintinline{Haskell}{return} function coincides with~\(\eta_{A}\)
+(where~\(A\) is determined by context in the Haskell program), as defined in the
+definition of Kleisli triple in~\ref{def:kleisli-triple}.
+
+With this correspondence we can now prove that the~\mintinline{Haskell}{Monad}
+structure defined by Haskell is a monad by first showing that it is a Kleisli
+triple, and then using
+theorem~\ref{thm:kleisli-triples-and-monads-correspondence}. This can be shown
+directly from the first three~\mintinline{Haskell}{Monad} laws.
 
 \subsection{Kleisli triples are Haskell monads}
 
