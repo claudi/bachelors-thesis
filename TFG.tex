@@ -399,6 +399,25 @@ around some of these, which we will then generalize through categorical notions.
     \end{align*}
     where~\(B^{A}\) is the exponential object, of which we are implicitly
     assuming existence.
+
+    For convenience we define
+    \[
+        TA = (A\times S)^{S}.
+    \]
+
+    Now, given two functions~\(f:A\longrightarrow TB\)
+    and~\(g:B\longrightarrow TC\), we could compose them by, again,
+    extending~\(g\) to~\(g^{\ast}:TA\longrightarrow TB\) and defining their
+    composition to be~\(g^{\ast} \circ f\).
+
+    We can also define the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow TA \\
+        a&\longmapsto\bigl(s\mapsto(s,a)\bigr)
+    \end{align*}
+    which satisfies~\(\eta_{A}^{\ast}=\id_{TA}\) and, for every
+    function~\(f:A\longrightarrow TB\), we see it also
+    satisfies~\(f^{\ast}\circ\eta_{A}=f\).
 \end{example}
 
 While not being problems inherent to pure functions, there are other situations
