@@ -340,8 +340,10 @@ around some of these, which we will then generalize through categorical notions.
 \begin{example}[Non-determinism]
     \label{ex:kleisli-non-determinism}
     Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
-    but is non-deterministic. To model its behaviour through a mathematical
-    function we could consider the function
+    but is non-deterministic.
+
+    To model its behaviour through a mathematical function we could consider the
+    function
     \[
         f:A\longrightarrow PB.
     \]
@@ -367,22 +369,24 @@ around some of these, which we will then generalize through categorical notions.
 
     As a last observation, we see how if we consider the inclusion
     \begin{align*}
-        \eta_{A}:A&\longrightarrow PA \\
+        \eta_{A}:A&\longrightarrow\mathcal{P}(A) \\
         a&\longmapsto\{a\}
     \end{align*}
-    we get that~\(\eta_{A}^{\ast}=\id_{PA}\) and, with our new
+    we get that~\(\eta_{A}^{\ast}=\id_{\mathcal{P}(A)}\) and, with our new
     composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
-    function~\(f:A\longrightarrow PB\).
+    function~\(f:A\longrightarrow\mathcal{P}(B)\).
 \end{example}
 
 \begin{example}[Side-effects]
     \label{ex:kleisli-side-effects}
     Suppose we have a procedure~\(A\longrightarrow B\) that is deterministic but
-    presents side-effects. Modelling its behaviour through a mathematical
-    function requires a bit more effort. A function that has side-effects is one
-    that modifies global state beyond its scope. To make it pure it would be
-    enough to also track the changes made to global state during its execution.
-    We could archive this by considering the function
+    presents side-effects.
+
+    Modelling its behaviour through a mathematical function requires a bit more
+    effort. A function that has side-effects is one that modifies global state
+    beyond its scope. To make it pure it would be enough to also track the
+    changes made to global state during its execution.  We could archive this by
+    considering the function
     \[
         f':A\times S\longrightarrow B\times S
     \]
