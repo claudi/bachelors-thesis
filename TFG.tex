@@ -30,6 +30,7 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\Set}{\mathrm{Set}}
 \newcommand{\Hask}{\ensuremath{\mathrm{Hask}}}
+\newcommand{\ev}{\mathrm{ev}}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
 
@@ -250,7 +251,7 @@ programming language.
 
 \begin{example}[Pointed set monad]
     \label{monad:maybe}
-    We define the pointed set monad~\((M,\eta,\mu)\) on the category of
+    We define the~\emph{pointed set monad}~\((M,\eta,\mu)\) on the category of
     sets as follows.
     \begin{enumerate}
         \item The functor~\(M\) for any object~\(A\) or
@@ -280,8 +281,8 @@ programming language.
 
 \begin{example}[Power set monad]
     \label{monad:power-set}
-    We define the power set monad~\((P,\eta,\mu)\) on the category of sets as
-    follows.
+    We define the~\emph{power set monad}~\((P,\eta,\mu)\) on the category of
+    sets as follows.
     \begin{enumerate}
         \item The functor~\(P\) for any object~\(A\) or
             morphism~\(f:A\longrightarrow B\) is defined as
@@ -303,13 +304,131 @@ programming language.
     \end{enumerate}
 \end{example}
 
+\begin{definition}[Cartesian closed category]
+    \label{def:product}
+    \label{def:cartesian-closed}
+    \label{def:exponential object}
+    We say that a category~\(\cat{C}\) is~\emph{Cartesian closed} if
+    \begin{enumerate}
+        \item For any finite, possibly empty, family of
+            objects~\(\{A_{i}\}_{i\in I}\) in~\(\cat{C}\) there is an
+            object~\(A=\prod_{i\in I}A_{i}\) in~\(\cat{C}\).
+        \item For any two objects~\(A\) and~\(B\) in~\(\cat{C}\) there is
+            object~\(B^{A}\) together with a
+            morphism~\(\ev:B^{A}\times A\longrightarrow B\) such that for every
+            other object~\(C\) and morphism~\(g:C\times A\longrightarrow B\)
+            in~\(\cat{C}\) there is a unique
+            morphism~\(\lambda g:C\longrightarrow B^{A}\) such that the diagram
+            \[\begin{tikzcd}
+                C\times A \arrow[dr, "g"] \arrow[d, "\lambda g\times\id_{A}", swap] & \\
+                B^{A}\times A \arrow[r, "\ev"] & B
+            \end{tikzcd}\]
+            commutes.
+    \end{enumerate}
+    We say that~\(B^{A}\) is the~\emph{exponential object}, and~\(\times\) is
+    the~\emph{product}.
+\end{definition}
+
+\begin{example}
+    The category of sets is Cartesian closed.
+\end{example}
+
 \section{The Kleisli Triples in Computer Science}
 In section~\ref{sec:motivation} we established that pure functions present some
-deficits. Let's put category theory aside and see how we could work around some
-of these, which we will then generalize through categorical notions.
+deficits. Let's put category theory aside for a moment and see how we could work
+around some of these, which we will then generalize through categorical notions.
 \begin{example}[Non-determinism]
+    \label{ex:kleisli-non-determinism}
+    Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
+    but is non-deterministic.
+
+    To model its behaviour through a mathematical function we could consider the
+    function
+    \[
+        f:A\longrightarrow\mathcal{P}(B).
+    \]
+    that outputs all of the possible outputs of said procedure for a single
+    output. Since the original procedure had no side-effects, and the new
+    function is clearly deterministic, we can assure that~\(f\) is pure, and we
+    can reason about it as a mathematical function.
+
+    Given two such functions~\(f:A\longrightarrow\mathcal{P}(B)\)
+    and~\(g:B\longrightarrow\mathcal{P}(C)\), we could compose them by
+    extending~\(g\) to
+    \begin{align*}
+        g^{\ast}:\mathcal{P}(B)&\longrightarrow\mathcal{P}(C) \\
+        S&\longmapsto\{g(x)\in C \mid x\in S\}
+    \end{align*}
+    and defining the composition of~\(f\) and~\(g\) to be~\(g^{\ast} \circ f\).
+    With the same functions, notice that the composition and~\((-)^{\ast}\)
+    satisfy
+    \[
+        g^{\ast}\circ f^{\ast}
+        = (g^{\ast} \circ f)^{\ast}.
+    \]
+
+    As a last observation, we see how if we consider the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow\mathcal{P}(A) \\
+        a&\longmapsto\{a\}
+    \end{align*}
+    we get that~\(\eta_{A}^{\ast}=\id_{\mathcal{P}(A)}\) and, with our new
+    composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
+    function~\(f:A\longrightarrow\mathcal{P}(B)\).
 \end{example}
+
 \begin{example}[Side-effects]
+    \label{ex:kleisli-side-effects}
+    Suppose we have a procedure~\(A\longrightarrow B\) that is deterministic but
+    presents side-effects.
+
+    Modelling its behaviour through a mathematical function requires a bit more
+    effort. A function that has side-effects is one that modifies global state
+    beyond its scope. To make it pure it would be enough to also track the
+    changes made to global state during its execution.  We could archive this by
+    considering the function
+    \[
+        f':A\times S\longrightarrow B\times S
+    \]
+    where~\(S\) contains all possible global states, and~\(f'\) now outputs on
+    the first component the result of the original procedure, while on the
+    second it outputs the effected state.
+
+    Notice how this also models the behaviour of a function that modifies its
+    output depending on global state, even if it does not modify it, as the
+    global state is part of its input.
+
+    We can also consider the induced pure function
+    \begin{align*}
+        f:A&\longrightarrow(B\times S)^{S} \\
+        a&\longmapsto\bigr(s\mapsto f'(a,s)\bigl)
+    \end{align*}
+    where~\(B^{A}\) is the exponential object, of which we are implicitly
+    assuming existence.
+
+    For convenience we define
+    \[
+        TA = (A\times S)^{S}.
+    \]
+
+    Now, given two functions~\(f:A\longrightarrow TB\)
+    and~\(g:B\longrightarrow TC\), we could compose them by, again,
+    extending~\(g\) to
+    \begin{align*}
+        g^{\ast}:TA&\longrightarrow TB \\
+        s\mapsto\bigl(g_{1}(s),g_{2}(s)\bigr)&\longmapsto
+        s\mapsto\bigl(g\circ g_{1}(s),g_{2}(s)\bigr)
+    \end{align*}
+    and defining their composition to be~\(g^{\ast} \circ f\).
+
+    We can also define the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow TA \\
+        a&\longmapsto\bigl(s\mapsto(a,s)\bigr)
+    \end{align*}
+    which satisfies~\(\eta_{A}^{\ast}=\id_{TA}\) and, for every
+    function~\(f:A\longrightarrow TB\), we see it also
+    satisfies~\(f^{\ast}\circ\eta_{A}=f\).
 \end{example}
 
 While not being problems inherent to pure functions, there are other situations
@@ -330,6 +449,38 @@ This implementation of the factorial function accepts an integer as its input,
 but it is not defined for negative values. We call this~\emph{partiality}.
 
 \begin{example}[Partiality]
+    \label{ex:kleisli-partiality}
+    Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
+    and is deterministic, but instead is partial.
+
+    To model its behaviour we can approach the problem by adding an ``special
+    element'', denoted with~\(\bot\) to output in case we hit an input that does
+    not have a defined output. This induces a function
+    \[
+        f:A\longrightarrow B\sqcup\{\bot\}
+    \]
+    Now, given two such functions~\(f:A\longrightarrow B\sqcup\{\bot\}\)
+    and~\(g:B\longrightarrow C\sqcup\{\bot\}\) we can compose them by
+    extending~\(g\) to~\(g^{\ast}:B\sqcup\{\bot\}\longrightarrow C\sqcup\{\bot\}\) as
+    \begin{align*}
+        g^{\ast}:B\sqcup\{\bot\}&\longrightarrow C\sqcup\{\bot\} \\
+        b\in B&\longmapsto g(b) \\
+        \bot&\longmapsto\bot
+    \end{align*}
+    and then defining their composition as~\(g^{\ast}\circ f\). With the same
+    functions, notice that the composition and~\((-)^{\ast}\) satisfy
+    \[
+        g^{\ast}\circ f^{\ast} = (g^{\ast}\circ f)^{\ast}.
+    \]
+
+    We can also consider the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow A\sqcup\{\bot\} \\
+        b&\longmapsto b
+    \end{align*}
+    and we get that~\(\eta_{A}^{\ast}=\id_{A\sqcup\{\bot\}}\) and, with our previously
+    defined composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
+    function~\(f:A\longrightarrow B\sqcup\{\bot\}\).
 \end{example}
 
 Another example are~\emph{exceptions}. Procedures often encounter errors during
@@ -339,6 +490,50 @@ the call chain (eventually aborting the program) or by directly dealing with it
 during their execution.
 
 \begin{example}[Exceptions]
+    Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
+    and is deterministic, but might encounter an error and not be able to
+    produce a meaningful result.
+
+    In these situations it is common for functions to return a special value,
+    which is not ideal if any output might be valid. More advanced programming
+    languages have a system that can manage these errors by separating them from
+    normal output. To model the behaviour of these functions, we could consider
+    a function
+    \[
+        f:A\longrightarrow B\sqcup E
+    \]
+    which, for any execution of the procedure, if the computation is successful
+    outputs its result in~\(B\), and if the procedure encounters an error, it
+    outputs the error, which would fall in~\(E\).
+
+    The set~\(E\) would be the set error identifiers, such as error codes, and
+    we can interpret this induced function as adding information about the
+    possible errors encountered to the output of the procedure. The considered
+    function~\(f\) is now pure, and we can reason about it mathematically.
+
+    We are once again interested in composing two such
+    functions~\(f:A\longrightarrow B\sqcup E\)
+    and~\(g:B\longrightarrow C\sqcup E\). For this we could extend~\(g\)
+    to~\(g^{\ast}:B\sqcup E\longrightarrow C\sqcup E\) as
+    \begin{align*}
+        g^{\ast}:B\sqcup E&\longrightarrow C\sqcup E \\
+        b\in B&\longmapsto g(b) \\
+        e\in E&\longmapsto e
+    \end{align*}
+    and then defining their composition as~\(g^{\ast}\circ f\). Notice how, with
+    the same functions, we can see that
+    \[
+        g^{\ast} \circ f^{\ast} = (f^{\ast} \circ g)^{\ast}.
+    \]
+
+    We can also consider the inclusion
+    \begin{align*}
+        \eta_{A}:A&\longrightarrow A\sqcup E \\
+        a&\longmapsto a
+    \end{align*}
+    and we get that~\(\eta_{A}^{\ast}=\id_{A\sqcup E}\) and, with our previously
+    defined composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
+    function~\(f:A\longrightarrow B\sqcup E\).
 \end{example}
 
 \subsection{Kleisli Triple}
