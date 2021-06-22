@@ -451,18 +451,19 @@ but it is not defined for negative values. We call this~\emph{partiality}.
 \begin{example}[Partiality]
     \label{ex:kleisli-partiality}
     Suppose we have a procedure~\(A\longrightarrow B\) that has no side-effects
-    and is deterministic, but instead is partial. To model its behaviour we can
-    approach the problem by adding an ``special element'', denoted with~\(\bot\)
-    to output in case we hit an input that does not have a defined output. This
-    induces a function
+    and is deterministic, but instead is partial.
+
+    To model its behaviour we can approach the problem by adding an ``special
+    element'', denoted with~\(\bot\) to output in case we hit an input that does
+    not have a defined output. This induces a function
     \[
         f:A\longrightarrow B\sqcup\{\bot\}
     \]
     Now, given two such functions~\(f:A\longrightarrow B\sqcup\{\bot\}\)
     and~\(g:B\longrightarrow C\sqcup\{\bot\}\) we can compose them by
-    extending~\(g\) to~\(g^{\ast}:TB\longrightarrow TC\) as
+    extending~\(g\) to~\(g^{\ast}:B\sqcup\{\bot\}\longrightarrow C\sqcup\{\bot\}\) as
     \begin{align*}
-        g^{\ast}:TB&\longrightarrow TC \\
+        g^{\ast}:B\sqcup\{\bot\}&\longrightarrow C\sqcup\{\bot\} \\
         b\in B&\longmapsto g(b) \\
         \bot&\longmapsto\bot
     \end{align*}
@@ -477,7 +478,7 @@ but it is not defined for negative values. We call this~\emph{partiality}.
         \eta_{A}:A&\longrightarrow A\sqcup\{\bot\} \\
         b&\longmapsto b
     \end{align*}
-    and we get that~\(\eta_{A}^{\ast}=\id_{PA}\) and, with our previously
+    and we get that~\(\eta_{A}^{\ast}=\id_{A\sqcup\{\bot\}}\) and, with our previously
     defined composition, we get~\(f^{\ast}\circ\eta_{A}=f\) for every
     function~\(f:A\longrightarrow B\sqcup\{\bot\}\).
 \end{example}
