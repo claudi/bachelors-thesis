@@ -345,18 +345,18 @@ around some of these, which we will then generalize through categorical notions.
     To model its behaviour through a mathematical function we could consider the
     function
     \[
-        f:A\longrightarrow PB.
+        f:A\longrightarrow\mathcal{P}(B).
     \]
     that outputs all of the possible outputs of said procedure for a single
-    output, where~\(P\) is the power set functor defined in
-    example~\ref{monad:power-set}. Since the original procedure had no
-    side-effects, and the new function is clearly deterministic, we can assure
-    that~\(f\) is pure, and we can reason about it as a mathematical function.
+    output. Since the original procedure had no side-effects, and the new
+    function is clearly deterministic, we can assure that~\(f\) is pure, and we
+    can reason about it as a mathematical function.
 
-    Given two such functions~\(f:A\longrightarrow PB\)
-    and~\(g:B\longrightarrow PC\), we could compose them by extending~\(g\) to
+    Given two such functions~\(f:A\longrightarrow\mathcal{P}(B)\)
+    and~\(g:B\longrightarrow\mathcal{P}(C)\), we could compose them by
+    extending~\(g\) to
     \begin{align*}
-        g^{\ast}:PB&\longrightarrow PC \\
+        g^{\ast}:\mathcal{P}(B)&\longrightarrow\mathcal{P}(C) \\
         S&\longmapsto\{g(x)\in C \mid x\in S\}
     \end{align*}
     and defining the composition of~\(f\) and~\(g\) to be~\(g^{\ast} \circ f\).
