@@ -924,6 +924,24 @@ are also valid. Here the function~\mintinline{Haskell}{double} is defined in
 terms of the function~\mintinline{Haskell}{multiply 2}, and as such the body
 does not need to take its arguments into account.
 
+We can also define new types from existing ones. We already know how to do this
+with~\mintinline{Haskell}{->}, but we can also use
+\begin{minted}{Haskell}
+data Complex = Cartesian Double Double
+\end{minted}
+This defines a new called~\mintinline{Haskell}{Complex}. This definition comes
+with an associated
+map~\mintinline{Haskell}{Cartesian :: Double -> Double -> Complex} which lets us
+instantiate elements in the~\mintinline{Haskell}{Cartesian} type, \ie,
+\begin{minted}{Haskell}
+Cartesian 1.0 2.0 :: Complex
+\end{minted}
+
+Here we constructed a type~\mintinline{Haskell}{Complex} from
+two~\mintinline{Haskell}{Double} types. We can see this as the Cartesian product
+of two types, which in math we would
+write~\(\mathbb{C}=\mathbb{R}\times\mathbb{R}\).
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
