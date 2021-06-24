@@ -802,8 +802,24 @@ functions by default. We call such languages~\emph{purely functional} or say
 that they belong to the~\emph{purely functional programming
 paradigm}~\cite{paradigms-overview}.
 
-To achieve this,
 \subsection{Haskell}
+To achieve this, the Haskell language makes use of notation that might look
+foreign to readers that are unfamiliar with such languages.
+
+In Haskell, any element belongs to a particular~\emph{type}. Examples of types
+are~\mintinline{Haskell}{Int} and~\mintinline{Haskell}{Char}, used for integer
+numbers and characters respectively. To denote an element belonging to a certain
+type we write
+\begin{minted}{Haskell}
+x :: Int
+\end{minted}
+which reads
+\begin{quote}
+    The element \mintinline{Haskell}{x} belongs to the~\mintinline{Haskell}{Int}
+    type.
+\end{quote}
+The~\mintinline{Haskell}{::} symbol can be seen as the~\(\in\) symbol in math,
+and types may be regarded as sets for the most part.
 
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
