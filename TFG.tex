@@ -334,6 +334,7 @@ programming language.
 \end{example}
 
 \section{The Kleisli Triples in Computer Science}
+\label{sec:kleisli-triple}
 In section~\ref{sec:motivation} we established that pure functions present some
 deficits. Let's put category theory aside for a moment and see how we could work
 around some of these, which we will then generalize through categorical notions.
@@ -790,6 +791,17 @@ their composition and units.
 
 \section{Monads in Haskell}
 \subsection{Haskell}
+So far we have described functional programming in a theoretical level. We
+emphasized its apparent drawbacks and proposed an abstract solution for them
+through the use of Kleisli triples in section~\ref{sec:kleisli-triple}, but we
+are interested on how this solution could be implemented.
+
+For this we use Haskell, a language that makes use of these abstract concepts to
+be a programming language where programmers are only allowed to use pure
+functions by default. We call such languages~\emph{purely functional} or say
+that they belong to the~\emph{purely functional programming
+paradigm}~\cite{paradigms-overview}.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
