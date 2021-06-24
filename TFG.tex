@@ -920,7 +920,9 @@ Definitions like
 double :: Int -> Int
 double = multiply 2
 \end{minted}
-are also valid.
+are also valid. Here the function~\mintinline{Haskell}{double} is defined in
+terms of the function~\mintinline{Haskell}{multiply 2}, and as such the body
+does not need to take its arguments into account.
 
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
