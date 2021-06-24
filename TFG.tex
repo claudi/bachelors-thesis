@@ -821,6 +821,77 @@ which reads
 The~\mintinline{Haskell}{::} symbol can be seen as the~\(\in\) symbol in math,
 and types may be regarded as sets for the most part.
 
+There are also types of functions. For any two types~\mintinline{Haskell}{a}
+and~\mintinline{Haskell}{b} there is a type whose elements are functions from
+the first type to the second, which is denoted
+\begin{minted}{Haskell}
+a -> b
+\end{minted}
+this means that functions in Haskell take only one argument, which is written
+after the function name, without parenthesis and separated by spaces. For
+example, if we had a~\mintinline{Haskell}{factorial :: Int -> Int} function and
+we wanted to evaluate it at~\mintinline{Haskell}{5 :: Int} we would write
+\begin{minted}{Haskell}
+factorial 5
+\end{minted}
+
+Concrete types like~\mintinline{Haskell}{Int} and~\mintinline{Haskell}{Char} are
+written starting with an uppercase letter, while generic types are written in
+lowercase.
+
+Of course, since the function types are types, we can have functions that take
+or output other functions. An example would be
+\begin{minted}{Haskell}
+f :: a -> (b -> c)
+g :: (a -> b) -> c
+\end{minted}
+Here~\mintinline{Haskell}{f} is a function that takes an element of
+type~\mintinline{Haskell}{a} and returns an element of
+type~\mintinline{Haskell}{b -> c}, \ie a function from~\mintinline{Haskell}{b}
+to~\mintinline{Haskell}{c}, while~\mintinline{Haskell}{g} is a function that
+takes a function from~\mintinline{Haskell}{a} to~\mintinline{Haskell}{b} as an
+argument an returns an element of type~\mintinline{Haskell}{c}. If we
+regard~\mintinline{Haskell}{->} as an operator, we say it is right associative,
+and we can write
+\begin{minted}{Haskell}
+f :: a -> (b -> c)  =  f :: a -> b -> c.
+\end{minted}
+notice how this allows us to have functions with multiple arguments, such
+as~\mintinline{Haskell}{f}. If we consider a function~\mintinline{Haskell}{sum
+:: Int -> Int -> Int} that adds two integers and two
+elements~\mintinline{Haskell}{41 :: Int} and~\mintinline{Haskell}{19 :: Int} we
+would have
+\begin{minted}{Haskell}
+sum       :: Int -> Int -> Int -- 1
+sum 41    :: Int -> Int        -- 2
+sum 41 19 :: Int               -- 3
+\end{minted}
+here
+\begin{enumerate}
+    \item The~\mintinline{Haskell}{sum :: Int -> Int -> Int} function takes a
+        parameter of type~\mintinline{Haskell}{Int} and outputs a function of
+        type~\mintinline{Haskell}{Int -> Int}.
+    \item After evaluating~\mintinline{Haskell}{sum :: Int -> Int -> Int}
+        on~\mintinline{Haskell}{41 :: Int} we get a
+        function~\mintinline{Haskell}{Int -> Int},
+        denoted~\mintinline{Haskell}{sum 41}.
+        Intuitively,~\mintinline{Haskell}{sum 41} is a function that takes an
+        integer and returns the result of adding~\(41\) to that integer.
+    \item We can evaluate the function~\mintinline{Haskell}{sum 41}
+        on~\mintinline{Haskell}{19 :: Int} to get a final result of
+        type~\mintinline{Haskell}{Int}.
+\end{enumerate}
+
+We can also define operations, or infix functions. To do this we surround the
+name of the function with parentheses as such
+\begin{minted}{Haskell}
+(+) :: Int -> Int -> Int
+\end{minted}
+and we can later write
+\begin{minted}{Haskell}
+1 + 2 :: Int
+\end{minted}
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
