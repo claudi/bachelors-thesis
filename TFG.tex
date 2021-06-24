@@ -942,6 +942,17 @@ two~\mintinline{Haskell}{Double} types. We can see this as the Cartesian product
 of two types, which in math we would
 write~\(\mathbb{C}=\mathbb{R}\times\mathbb{R}\).
 
+We can also define new types in a similar fashion to the union
+\begin{minted}{Haskell}
+data Shape = Circle Double | Polygon Int Double
+\end{minted}
+where~\mintinline{Haskell}{|} can be read as ``or''. Here, a member of
+the~\mintinline{Haskell}{Shape} type could be either
+a~\mintinline{Haskell}{Circle}, specified by the length of its radius or
+a (regular)~\mintinline{Haskell}{Polygon}, specified the number of sides and its
+apothem length. We could interpret this as having defined~\(\{\text{shapes}\} =
+\{\text{circles}\} \cup \{\text{polygons}\}\) as our shapes of interest.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
