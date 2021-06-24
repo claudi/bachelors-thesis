@@ -386,7 +386,7 @@ around some of these, which we will then generalize through categorical notions.
     Modelling its behaviour through a mathematical function requires a bit more
     effort. A function that has side-effects is one that modifies global state
     beyond its scope. To make it pure it would be enough to also track the
-    changes made to global state during its execution.  We could archive this by
+    changes made to global state during its execution.  We could achieve this by
     considering the function
     \[
         f':A\times S\longrightarrow B\times S
@@ -801,6 +801,8 @@ be a programming language where programmers are only allowed to use pure
 functions by default. We call such languages~\emph{purely functional} or say
 that they belong to the~\emph{purely functional programming
 paradigm}~\cite{paradigms-overview}.
+
+To achieve this,
 
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
