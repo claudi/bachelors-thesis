@@ -958,6 +958,42 @@ call the first kind of types~\emph{sum types} and the second type~\emph{product
 types}. Together it is said that the types form an algebraic structure, and
 types made combining these operations are~\emph{algebraic data types}.
 
+The definition of~\mintinline{Haskell}{Shape} induces two functions
+\begin{minted}{Haskell}
+Circle  :: Double -> Shape
+Polygon :: Int -> Double -> Shape
+\end{minted}
+but the~\mintinline{Haskell}{Circle} and~\mintinline{Haskell}{Polygon} words
+acquire a second meaning when defying a new type: to implement a function to
+calculate the area of our shapes we would write
+\begin{minted}{Haskell}
+area :: Shape -> Double
+area (Circle r)    = pi*r*r
+area (Polygon n a) = n*a*a*tan(pi/n)
+\end{minted}
+which introduces the other use of the words~\mintinline{Haskell}{Circle}
+and~\mintinline{Haskell}{Polygon} we used to define~\mintinline{Haskell}{Shape}.
+They are used for~\emph{pattern matching}. To evaluate
+the~\mintinline{Haskell}{area} function on an element we must
+first be able to identify what kind of~\mintinline{Haskell}{Shape} it is. This
+is done through matching the instance of said element on the constructors, and
+the program will make sure to execute the adequate one.
+
+Pattern matching also applies to the previous example:
+\begin{minted}{Haskell}
+conjugate :: Complex -> Complex
+conjugate (Cartesian x y) = Cartesian x (-y)
+\end{minted}
+notice here the use of~\mintinline{Haskell}{Cartesian} to pattern match and to
+construct an element of the~\mintinline{Haskell}{Complex} type.
+
+We do not always have to pattern match. We can avoid it when we can treat the
+different options equally, for example
+\begin{minted}{Haskell}
+sameArea :: Shape -> Shape -> Bool
+sameArea s1 s2 = (area s1) == (area s2)
+\end{minted}
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
