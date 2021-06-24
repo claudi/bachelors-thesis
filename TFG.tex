@@ -386,7 +386,7 @@ around some of these, which we will then generalize through categorical notions.
     Modelling its behaviour through a mathematical function requires a bit more
     effort. A function that has side-effects is one that modifies global state
     beyond its scope. To make it pure it would be enough to also track the
-    changes made to global state during its execution.  We could achieve this by
+    changes made to global state during its execution. We could achieve this by
     considering the function
     \[
         f':A\times S\longrightarrow B\times S
@@ -1194,7 +1194,7 @@ For example, the~\mintinline{C}{C} programming language, a famously imperative
 and state-full language supports a~\mintinline{C}{pure} attribute for
 functions~\cite{gccdoc:attributes}, which allows the programmer to manually mark
 them as being pure, so the compiler can take advantage of the information and
-reason about the code accordingly.  In~\cite{haskell-useless}, Simon Peyton
+reason about the code accordingly. In~\cite{haskell-useless}, Simon Peyton
 Jones, a major contributor to the design of the Haskell programming
 language~\cite{Simeone}, describes the mutual influence between programming
 languages of different paradigms.
