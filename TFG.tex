@@ -892,6 +892,36 @@ and we can later write
 1 + 2 :: Int
 \end{minted}
 
+To explain how to define the body of a function we start with an example
+\begin{minted}{Haskell}
+square :: Int -> Int -- 1
+square n = n * n     -- 2
+\end{minted}
+here
+\begin{enumerate}
+    \item We first declare that we will define a
+        function~\mintinline{Haskell}{square} of
+        type~\mintinline{Haskell}{Int -> Int}.
+    \item Here we define the behaviour of our function given an
+        argument~\mintinline{Haskell}{n}. The notation is similar to the one
+        we use in math, where we write \(f(n) = n*n\).
+\end{enumerate}
+Another example
+\begin{minted}{Haskell}
+multiply :: Int -> Int -> Int
+multiply n m = n * m
+\end{minted}
+although functions in Haskell technically only take one argument, we can define
+a function that takes multiple parameters in one line as shown in the example
+above.
+
+Definitions like
+\begin{minted}{Haskell}
+double :: Int -> Int
+double = multiply 2
+\end{minted}
+are also valid.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
