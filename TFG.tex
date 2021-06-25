@@ -854,7 +854,11 @@ argument an returns an element of type~\mintinline{Haskell}{c}. If we
 regard~\mintinline{Haskell}{->} as an operator, we say it is right associative,
 and we can write
 \begin{minted}{Haskell}
-f :: a -> (b -> c)  =  f :: a -> b -> c.
+f :: a -> b -> c
+\end{minted}
+instead of
+\begin{minted}{Haskell}
+f :: a -> (b -> c)
 \end{minted}
 notice how this allows us to have functions with multiple arguments, such
 as~\mintinline{Haskell}{f}. If we consider a function~\mintinline{Haskell}{sum
