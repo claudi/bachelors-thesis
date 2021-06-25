@@ -860,11 +860,11 @@ instead of
 \begin{minted}{Haskell}
 f :: a -> (b -> c)
 \end{minted}
-notice how this allows us to have functions with multiple arguments, such
-as~\mintinline{Haskell}{f}. If we consider a function~\mintinline{Haskell}{sum
-:: Int -> Int -> Int} that adds two integers and two
-elements~\mintinline{Haskell}{41 :: Int} and~\mintinline{Haskell}{19 :: Int} we
-would have
+
+We can use this simulate functions with multiple arguments.
+If we consider a function~\mintinline{Haskell}{sum :: Int -> Int -> Int} that
+adds two integers and two elements~\mintinline{Haskell}{41 :: Int}
+and~\mintinline{Haskell}{19 :: Int} we would have
 \begin{minted}{Haskell}
 sum       :: Int -> Int -> Int -- 1
 sum 41    :: Int -> Int        -- 2
