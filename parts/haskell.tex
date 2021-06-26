@@ -1,0 +1,461 @@
+\documentclass[../TFG.tex]{subfiles}
+
+\begin{document}
+\section{Monads in Haskell}
+So far we have described functional programming at a theoretical level. We
+emphasized its apparent drawbacks and proposed an abstract solution for them
+through the use of Kleisli triples in section~\ref{sec:kleisli-triple}, but we
+are interested in how this solution can be implemented, since abstractions might
+not always be useful or feasible in practice.
+
+For this we use Haskell, a language that makes use of these abstract concepts to
+be a programming language where programmers are only allowed to use pure
+functions by default. Such languages are called~\emph{purely functional} or said
+to belong to the~\emph{purely functional programming
+paradigm}~\cite{paradigms-overview}.
+
+\subsection{Haskell}
+To achieve this, the Haskell language makes use of notation that is atypical
+outside of such languages. In this section we aim to introduce the basics of it
+so that we can then use it to explain how the theory we discussed previously is
+applied. More thorough introductions can be found in~\cite{haskell-org-docs}.
+
+\subsubsection{Types and functions}
+In Haskell, any element belongs to a particular~\emph{type}. Examples of types
+are~\mintinline{Haskell}{Int} and~\mintinline{Haskell}{Char}, used for integer
+numbers and characters respectively. To denote an element belonging to a certain
+type we write
+\begin{minted}{Haskell}
+x :: Int
+\end{minted}
+which reads ``\mintinline{Haskell}{x} belongs to the~\mintinline{Haskell}{Int}
+type''.
+The~\mintinline{Haskell}{::} symbol can be seen as the~\(\in\) symbol in math,
+and types may be regarded as sets for the most part.
+
+There are also types of functions. For any two types~\mintinline{Haskell}{a}
+and~\mintinline{Haskell}{b} there is a type
+\begin{minted}{Haskell}
+a -> b
+\end{minted}
+whose elements are functions from the first type to the second. This means that
+functions in Haskell take only one argument, which is written after the function
+name, without parenthesis and separated by spaces. For example, if we have
+a~\mintinline{Haskell}{factorial :: Int -> Int} function and we want to evaluate
+it at~\mintinline{Haskell}{5 :: Int} we write
+\begin{minted}{Haskell}
+factorial 5
+\end{minted}
+
+Concrete types like~\mintinline{Haskell}{Int} and~\mintinline{Haskell}{Char} are
+written starting with an uppercase letter, while generic types are written in
+lowercase.
+
+Of course, since the function types are types, we can have functions that take
+or output other functions. An example would be
+\begin{minted}{Haskell}
+f :: a -> (b -> c)
+g :: (a -> b) -> c
+\end{minted}
+Here~\mintinline{Haskell}{f} is a function that takes an element of
+type~\mintinline{Haskell}{a} and returns an element of
+type~\mintinline{Haskell}{b -> c}, \ie a function from~\mintinline{Haskell}{b}
+to~\mintinline{Haskell}{c}, while~\mintinline{Haskell}{g} is a function that
+takes a function from~\mintinline{Haskell}{a} to~\mintinline{Haskell}{b} as an
+argument an returns an element of type~\mintinline{Haskell}{c}. If we
+regard~\mintinline{Haskell}{->} as an operator, we say it is right associative,
+and we can write
+\begin{minted}{Haskell}
+f :: a -> b -> c
+\end{minted}
+instead of
+\begin{minted}{Haskell}
+f :: a -> (b -> c)
+\end{minted}
+
+We can use this simulate functions with multiple arguments.
+If we consider a function~\mintinline{Haskell}{sum :: Int -> Int -> Int} that
+adds two integers and two elements~\mintinline{Haskell}{41 :: Int}
+and~\mintinline{Haskell}{19 :: Int} we would have
+\begin{minted}{Haskell}
+sum       :: Int -> Int -> Int -- 1
+sum 41    :: Int -> Int        -- 2
+sum 41 19 :: Int               -- 3
+\end{minted}
+where
+\begin{enumerate}
+    \item The~\mintinline{Haskell}{sum :: Int -> Int -> Int} function takes an
+        argument of type~\mintinline{Haskell}{Int} and outputs a function of
+        type~\mintinline{Haskell}{Int -> Int}.
+    \item After evaluating~\mintinline{Haskell}{sum :: Int -> Int -> Int}
+        on~\mintinline{Haskell}{41 :: Int} we get a
+        function~\mintinline{Haskell}{Int -> Int},
+        denoted~\mintinline{Haskell}{sum 41}.
+        Intuitively,~\mintinline{Haskell}{sum 41} is a function that takes an
+        integer and returns the result of adding~\(41\) to that integer.
+    \item We can evaluate the function~\mintinline{Haskell}{sum 41}
+        on~\mintinline{Haskell}{19 :: Int} to get a final result of
+        type~\mintinline{Haskell}{Int}.
+\end{enumerate}
+
+We can also define operations, or infix functions. To do this we surround the
+name of the function with parentheses as such
+\begin{minted}{Haskell}
+(+) :: Int -> Int -> Int
+\end{minted}
+and we can later write
+\begin{minted}{Haskell}
+1 + 2 :: Int
+\end{minted}
+
+\subsubsection{Function bodies}
+To explain how to define the body of a function we start with an example
+\begin{minted}{Haskell}
+square :: Int -> Int -- 1
+square n = n * n     -- 2
+\end{minted}
+where
+\begin{enumerate}
+    \item We first declare that we will define a
+        function~\mintinline{Haskell}{square} of
+        type~\mintinline{Haskell}{Int -> Int}.
+    \item Here we define the behaviour of our function given an
+        argument~\mintinline{Haskell}{n}. The notation is similar to the one
+        we use in math, where we write \(f(n) = n*n\).
+\end{enumerate}
+Another example
+\begin{minted}{Haskell}
+multiply :: Int -> Int -> Int
+multiply n m = n * m
+\end{minted}
+although functions in Haskell technically only take one argument, we can define
+a function that takes multiple parameters in one line as shown in the example
+above.
+
+Definitions like
+\begin{minted}{Haskell}
+multiplyByTwo :: Int -> Int
+multiplyByTwo = multiply 2
+\end{minted}
+are also valid. Here the function~\mintinline{Haskell}{multiplyByTwo} is defined
+in terms of the function~\mintinline{Haskell}{multiply 2}.
+
+\subsubsection{Algebraic data types}
+We can also define new types from existing ones. We already know how to do this
+with~\mintinline{Haskell}{->}, but we can also use
+the~\mintinline{Haskell}{data} keyword
+\begin{minted}{Haskell}
+data Complex = Cartesian Double Double
+\end{minted}
+which consists of a space-separated blueprint~\mintinline{Haskell}{Cartesian
+Double Double} for the new~\mintinline{Haskell}{Complex} type.
+
+This defines a new called~\mintinline{Haskell}{Complex}. This definition comes
+with an associated
+map~\mintinline{Haskell}{Cartesian :: Double -> Double -> Complex} which lets us
+instantiate elements in the~\mintinline{Haskell}{Cartesian} type, \ie
+\begin{minted}{Haskell}
+Cartesian 1.0 2.0 :: Complex
+\end{minted}
+
+Here we constructed a type~\mintinline{Haskell}{Complex} from
+two~\mintinline{Haskell}{Double} types. We can see this as the Cartesian product
+of two types, which in math we would
+write~\(\mathbb{C}=\mathbb{R}\times\mathbb{R}\).
+
+We can also define new types in a similar fashion to the union of sets with
+\begin{minted}{Haskell}
+data Shape = Circle Double | Polygon Int Double
+\end{minted}
+where~\mintinline{Haskell}{|} reads as ``or''. Here, a member of
+the~\mintinline{Haskell}{Shape} type could be either
+a~\mintinline{Haskell}{Circle}, specified by the length of
+type~\mintinline{Haskell}{Double} of its radius or a
+(regular)~\mintinline{Haskell}{Polygon}, specified the number of sides of
+type~\mintinline{Haskell}{Int} and its apothem length, also of
+type~\mintinline{Haskell}{Double}.
+
+So far we are capable of defining new types by addition and multiplication. We
+call the first kind of types~\emph{sum types} and the second type~\emph{product
+types}. Together it is said that the types form an algebraic structure, and
+types made combining these operations are~\emph{algebraic data types}.
+
+The definition of~\mintinline{Haskell}{Shape} induces two functions
+\begin{minted}{Haskell}
+Circle  :: Double -> Shape
+Polygon :: Int -> Double -> Shape
+\end{minted}
+but these words, in this case~\mintinline{Haskell}{Circle}
+and~\mintinline{Haskell}{Polygon}, acquire another meaning when defying a new
+type. To implement a function to calculate the area of our shapes we would write
+\begin{minted}{Haskell}
+area :: Shape -> Double
+area (Circle r)    = pi*r*r
+area (Polygon n a) = n*a*a*tan(pi/n)
+\end{minted}
+which introduces the other use of the words~\mintinline{Haskell}{Circle}
+and~\mintinline{Haskell}{Polygon} we used to define~\mintinline{Haskell}{Shape}.
+They are used for~\emph{pattern matching}. To evaluate
+the~\mintinline{Haskell}{area} function on an element we must
+first be able to identify what kind of~\mintinline{Haskell}{Shape} it is. This
+is done through matching the instance of said element on the constructors, and
+the program will make sure to execute the adequate one.
+
+Pattern matching also applies to the previous example:
+\begin{minted}{Haskell}
+conjugate :: Complex -> Complex
+conjugate (Cartesian x y) = Cartesian x (-y)
+\end{minted}
+notice here the use of~\mintinline{Haskell}{Cartesian} to pattern match and to
+construct an element of the~\mintinline{Haskell}{Complex} type.
+
+We do not always have to pattern match. We can avoid it when we can treat the
+different options equally and we do not need to access the parameters used to
+construct the instance of the type, for example
+\begin{minted}{Haskell}
+sameArea :: Shape -> Shape -> Bool
+sameArea s1 s2 = (area s1) == (area s2)
+\end{minted}
+
+\subsubsection{Parametrized data types}
+So far we have seen how we can define types from other concrete types. The
+Haskell language also allows us to define types parametrized by other types, for
+example we can define a binary tree type to hold nodes of any type as
+\begin{minted}{Haskell}
+data Pair a = Tuple a a
+\end{minted}
+Here~\mintinline{Haskell}{a} is a generic type, and acts as a parameter to the
+type definition. We can then instantiate a pair
+of~\mintinline{Haskell}{Int} elements as
+\begin{minted}{Haskell}
+Tuple 2 3 :: Pair Int
+\end{minted}
+
+Examples of generic functions over the type are
+\begin{minted}{Haskell}
+first :: Pair a -> a
+first (Tuple x _) = x
+
+second :: Pair a -> a
+second (Tuple _ y) = y
+
+flip :: Pair a -> Pair a
+flip (Tuple x y) = Tuple y x
+
+apply :: (a -> a -> b) -> Pair a -> b
+apply f (Tuple x y) = f x y
+\end{minted}
+here we have used~\mintinline{Haskell}{_} for the unused parameters
+in~\mintinline{Haskell}{first} and~\mintinline{Haskell}{second}. This is because
+they are clearly not used in the function body, and if we assign a variable name
+to an unused argument the Haskell compiler will throw an error.
+
+Generic types can be parametrized by more than one type. We can generalize
+the~\mintinline{Haskell}{Pair} into
+\begin{minted}{Haskell}
+data Pair a b = Tuple a b
+\end{minted}
+and then we would have
+\begin{minted}{Haskell}
+Tuple 3 'c' :: Pair Int Char
+
+first :: Pair a b -> a
+first (Tuple x _) = x
+
+second :: Pair a b -> b
+second (Tuple _ y) = y
+
+flip :: Pair a b -> Pair b a
+flip (Tuple x y) = Tuple y x
+
+apply :: (a -> b -> c) -> Pair a b -> c
+apply f (Tuple x y) = f x y
+\end{minted}
+
+\subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
+The Haskell language allows users to define~\emph{typeclasses}, which area set
+of constraints we give to a certain set of types.
+They are similar to interfaces, which appear in other languages.
+
+For our purposes, we can picture them as a definition. A typeclass describes a
+behavior we expect.
+
+Let's see an example. The~\mintinline{Haskell}{Functor} typeclass is
+\begin{minted}{Haskell}
+class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+\end{minted}
+From the usage of~\mintinline{Haskell}{f}, the Haskell compiler can infer
+that it must be a parametric type with one parameter, and
+with this information we can read the previous statement as
+\begin{quote}
+    For a parametric datatype~\mintinline{Haskell}{f} with one parameter to be
+    called a Functor, it must be equipped with a structure
+
+    \mintinline{Haskell}{fmap :: (a -> b) -> f a -> f b}
+\end{quote}
+
+Let's see an example of an implementation. If we define the parametric data
+type~\mintinline{Haskell}{Maybe} as follows
+\begin{minted}{Haskell}
+data Maybe a = Just a | None
+\end{minted}
+we can make it into a Functor by writing
+\begin{minted}{Haskell}
+instance Functor Maybe where
+    fmap :: (a -> b) -> Maybe a -> Maybe b
+    fmap _ Nothing  = Nothing
+    fmap f (Just x) = Just (f x)
+\end{minted}
+where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
+is a~\mintinline{Haskell}{Functor}, which we do by providing a definition
+for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
+
+Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
+provides a function that can be understood as having
+type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
+the property of functors to act on functions. Additionally, the parametric
+datatype itself acts on types, by transforming an existing type into a new one,
+behaviour similar to that of a functor.
+
+This is not enough for a function on objects and morphisms to be a functor. The
+functor laws must be satisfied as well. The Haskell language does not provide a
+way to express such laws, since for this it would need a way to write and
+validate proofs, which would add too much complexity to the language. The
+compiler assumes any typeclass implementations it encounters satisfy such
+properties, which are only generally found in external documentation. Failing to
+satisfy these laws could lead to buggy code and unintended behaviour.
+
+We will not prove typeclass laws for specific instances we provide in this
+section, as the proofs are usually straightforward but uncomfortable to write.
+
+The laws for the functor typeclass are
+\begin{minted}{Haskell}
+fmap id = id
+fmap (f . g) = (fmap f . fmap g)
+\end{minted}
+that are clearly equivalent to the functor laws found in~\ref{def:functor}.
+The~\mintinline{Haskell}{f} that appears in these laws is different from
+the~\mintinline{Haskell}{f} found in the definition of
+the~\mintinline{Haskell}{Functor} typeclass, since it now corresponds to an
+arbitrary function. This misleading use of notation happens often in Haskell,
+and will be repeated in further typeclass laws in this document.
+
+There is a notion of~\emph{inheritance} of typeclasses. Typeclass inheritance is
+when a typeclass has a superclass. This is a way of expressing that a typeclass
+requires another typeclass to be available for a given type before you can write
+an instance. For example, Haskell provides a class that inherits
+from~\mintinline{Haskell}{Functor}
+\begin{minted}{Haskell}
+class Functor f => Applicative f where
+    (<*>) :: f (a -> b) -> f a -> f b
+    pure :: a -> f a
+\end{minted}
+the~\mintinline{Haskell}{=>} notation is unfortunate, as in math it is usually
+associated with an implication.
+
+In this situation, to prove that a datatype is
+an~\mintinline{Haskell}{Applicative}, we must first prove it is
+a~\mintinline{Haskell}{Functor}, and then provide implementations for the two
+required functions.
+The laws for the~\mintinline{Haskell}{Applicative} typeclass are
+\begin{minted}{Haskell}
+pure id <*> v = v
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
+pure f <*> pure x = pure (f x)
+u <*> pure y = pure ($ y) <*> u
+\end{minted}
+and we can make~\mintinline{Haskell}{Maybe}, which we know to be
+a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
+\begin{minted}{Haskell}
+instance Applicative Maybe where
+    (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
+    (<*>) (Just f) m = fmap f m
+    (<*>) _ _ = Nothing
+
+    pure :: a -> Maybe a
+    pure = Just
+\end{minted}
+this class coincides with the notion of lax monoidal functor, which is not
+related to our topic. They are used to define the~\mintinline{Haskell}{Monad}
+typeclass.
+
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: m a -> (a -> m b) -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+where~\mintinline{Haskell}{(>>=)} is called~\emph{bind}.
+Any~\mintinline{Haskell}{Monad} implementation must satisfy
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+k >> f = k >>= \_ -> f
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+finally, we can make~\mintinline{Haskell}{Maybe}, which we know to be
+an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
+\begin{minted}{Haskell}
+instance Monad Maybe where
+    (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+    Just x  >>= k = k x
+    Nothing >>= _ = Nothing
+
+    (>>) :: Maybe a -> Maybe b -> Maybe b
+    Just _  >> m = m
+    Nothing >> _ = Nothing
+
+    return :: a -> Maybe a
+    return = pure
+\end{minted}
+
+\subsection{Haskell monads are monads}
+The~\mintinline{Haskell}{Monad} structure defined by Haskell
+\begin{minted}{Haskell}
+class Applicative m => Monad m where
+    (>>=) :: m a -> (a -> m b) -> m b
+    (>>) :: m a -> m b -> m b
+    return :: a -> m a
+\end{minted}
+subject to the laws
+\begin{minted}{Haskell}
+return a >>= k = k a
+m >>= return = m
+m >>= (\x -> k x >>= h) = (m >>= k) >>= h
+
+k >> f = k >>= \_ -> f
+
+pure = return
+m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))
+\end{minted}
+does not correspond, at first sight, to the definition of monad given
+in~\ref{def:monad}.
+
+We begin observing that the~\mintinline{Haskell}{Monad}
+operation~\mintinline{Haskell}{(>>)} can be uniquely determined in terms
+of~\mintinline{Haskell}{(>>=)}, the bind operation.
+This means that we can omit this operation from our reasoning. In fact, it is
+only defined because it is useful in a programming setting, and bears no
+particular mathematical relevance to us.
+
+Our next observation lies on the bind operation. If we flip its arguments, we
+get an operation with type signature
+\begin{minted}{Haskell}
+(a -> m b) -> (m a -> m b)
+\end{minted}
+which coincides with the~\((-)^{\ast}\) operation, while the type signature for
+the~\mintinline{Haskell}{return} function coincides with~\(\eta_{A}\)
+(where~\(A\) is determined by context in the Haskell program), as defined in the
+definition of Kleisli triple in~\ref{def:kleisli-triple}.
+
+With this correspondence we can now prove that the~\mintinline{Haskell}{Monad}
+structure defined by Haskell is a monad by first showing that it is a Kleisli
+triple, and then using
+theorem~\ref{thm:kleisli-triples-and-monads-correspondence}. This can be shown
+directly from the first three~\mintinline{Haskell}{Monad} laws.
+\end{document}
