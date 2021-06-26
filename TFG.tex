@@ -872,7 +872,7 @@ sum       :: Int -> Int -> Int -- 1
 sum 41    :: Int -> Int        -- 2
 sum 41 19 :: Int               -- 3
 \end{minted}
-here
+where
 \begin{enumerate}
     \item The~\mintinline{Haskell}{sum :: Int -> Int -> Int} function takes an
         argument of type~\mintinline{Haskell}{Int} and outputs a function of
@@ -941,7 +941,7 @@ Double Double} for the new~\mintinline{Haskell}{Complex} type.
 This defines a new called~\mintinline{Haskell}{Complex}. This definition comes
 with an associated
 map~\mintinline{Haskell}{Cartesian :: Double -> Double -> Complex} which lets us
-instantiate elements in the~\mintinline{Haskell}{Cartesian} type, \ie,
+instantiate elements in the~\mintinline{Haskell}{Cartesian} type, \ie
 \begin{minted}{Haskell}
 Cartesian 1.0 2.0 :: Complex
 \end{minted}
