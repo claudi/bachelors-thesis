@@ -951,16 +951,17 @@ two~\mintinline{Haskell}{Double} types. We can see this as the Cartesian product
 of two types, which in math we would
 write~\(\mathbb{C}=\mathbb{R}\times\mathbb{R}\).
 
-We can also define new types in a similar fashion to the union
+We can also define new types in a similar fashion to the union of sets with
 \begin{minted}{Haskell}
 data Shape = Circle Double | Polygon Int Double
 \end{minted}
-where~\mintinline{Haskell}{|} can be read as ``or''. Here, a member of
+where~\mintinline{Haskell}{|} reads as ``or''. Here, a member of
 the~\mintinline{Haskell}{Shape} type could be either
-a~\mintinline{Haskell}{Circle}, specified by the length of its radius or
-a (regular)~\mintinline{Haskell}{Polygon}, specified the number of sides and its
-apothem length. We could interpret this as having defined~\(\{\text{shapes}\} =
-\{\text{circles}\} \cup \{\text{polygons}\}\) as our shapes of interest.
+a~\mintinline{Haskell}{Circle}, specified by the length of
+type~\mintinline{Haskell}{Double} of its radius or a
+(regular)~\mintinline{Haskell}{Polygon}, specified the number of sides of
+type~\mintinline{Haskell}{Int} and its apothem length, also of
+type~\mintinline{Haskell}{Double}.
 
 So far we are capable of defining new types by addition and multiplication. We
 call the first kind of types~\emph{sum types} and the second type~\emph{product
