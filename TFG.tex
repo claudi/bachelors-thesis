@@ -1020,16 +1020,16 @@ Tuple 2 3 :: Pair Int
 
 Examples of generic functions over the type are
 \begin{minted}{Haskell}
-first :: Tuple a -> a
+first :: Pair a -> a
 first (Tuple x _) = x
 
-second :: Tuple a -> a
+second :: Pair a -> a
 second (Tuple _ y) = y
 
-flip :: Tuple a -> Tuple a
+flip :: Pair a -> Pair a
 flip (Tuple x y) = Tuple y x
 
-apply :: (a -> a -> b) -> Tuple a -> b
+apply :: (a -> a -> b) -> Pair a -> b
 apply f (Tuple x y) = f x y
 \end{minted}
 here we have used~\mintinline{Haskell}{_} for the unused parameters
@@ -1046,16 +1046,16 @@ and then we would have
 \begin{minted}{Haskell}
 Tuple 3 'c' :: Pair Int Char
 
-first :: Tuple a b -> a
+first :: Pair a b -> a
 first (Tuple x _) = x
 
-second :: Tuple a b -> b
+second :: Pair a b -> b
 second (Tuple _ y) = y
 
-flip :: Tuple a b -> Tuple b a
+flip :: Pair a b -> Pair b a
 flip (Tuple x y) = Tuple y x
 
-apply :: (a -> b -> c) -> Tuple a b -> c
+apply :: (a -> b -> c) -> Pair a b -> c
 apply f (Tuple x y) = f x y
 \end{minted}
 
