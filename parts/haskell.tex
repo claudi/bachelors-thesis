@@ -140,6 +140,27 @@ multiplyByTwo = multiply 2
 are also valid. Here the function~\mintinline{Haskell}{multiplyByTwo} is defined
 in terms of the function~\mintinline{Haskell}{multiply 2}.
 
+We can also define nameless functions by writing
+\begin{minted}{Haskell}
+\x -> x * x
+\end{minted}
+this is useful in situations where we need a function locally, for example
+\begin{minted}{Haskell}
+multiplyBy :: Int -> (Int -> Int)
+multiplyBy n = \x -> x * n
+\end{minted}
+
+Lastly, we define the composition operator. If~\mintinline{Haskell}{f :: a -> b}
+and~\mintinline{Haskell}{g :: b -> c} are functions, we can compose them with
+the composition operator
+\begin{minted}{Haskell}
+g . f :: a -> c
+\end{minted}
+which has type
+\begin{minted}{Haskell}
+(.) :: (b -> c) -> (a -> b) -> a -> c
+\end{minted}
+
 \subsubsection{Algebraic data types}
 We can also define new types from existing ones. We already know how to do this
 with~\mintinline{Haskell}{->}, but we can also use
@@ -272,6 +293,10 @@ apply :: (a -> b -> c) -> Pair a b -> c
 apply f (Tuple x y) = f x y
 \end{minted}
 
+In fact, Haskell already provides a pair-like data type, the tuple, which is
+denoted as~\mintinline{Haskell}{(a, b)}, and it's elements are also of the
+form~\mintinline{Haskell}{(1, 'a')}.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
@@ -300,18 +325,19 @@ type~\mintinline{Haskell}{Maybe} as follows
 \begin{minted}{Haskell}
 data Maybe a = Just a | None
 \end{minted}
-we can make it into a Functor by writing
+Notice~\mintinline{Haskell}{None} is a singleton.
+We can make~\mintinline{Haskell}{Maybe} into a Functor by writing
 \begin{minted}{Haskell}
 instance Functor Maybe where
     fmap :: (a -> b) -> Maybe a -> Maybe b
     fmap _ Nothing  = Nothing
     fmap f (Just x) = Just (f x)
 \end{minted}
-where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
-is a~\mintinline{Haskell}{Functor}, which we do by providing a definition
+where we first declare that we want to show that~\mintinline{Haskell}{Maybe} is
+a~\mintinline{Haskell}{Functor}, which we do by providing a definition
 for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
 
-Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
+Given a parametric datatype~\mintinline{Haskell}{f}, the functor typeclass
 provides a function that can be understood as having
 type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
 the property of functors to act on functions. Additionally, the parametric
@@ -363,7 +389,7 @@ The laws for the~\mintinline{Haskell}{Applicative} typeclass are
 pure id <*> v = v
 pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
 pure f <*> pure x = pure (f x)
-u <*> pure y = pure ($ y) <*> u
+u <*> pure y = pure (\f -> f y) <*> u
 \end{minted}
 and we can make~\mintinline{Haskell}{Maybe}, which we know to be
 a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
@@ -371,7 +397,7 @@ a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
 instance Applicative Maybe where
     (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
     (<*>) (Just f) m = fmap f m
-    (<*>) _ _ = Nothing
+    (<*>) Nothing  _ = Nothing
 
     pure :: a -> Maybe a
     pure = Just
