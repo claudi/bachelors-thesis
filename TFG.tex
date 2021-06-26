@@ -1037,6 +1037,28 @@ in~\mintinline{Haskell}{first} and~\mintinline{Haskell}{second}. This is because
 they are clearly not used in the function body, and if we assign a variable name
 to an unused argument the Haskell compiler will throw an error.
 
+Generic types can be parametrized by more than one type. We can generalize
+the~\mintinline{Haskell}{Pair} into
+\begin{minted}{Haskell}
+data Pair a b = Tuple a b
+\end{minted}
+and then we would have
+\begin{minted}{Haskell}
+Tuple 3 'c' :: Pair Int Char
+
+first :: Tuple a b -> a
+first (Tuple x _) = x
+
+second :: Tuple a b -> b
+second (Tuple _ y) = y
+
+flip :: Tuple a b -> Tuple b a
+flip (Tuple x y) = Tuple y x
+
+apply :: (a -> b -> c) -> Tuple a b -> c
+apply f (Tuple x y) = f x y
+\end{minted}
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
