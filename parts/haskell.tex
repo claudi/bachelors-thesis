@@ -325,18 +325,19 @@ type~\mintinline{Haskell}{Maybe} as follows
 \begin{minted}{Haskell}
 data Maybe a = Just a | None
 \end{minted}
-we can make it into a Functor by writing
+Notice~\mintinline{Haskell}{None} is a singleton.
+We can make~\mintinline{Haskell}{Maybe} into a Functor by writing
 \begin{minted}{Haskell}
 instance Functor Maybe where
     fmap :: (a -> b) -> Maybe a -> Maybe b
     fmap _ Nothing  = Nothing
     fmap f (Just x) = Just (f x)
 \end{minted}
-where we first declare that we want to show that~\mintinline{Haskell}{Maybe a}
-is a~\mintinline{Haskell}{Functor}, which we do by providing a definition
+where we first declare that we want to show that~\mintinline{Haskell}{Maybe} is
+a~\mintinline{Haskell}{Functor}, which we do by providing a definition
 for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
 
-Given a parametric datatype~\mintinline{Haskell}{f a}, the functor typeclass
+Given a parametric datatype~\mintinline{Haskell}{f}, the functor typeclass
 provides a function that can be understood as having
 type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
 the property of functors to act on functions. Additionally, the parametric
