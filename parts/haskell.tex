@@ -293,6 +293,10 @@ apply :: (a -> b -> c) -> Pair a b -> c
 apply f (Tuple x y) = f x y
 \end{minted}
 
+In fact, Haskell already provides a pair-like data type, the tuple, which is
+denoted as~\mintinline{Haskell}{(a, b)}, and it's elements are also of the
+form~\mintinline{Haskell}{(1, 'a')}.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
