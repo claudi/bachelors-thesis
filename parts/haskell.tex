@@ -397,7 +397,7 @@ a~\mintinline{Haskell}{Functor}, into an~\mintinline{Haskell}{Applicative}
 instance Applicative Maybe where
     (<*>) :: Maybe (a -> b) -> Maybe a -> Maybe b
     (<*>) (Just f) m = fmap f m
-    (<*>) _ _ = Nothing
+    (<*>) Nothing  _ = Nothing
 
     pure :: a -> Maybe a
     pure = Just
