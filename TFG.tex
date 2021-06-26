@@ -1005,6 +1005,38 @@ sameArea :: Shape -> Shape -> Bool
 sameArea s1 s2 = (area s1) == (area s2)
 \end{minted}
 
+So far we have seen how we can define types from other concrete types. The
+Haskell language also allows us to define types parametrized by other types, for
+example we can define a binary tree type to hold nodes of any type as
+\begin{minted}{Haskell}
+data Pair a = Tuple a a
+\end{minted}
+Here~\mintinline{Haskell}{a} is a generic type, and acts as a parameter to the
+type definition. We can then instantiate a pair
+of~\mintinline{Haskell}{Int} elements as
+\begin{minted}{Haskell}
+Tuple 2 3 :: Pair Int
+\end{minted}
+
+Examples of generic functions over the type are
+\begin{minted}{Haskell}
+first :: Tuple a -> a
+first (Tuple x _) = x
+
+second :: Tuple a -> a
+second (Tuple _ y) = y
+
+flip :: Tuple a -> Tuple a
+flip (Tuple x y) = Tuple y x
+
+apply :: (a -> a -> b) -> Tuple a -> b
+apply f (Tuple x y) = f x y
+\end{minted}
+here we have used~\mintinline{Haskell}{_} for the unused parameters
+in~\mintinline{Haskell}{first} and~\mintinline{Haskell}{second}. This is because
+they are clearly not used in the function body, and if we assign a variable name
+to an unused argument the Haskell compiler will throw an error.
+
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
 of constraints we give to a certain set of types.
