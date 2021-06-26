@@ -1,0 +1,213 @@
+\documentclass[../TFG.tex]{subfiles}
+
+\begin{document}
+\section{Monads in Category Theory}
+\subsection{Introduction to Category Theory}
+
+\begin{definition}[Category]
+    \label{def:category}
+    A \emph{category}~\(\cat{C}\) is composed of a collection~\(\Obj(\cat{C})\)
+    of \emph{objects}, for every two objects~\(A,B\in\Obj(\cat{C})\) a
+    set~\(\Hom_{\cat{C}}(A,B)\) of \emph{morphisms} and a \emph{composition
+    function}
+    \[
+        \circ:\Hom_{\cat{C}}(A,B)\times\Hom_{\cat{C}}(B,C) \longrightarrow
+        \Hom_{\cat{C}}(A,C)
+    \]
+    that satisfies
+    \begin{enumerate}
+        \item \emph{Associativity}: for every three
+            morphisms~\(f\in\Hom_{\cat{C}}(A,B)\),~\(g\in\Hom_{\cat{C}}(B,C)\)
+            and~\(h\in\Hom_{\cat{C}}(C,D)\)
+            we have
+            \[
+                h \circ (g \circ f) = (h \circ g) \circ f.
+            \]
+        \item \emph{Left and right units}: for every
+            object~\(A\in\Obj(\cat{C})\) there exists a unique
+            element~\(\id_{A}\in\Hom_{\cat{C}}(A,A)\)
+            such that for every morphism~\(f\in\Hom_{\cat{C}}(A,B)\) we have
+            \[
+                f \circ \id_{B} = f,
+            \]
+            and for every morphism~\(g\in\Hom_{\cat{C}}(B,A)\) we have
+            \[
+                \id_{A} \circ g = g.
+            \]
+    \end{enumerate}
+\end{definition}
+
+\begin{notation}
+    We write~\(f:A\longrightarrow B\) or~\(A\overset{f}{\longrightarrow}B\) to
+    mean~\(f\in\Hom_{\cat{C}}(A,B)\) and~\(gf\) to mean~\(g\circ f\).
+\end{notation}
+
+\begin{example}[Category of sets]
+    \label{cat:set}
+    There is a category~\(\Set\), where the objects are sets and morphisms are
+    maps between sets.
+\end{example}
+
+\begin{definition}[Functor]
+    \label{def:functor}
+    A~\emph{functor}~\(T\) from a category~\(\cat{C}\) to a category~\(\cat{D}\)
+    is a map~\(T:\Obj(\cat{C})\longrightarrow\Obj(\cat{D})\), and for every
+    pair of objects~\(A,B\in\Obj{C}\) a
+    map~\(T:\Hom_{\cat{C}}(A,B)\longrightarrow\Hom_{\cat{D}}(TA,TB)\),
+    such that~\(T\) preserves
+    \begin{enumerate}
+        \item \emph{Composition}: for every two
+            morphisms~\(f:A\longrightarrow B\),~\(g:B\longrightarrow C\)
+            in~\(\cat{C}\) we have
+            \[
+                T(g \circ f) = T(g) \circ T(f).
+            \]
+        \item \emph{Units}: for each object~\(A\in\Obj{C}\) we have
+            \[
+                T(\id_{A}) = \id_{T(A)}.
+            \]
+    \end{enumerate}
+\end{definition}
+
+\begin{notation}
+    We write~\(T:\cat{C}\longrightarrow\cat{D}\) to mean~\(T\) is a functor from
+    a category~\(\cat{C}\) to a category~\(\cat{D}\).
+    We may also shorten~\(T(A)\) to~\(TA\) or~\(T(f)\) to~\(Tf\), given~\(A\) an
+    object in~\(\cat{C}\) and~\(f\) a morphism in~\(\cat{C}\).
+\end{notation}
+
+\begin{definition}[Natural transformation]
+    \label{def:natural-transformation}
+    Let~\(S,T:\cat{C}\longrightarrow\cat{D}\) be functors. A \emph{natural
+    transformation}~\(\tau:S\longrightarrow T\) is a
+    family~\(\tau=\{\tau_{A}:SA\longrightarrow TA\}_{A\in\Obj(\cat{C})}\) of
+    morphisms in~\(\cat{D}\) such that for every
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\)
+    \[
+        Tf \circ \tau_{A} = \tau_{B} \circ Sf,
+    \]
+    that is, making the following diagram commutative
+    \[
+        \begin{tikzcd}
+            SA \arrow[r, "\tau_{A}"] \arrow[d, "Sf"] & TA \arrow[d, "Tf"] \\
+            SB \arrow[r, "\tau_{B}"] & TB
+        \end{tikzcd}
+    \]
+\end{definition}
+
+\subsection{Monads}
+\begin{definition}[Monad]
+    \label{def:monad}
+    A~\emph{monad} over a category~\(\cat{C}\) is a triple~\((T,\eta,\mu)\)
+    where~\(T:\cat{C}\longrightarrow\cat{C}\) is a functor
+    and~\(\eta:\id\longrightarrow T\) and~\(\mu:TT\longrightarrow T\) are two
+    natural transformations such that for every object~\(A\in\Obj(\cat{C})\) the
+    diagrams
+    \[
+        \begin{tikzcd}
+            TA \arrow[r, "T\eta_{A}"] & TTA \arrow[d, "\mu_{A}"] & TA \arrow[l,
+            swap, "\eta_{TA}"] \\
+                                      & TA \arrow[ul, equal] \arrow[ur, equal] &
+        \end{tikzcd}
+        \qquad\text{and}\qquad
+        \begin{tikzcd}
+            TTTA \arrow[r, "\mu_{TA}"] \arrow[d, "T\mu_{A}"] & TTA \arrow[d,
+            "\mu_{A}"] \\
+            TTA \arrow[r, "\mu_{A}"] & TA
+        \end{tikzcd}
+    \]
+    are commutative. This is
+    \[
+        \mu_{A}\circ T\eta_{A} = \id_{TA} = \mu_{A}\circ\eta_{TA}
+        \qquad\text{and}\qquad
+        \mu_{A}\circ \mu_{TA}
+        = \mu_{A} \circ T\mu_{A}.
+    \]
+    We call~\(\eta\) and~\(\mu\) the \emph{unit} and the \emph{multiplication}
+    of the monad, respectively.
+\end{definition}
+
+\begin{example}[Pointed set monad]
+    \label{monad:maybe}
+    We define the~\emph{pointed set monad}~\((M,\eta,\mu)\) on the category of
+    sets as follows.
+    \begin{enumerate}
+        \item The functor~\(M\) for any object~\(A\) or
+            morphism~\(f:A\longrightarrow B\) is defined as
+            \begin{gather*}
+                MA = A\sqcup\{\bot\}
+                \qquad\text{and}\qquad
+                \begin{split}
+                    Mf:MA&\longrightarrow MB \\
+                    \bot&\longmapsto\bot \\
+                    A\ni x&\longmapsto f(x)
+                \end{split}
+            \end{gather*}
+        \item The unit~\(\eta\) for any object~\(A\) is defined as the inclusion
+            of~\(A\) into~\(MA\).
+        \item The multiplication~\(\mu\) for any object~\(A\) is defined as
+            \begin{align*}
+                \mu_{A}:MMA&\longrightarrow MA \\
+                \bot_{1}&\longmapsto \bot \\
+                \bot_{2}&\longmapsto \bot \\
+                A\ni x&\longmapsto x
+            \end{align*}
+            where we have denoted~\(MMA=A\sqcup\{\bot_{1}\}\sqcup\{\bot_{2}\}\)
+            and~\(MA=A\sqcup\{\bot\}\) for convenience.
+    \end{enumerate}
+\end{example}
+
+\begin{example}[Power set monad]
+    \label{monad:power-set}
+    We define the~\emph{power set monad}~\((P,\eta,\mu)\) on the category of
+    sets as follows.
+    \begin{enumerate}
+        \item The functor~\(P\) for any object~\(A\) or
+            morphism~\(f:A\longrightarrow B\) is defined as
+            \begin{gather*}
+                PA = \mathcal{P}(A)
+                \qquad\text{and}\qquad
+                \begin{split}
+                    Pf:PA&\longrightarrow PB \\
+                    S&\longmapsto\{f(x)\in B \mid x\in S\}
+                \end{split}
+            \end{gather*}
+        \item The unit~\(\eta\) for any object~\(A\) is defined
+            as~\(\eta_{A}(x)=\{x\}\).
+        \item The multiplication~\(\mu\) for any object~\(A\) is defined as
+            \begin{align*}
+                \mu_{A}:PPA&\longrightarrow PA \\
+                S&\longmapsto \bigcup_{X\in S}X
+            \end{align*}
+    \end{enumerate}
+\end{example}
+
+\begin{definition}[Cartesian closed category]
+    \label{def:product}
+    \label{def:cartesian-closed}
+    \label{def:exponential object}
+    We say that a category~\(\cat{C}\) is~\emph{Cartesian closed} if
+    \begin{enumerate}
+        \item For any finite, possibly empty, family of
+            objects~\(\{A_{i}\}_{i\in I}\) in~\(\cat{C}\) there is an
+            object~\(A=\prod_{i\in I}A_{i}\) in~\(\cat{C}\).
+        \item For any two objects~\(A\) and~\(B\) in~\(\cat{C}\) there is
+            object~\(B^{A}\) together with a
+            morphism~\(\ev:B^{A}\times A\longrightarrow B\) such that for every
+            other object~\(C\) and morphism~\(g:C\times A\longrightarrow B\)
+            in~\(\cat{C}\) there is a unique
+            morphism~\(\lambda g:C\longrightarrow B^{A}\) such that the diagram
+            \[\begin{tikzcd}
+                C\times A \arrow[dr, "g"] \arrow[d, "\lambda g\times\id_{A}", swap] & \\
+                B^{A}\times A \arrow[r, "\ev"] & B
+            \end{tikzcd}\]
+            commutes.
+    \end{enumerate}
+    We say that~\(B^{A}\) is the~\emph{exponential object}, and~\(\times\) is
+    the~\emph{product}.
+\end{definition}
+
+\begin{example}
+    The category of sets is Cartesian closed.
+\end{example}
+\end{document}

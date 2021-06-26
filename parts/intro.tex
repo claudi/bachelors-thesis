@@ -1,0 +1,71 @@
+\documentclass[../TGF.tex]{subfiles}
+
+\begin{document}
+\section{Motivation}
+\label{sec:motivation}
+We begin with an observation: functions found in computer programming may not
+behave like functions in mathematics.
+
+Unfortunately, it is common to call computer functions and mathematical
+functions both functions. In this report we will do so, as it is usually clear
+by the context, and only specifying when there might be confusion. In these
+situations, we may refer to a computer function as a~\emph{procedure}.
+
+An example of this is the \mintinline{C}{malloc()} function found in
+the~\mintinline{C}{stdlib.h} library in the~\mintinline{C}{C} programming
+language, which takes a size in number of bits as input and outputs an unique
+pointer to an address to a block of memory allocated to fit the requested size,
+which is marked as reserved. This function
+
+\begin{enumerate}
+    \item generally outputs a different pointer on calls with the same input,
+    \item modifies global state by marking allocated memory as reserved.
+\end{enumerate}
+
+These properties are incompatible with the definition of a mathematical
+function. The first one means it is not well defined, and the second one means
+it has side effects, which mathematical functions do not have. This motivates
+the following definitions:
+
+\begin{definition}[Pure function]
+    We say that a procedure that
+    \begin{enumerate}
+        \item outputs the same result for the same inputs (\ie is well defined),
+        \item does not modify global state.
+    \end{enumerate}
+    is~\emph{pure}.
+    Conversely, we say a procedure that is not pure is~\emph{impure}.
+\end{definition}
+
+So, the~\mintinline{C}{malloc()} function is impure, and a function that outputs
+the result of squaring an integer is pure.
+
+In theory, a compiler could use its knowledge of certain functions being pure to
+better reason about code, which can be used to obtain benefits such as
+
+\begin{enumerate}
+    \item If a pure function is called more than once with the
+        same input, the result calculated on the previous run can be reused
+        without having to call the function again~\cite{frostMemorization}. This
+        is called~\emph{memorization}
+
+    \item Since pure functions have no side-effects, it is usually safe to call
+        them in parallel \cite{SussPureFunctionParallelization}, leading to
+        great optimization.
+\end{enumerate}
+
+While pure functions present some significant benefits, they also come with some
+apparent deficits. For example, it is not obvious how pure functions could react
+to user input or output anything to the screen, such as debugging information or
+logs. They also seem to be limited to not using global variables.
+
+Most languages circumvent these problems by providing an interface to define
+both pure and impure functions. In this way, some of the benefits can be
+applied, and the deficits can be handled by impure functions.
+
+As of this point, the problems we mentioned are only apparent, and while it is
+not at all obvious how they could be avoided, there is also no definitive proof
+they cannot. We promise to provide an abstraction that solves these limitations,
+and then we will see how it can be successfully implemented into a useful
+programming language.
+\end{document}
