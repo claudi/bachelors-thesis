@@ -973,9 +973,9 @@ The definition of~\mintinline{Haskell}{Shape} induces two functions
 Circle  :: Double -> Shape
 Polygon :: Int -> Double -> Shape
 \end{minted}
-but the~\mintinline{Haskell}{Circle} and~\mintinline{Haskell}{Polygon} words
-acquire a second meaning when defying a new type: to implement a function to
-calculate the area of our shapes we would write
+but these words, in this case~\mintinline{Haskell}{Circle}
+and~\mintinline{Haskell}{Polygon}, acquire another meaning when defying a new
+type. To implement a function to calculate the area of our shapes we would write
 \begin{minted}{Haskell}
 area :: Shape -> Double
 area (Circle r)    = pi*r*r
