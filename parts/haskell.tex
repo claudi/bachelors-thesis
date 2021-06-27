@@ -484,4 +484,17 @@ structure defined by Haskell is a monad by first showing that it is a Kleisli
 triple, and then using
 theorem~\ref{thm:kleisli-triples-and-monads-correspondence}. This can be shown
 directly from the first three~\mintinline{Haskell}{Monad} laws.
+
+We now have the tools to implement the notions we introduced in
+section~\ref{sec:kleisli-triple}.
+
+In fact, we have already covered on example~\ref{ex:kleisli-partiality}, which
+was on partiality. It corresponds to the~\mintinline{Haskell}{Maybe} monad.
+The~\(\bot\) element corresponds to~\mintinline{Haskell}{Nothing}, and the
+implementation of the~\mintinline{Haskell}{(>>=)} operator is identical to how
+we define~\((-)^{\ast}\) in the example.
+
+We can directly implement the Kleisli triples we saw in the examples in the
+beginning of section~\ref{sec:kleisli-triple}, in a similar fashion to
+the~\mintinline{Haskell}{Maybe} data type.
 \end{document}
