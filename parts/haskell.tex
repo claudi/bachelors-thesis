@@ -497,4 +497,17 @@ we define~\((-)^{\ast}\) in the example.
 We can directly implement the Kleisli triples we saw in the examples in the
 beginning of section~\ref{sec:kleisli-triple}, in a similar fashion to
 the~\mintinline{Haskell}{Maybe} data type.
+
+\subsection{Other monads}
+Although the~\mintinline{Haskell}{Monad} typeclass is called monad, the
+traditional definition of monads, as shown in~\ref{def:monad}, does not
+explicitly appear anywhere in Haskell so far. The~\mintinline{Haskell}{Monad}
+typeclass itself is based on the definition for a Kleisli
+triple~\ref{def:kleisli-triple}.
+
+This begs the question on why the~\mintinline{Haskell}{Monad} typeclass is
+called monad. In~\cite{Moggi-notions-computation-monads} Moggi mentions monads
+are mode widely used in the literature on Category Theory, and have the
+advantage of being defined only in terms of functors and natural
+transformations, which make them more suitable for abstract manipulation.
 \end{document}
