@@ -97,7 +97,6 @@ this work.
     \[\begin{tikzcd}
         TA \ar[r, "Tf"] & TTB \ar[r, "\mu_{B}"] & TB
     \end{tikzcd}\]
-
     Indeed, given two morphisms~\(f:A\longrightarrow TB\)
     and~\(g:B\longrightarrow TC\) in~\(\cat{C}_{T}\) we have
     \begin{align*}
@@ -114,15 +113,26 @@ this work.
         G\eta_{A} = \mu_{A} \circ T\eta_{A} = \id_{TA}.
     \]
 
-%In the other direction, there is a functor $F: \cat{C} \to \cat{C}_T$ which sends
-%$A\in \cat{C}$ to $A\in \cat{C}_T$ (identity on objects), and which sends
-%$f:A \to B$ to the composite
-%$$
-%\begin{tikzcd}
-%A \ar[r, "f"] & B \ar[r, "\eta_B"] & TB
-%\end{tikzcd}
-%$$
-%(Again one checks this is a functor.)
+    Next we define the functor~\(F:\cat{C}\longrightarrow\cat{C}_{T}\)
+    sending~\(A\) in~\(\cat{C}\) to~\(A\) in~\(\cat{C}_{T}\), and for sending a
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) to the composite
+    in~\(\cat{C}_{T}\) given by
+    \[\begin{tikzcd}
+        A \ar[r, "f"] & B \ar[r, "\eta_{B}"] & TB
+    \end{tikzcd}\]
+    We can check that~\(F\) is a functor. If we take~\(f:A\longrightarrow B\)
+    and~\(g:B\longrightarrow C\) in~\(\cat{C}\) then
+    \begin{align*}
+        Fg \circ_{T} Ff
+            &= {Fg}^{\ast} \circ Ff \\
+            &= (\eta_{C} \circ g)^{\ast} \circ \eta_{B} \circ f \\
+            &= \eta_{C} \circ g \circ f \\
+            &= F(g \circ f)
+    \end{align*}
+    and for any object~\(A\) in~\(\cat{C}\) we have
+    \[
+        F\id_{A} = \eta_{A} \circ_{T} \id_{A} = {\eta_{A}}^{\ast} = \id_{TA}.
+    \]
 
 %Now check that these two functors $F$ and $G$ are adjoint.
 
