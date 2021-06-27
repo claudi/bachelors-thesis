@@ -429,12 +429,12 @@ an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
 \begin{minted}{Haskell}
 instance Monad Maybe where
     (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
-    Just x  >>= k = k x
-    Nothing >>= _ = Nothing
+    (Just x) >>= k = k x
+    Nothing  >>= _ = Nothing
 
     (>>) :: Maybe a -> Maybe b -> Maybe b
-    Just _  >> m = m
-    Nothing >> _ = Nothing
+    (Just _) >> m = m
+    Nothing  >> _ = Nothing
 
     return :: a -> Maybe a
     return = pure
