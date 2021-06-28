@@ -2,17 +2,16 @@
 
 \begin{document}
 \section{Adjoint functors}
-In category theory we can use functors to compare categories that are not
-isomorphic or equivalent. An approach to this us to use functors in both
-directions.
+As with all strucures in mathematics, categories come along with their own
+structure preserving morphism, namely functors. Even though there exists a
+notion of an isomorphism of categories (functors with strict inverses), the
+natural notion of equality of categories turns out to be a weaker notion, namely
+that of equivalence of categories. A yet weaker notion, examples of which abide
+in mathematics, is given by adjunctions. They form one of the most imortant
+concepts in category theory, and their definition can be found early on in any
+book on category, such as~\cite{Awodey} or~\cite{Leinster}.
 
 \subsection{Adjunctions}
-
-This is one of the most important concepts in category theory, and
-the definition can be found early on in any book on category theory,
-such as~\cite{Awodey} or~\cite{Leinster}
-
-
 \begin{definition}[Adjunction]
 A pair of functors~\(F:\cat{C}\leftrightarrows\cat{D}:G\) is
 an~\emph{adjunction} when for every object~\(C\) in~\(\cat{C}\) and every
@@ -27,9 +26,9 @@ This does not imply that they are inverses to each other, but that there are non
 invertible comparison natural transformations
 \[
     \eta:1\longrightarrow GF
-\]
-and
-\[
+    \qquad
+    \text{and}
+    \qquad
     \epsilon:FG\longrightarrow 1
 \]
 where~\(\eta\) is called the~\emph{unit} and~\(\epsilon\) is
@@ -38,33 +37,33 @@ called the~\emph{counit} for the adjunction.
 These satisfy the equations
 \[
     \begin{tikzcd}
-        F \arrow[r, "F\eta", rightarrow] \arrow[dr, equal] & FGF \arrow[d, "\epsilon F", rightarrow] \\
+        F \arrow[r, "F\eta", rightarrow] \arrow[dr, equal] & FGF \arrow[d, "\epsilon_{F}", rightarrow] \\
                                                            & F
     \end{tikzcd}
     \qquad
     \begin{tikzcd}
-        G \arrow[r, "\eta G", rightarrow] \arrow[dr, equal] & GFG \arrow[d, "G\epsilon", rightarrow] \\
-                                                            & G
+        G \arrow[r, "\eta_{G}", rightarrow] \arrow[dr, equal] & GFG \arrow[d, "G\epsilon", rightarrow] \\
+                                                              & G
     \end{tikzcd}
 \]
 which are called the~\emph{triangle equalities} of adjunctions.
 
-Adjunctions are a common occurrence throughout mathematics. In algebra, the
-standard example is the adjunction between vector spaces and sets, where we have
-a functor generating a vector space spanned on a set, and another extracting the
-underlying set of a vector space. In our context the notion of adjunctions is
-important because it generates monads.
+Adjunctions are a common occurrence throughout mathematics. A standard example
+is the adjunction between vector spaces and sets. Given a set, the first functor
+maps this to the vector space spanned by the set. In the other direction, given
+a vector space, the second functor forgets the vectors space structure and
+returns the underlying set. In our context the notion of adjunctions is
+important because its close relation to the notion of monad.
 
 \begin{proposition}
     \label{prop:adjunction-induces-monad}
     Every adjunction induces a monad.
 \end{proposition}
 \begin{proof}
-    Given an adjunction~\(F:\cat{C}\leftrightarrows\cat{D}:G\) we can define an
-    endofunctor by composing~\(F\) and~\(G\) to get~\(T = G \circ
-    F:\cat{C}\longrightarrow\cat{C}\). It gets monad structure by
-    setting~\(\mu_{A} = G \epsilon_{A}F\) for any object~\(A\) in~\(\cat{C}\)
-    and using the unit of the adjunction as unit for the monad.
+    Given an adjunction~\(F:\cat{C}\leftrightarrows\cat{D}:G\) we want to show
+    that~\((T,\mu,\eta)\) is a monad,
+    where~\(T=GF:\cat{C}\longrightarrow\cat{C}\),~\(\mu_{A}=G\epsilon_{FA}\)
+    and~\(\eta\) is the unit of the adjunction.
 
     It follows from the triangle equalities for unit and counit that~\(\mu\)
     and~\(\eta\) satisfy the monad laws.
@@ -72,12 +71,12 @@ important because it generates monads.
 This is the most important example of monad. One can ask if every monad arises
 like this, and the answer is yes.
 
-There are two main constructions of an adjunction to produce a given monad: the
-Kleisli construction and the Eilenberg--Moore construction (see~\cite{maclane}).
-The Eilenberg--Moore construction seems to be more important in mathematics,
-since it is about algebraic structures, but the Kleisli construction has turned
-out to be central to theoretical computer science, and it is a main topic in
-this work.
+Given a monad there are two main constructions of an adjunction to induce a
+given monad: the Kleisli construction and the Eilenberg--Moore construction
+(see~\cite{maclane}). The Eilenberg--Moore construction seems to be more
+important in mathematics, since it is about algebraic structures, but the
+Kleisli construction has turned out to be central to theoretical computer
+science, and it is a main topic in this work.
 
 \subsection{Kleisli category and adjunctions}
 \begin{theorem}
@@ -86,6 +85,10 @@ this work.
     such that it induces the monad~\((T,\eta,\mu)\).
 \end{theorem}
 \begin{proof}
+    Throughout this proof we will use~\ref{prop:adjunction-induces-monad} by
+    exploiting the equivalence between monads and Kleisli triples, and use their
+    properties to prove the statement.
+
     From the Kleisli category~\(\cat{C}_{T}\), there is a natural
     functor~\(G:\cat{C}_{T}\longrightarrow\cat{C}\) which sends an
     object~\(A\in\cat{C}_{T}\) to~\(TA\in\cat{C}\) and sends a
@@ -99,15 +102,18 @@ this work.
         Gg \circ Gf
             &= \mu_{C} \circ Tg \circ \mu_{B} \circ Tf \\
             &= \mu_{C} \circ \mu_{TC} \circ TTg \circ Tf \\
+            &= \mu_{C} \circ T\mu_{C} \circ TTg \circ Tf \\
+            &= \mu_{C} \circ T(\mu_{C} \circ Tg) \circ Tf \\
             &= \mu_{C} \circ Tg^{\ast} \circ Tf \\
-            &= \mu_{C} \circ Tg \circ_{T} Tf \\
+            &= \mu_{C} \circ T(g^{\ast} \circ f) \\
             &= \mu_{C} \circ T(g \circ_{T} f) \\
-            &= G(g \circ_{T} f)
+            &= G(g\circ_{T} f) 
     \end{align*}
     and for any object~\(A\) in~\(\cat{C}\) we have
     \[
-        G\eta_{A} = \mu_{A} \circ T\eta_{A} = \id_{TA}.
+        G\eta_{A} = \mu_{A} \circ T\eta_{A} = \id_{TA}
     \]
+    by the unit laws of the monad.
 
     Next we define the functor~\(F:\cat{C}\longrightarrow\cat{C}_{T}\)
     sending~\(A\) in~\(\cat{C}\) to~\(A\) in~\(\cat{C}_{T}\), and for sending a
@@ -120,19 +126,18 @@ this work.
     and~\(g:B\longrightarrow C\) in~\(\cat{C}\) then
     \begin{align*}
         Fg \circ_{T} Ff
-            &= {Fg}^{\ast} \circ Ff \\
+            &= (Fg)^{\ast} \circ Ff \\
             &= (\eta_{C} \circ g)^{\ast} \circ \eta_{B} \circ f \\
             &= \eta_{C} \circ g \circ f \\
             &= F(g \circ f)
     \end{align*}
     and for any object~\(A\) in~\(\cat{C}\) we have
     \[
-        F\id_{A} = \eta_{A} \circ_{T} \id_{A} = {\eta_{A}}^{\ast} = \id_{TA}.
+        F\id_{A} = \eta_{A} \circ \id_{A} = \eta_{A}
     \]
 
-    Let's check that~\(F\) and~\(G\) are adjoint. We first observe
-    that~\(GF=T\) by construction. Now we need to provide the unit and
-    counit.
+    Let's check that~\(F\) and~\(G\) are adjoint. We need to provide the unit
+    and counit.
 
     If we define
     \[
@@ -140,52 +145,78 @@ this work.
     \]
     to be the monad unit and
     \[
-        \epsilon_{B} = {\id_{TB}}^{\ast} : FG B \longrightarrow B
+        \epsilon_{B} = \id_{TB}
     \]
-    we get that the diagram
-    \[\begin{tikzcd}
-        FGA \ar[r, "\epsilon_{A}"] \ar[d, "FG f"] & A \ar[d, "f"] \\
-        FGTB \ar[r, "\epsilon_{B}"] & TB
-    \end{tikzcd}\]
-    is commutative, since
+    we get that
+    \[
+        f \circ_{T} \epsilon_{A} = \epsilon_{B} \circ_{T} FGf
+    \]
+    since
     \begin{align*}
-        \epsilon_{B} \circ FGf
-            &= \epsilon_{B} \circ \eta_{TB} \circ Gf \\
-            &= Gf \\
+        \epsilon_B \circ_T FGf 
+            &= \epsilon^{\ast} \circ FGf \\
+%(definition of \circ_T)
+            &= \id_{TB}^{\ast} \circ (\eta_{TB} \circ \mu_{B} \circ Tf) \\
+%(definition of \epsilon, F and G)
+            &= (\id_{TB}^{\ast} \circ \eta_{TB}) \circ \mu_{B} \circ Tf \\
+%(associativity of \circ)
+            &= \id_{TB} \circ \mu_{B} \circ Tf \\
+%(Kleisli triple axiom 2)
             &= \mu_{B} \circ Tf \\
-            &= f \circ \mu_{A} \\
-            &= f \circ {\id_{TA}}^{\ast} \\
-            &= f \circ \epsilon_{A}
+            &= f^{\ast} \\
+            &= f^{\ast} \circ \id_{TA} \\
+%(definition of \epsilon)
+            &= f^{\ast} \circ \epsilon_{A} \\
+%(definition of \circ_T)
+            &= f \circ_{T} \epsilon_{A}
     \end{align*}
     and as such,~\(\eta\) and~\(\epsilon\) are natural.
 
     Next we must check that they satisfy the triangle equalities of adjunctions.
-    Using the kleisli triple laws we get
+    Using the Kleisli triple laws we get
     \begin{align*}
-        \epsilon_{FA} \circ F\eta_{A}
-            &= {\id_{FA}}^{\ast} \circ F\eta_{A} \\
-            &= {\id_{FA}}^{\ast} \circ \eta_{FA} \\
-            &= \id_{FA}
+        \epsilon_{FA} \circ_{T} F(\eta_{A}) 
+            &= \id_{TFA}^{\ast} \circ F(\eta_{A}) \\
+            %(definition of \circ_T)
+            &= \id_{TA}^{\ast} \circ F(\eta_{A}) \\
+            %(since FA = A)
+            &= \id_{TA}^{\ast} \circ (\eta_{TA} \circ \eta_{A}) \\
+            %(definition of F)
+            &= (\id_{TA}^{\ast} \circ \eta_{TA}) \circ \eta_{A} \\
+            %(assoc. of \circ)
+            &= \id_{TA} \circ \eta_{A} \\
+            %(Kleisli triple axiom 2)
+            &= \eta_{A} \\
+            &= \id_{TA}
     \end{align*}
     and
     \begin{align*}
-        G\epsilon_{A} \circ \eta_{GA}
-            &= G{\id_{A}}^{\ast} \circ \eta_{GA} \\
-            &= G\id_{A} \\
-            &= \id_{GA}
+        G(\epsilon_{A}) \circ \eta_{GA} 
+            &= G(\id_{TA}) \circ \eta_{GA} \\
+            %(definition of \epsilon)
+            &= \mu_{A} \circ T(\id_{TA}) \circ \eta_{GA} \\
+            %(definition of G)
+            &= \mu_{A} \circ T(\id_{TA}) \circ \eta_{TA} \\
+            %(definition of G)
+            &= \mu_{A} \circ \id_{TTA} \circ \eta_{TA} \\
+            %(T is functor)
+            &= \mu_{A} \circ \eta_{TA} \\
+            &= \id_{TA}
     \end{align*}
 
-    Finally we check that the adjunction we have defined induces the original
-    monad~\(T\). We already know that the endofunctor~\(T\) coincides for the
-    monad and the adjunction, and it is also clear that the unit of the monad is
-    the unit of the adjunction.
-
-    Now we can check the multiplication. We see that
+    Finally we check that the monad induced by the
+    adjunction~\(F:\cat{C}\leftrightarrows\cat{C}_{T}:G\) recovers the original
+    monad. First of on objects~\(GFA = TA\). Similarly one checks that the
+    equality holds on morphisms, \ie,~\(GF f = T f\). The induced multiplication
+    is given by
     \begin{align*}
-        G \circ \epsilon_{B} \circ F \circ Tf
-            &= G \circ \epsilon_{B} \circ \eta_{TB} \circ Tf \\
-            &= G \circ TTf \\
-            &= \mu_{B} \circ TTf,
+        G(\epsilon_{FA}) 
+            &= G(\id_{TFA}) \\
+            %(definition of \epsilon)
+            &= G(\id_{TA}) \\
+            %(definition of F)
+            &= \mu_{A}
+            %(definition of G)
     \end{align*}
     which matches~\ref{prop:adjunction-induces-monad}.
 \end{proof}
