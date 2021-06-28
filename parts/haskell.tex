@@ -429,12 +429,12 @@ an~\mintinline{Haskell}{Applicative}, into a~\mintinline{Haskell}{Monad}
 \begin{minted}{Haskell}
 instance Monad Maybe where
     (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
-    Just x  >>= k = k x
-    Nothing >>= _ = Nothing
+    (Just x) >>= k = k x
+    Nothing  >>= _ = Nothing
 
     (>>) :: Maybe a -> Maybe b -> Maybe b
-    Just _  >> m = m
-    Nothing >> _ = Nothing
+    (Just _) >> m = m
+    Nothing  >> _ = Nothing
 
     return :: a -> Maybe a
     return = pure
@@ -484,4 +484,36 @@ structure defined by Haskell is a monad by first showing that it is a Kleisli
 triple, and then using
 theorem~\ref{thm:kleisli-triples-and-monads-correspondence}. This can be shown
 directly from the first three~\mintinline{Haskell}{Monad} laws.
+
+We now have the tools to implement the notions we introduced in
+section~\ref{sec:kleisli-triple}.
+
+In fact, we have already covered on example~\ref{ex:kleisli-partiality}, which
+was on partiality. It corresponds to the~\mintinline{Haskell}{Maybe} monad.
+The~\(\bot\) element corresponds to~\mintinline{Haskell}{Nothing}, and the
+implementation of the~\mintinline{Haskell}{(>>=)} operator is identical to how
+we define~\((-)^{\ast}\) in the example.
+
+We can directly implement the Kleisli triples we saw in the examples in the
+beginning of section~\ref{sec:kleisli-triple}, in a similar fashion to
+the~\mintinline{Haskell}{Maybe} data type.
+
+\subsection{Other monads}
+Although the~\mintinline{Haskell}{Monad} typeclass is called monad, the
+traditional definition of monads, as shown in~\ref{def:monad}, does not
+explicitly appear anywhere in Haskell so far. The~\mintinline{Haskell}{Monad}
+typeclass itself is based on the definition for a Kleisli
+triple~\ref{def:kleisli-triple}.
+
+This begs the question on why the~\mintinline{Haskell}{Monad} typeclass is
+called monad. In~\cite{Moggi-notions-computation-monads} Moggi mentions monads
+are mode widely used in the literature on Category Theory, and have the
+advantage of being defined only in terms of functors and natural
+transformations, which make them more suitable for abstract manipulation.
+
+Monads where also more prevalent in computer science. Many of the structures
+that computer scientists work with are monadic in some natural sense, as can be
+seen in~\cite{hackage-monad}. This means that the introduction of
+the~\mintinline{Haskell}{Monad} abstraction to the language did not, in theory,
+increase the complexity of the field, as it was already a member of it.
 \end{document}
