@@ -133,7 +133,7 @@ science, and it is a main topic in this work.
     \end{align*}
     and for any object~\(A\) in~\(\cat{C}\) we have
     \[
-        F\id_{A} = \eta_{A} \circ_{T} \id_{A} = {\eta_{A}}^{\ast} = \id_{TA}.
+        F\id_{A} = \eta_{A} \circ \id_{A} = \eta_{A}
     \]
 
     Let's check that~\(F\) and~\(G\) are adjoint. We need to provide the unit
@@ -145,52 +145,78 @@ science, and it is a main topic in this work.
     \]
     to be the monad unit and
     \[
-        \epsilon_{B} = {\id_{TB}}^{\ast} : FG B \longrightarrow FG B
+        \epsilon_{B} = \id_{TB}
     \]
-    we get that the diagram
-    \[\begin{tikzcd}
-        FGA \ar[r, "\epsilon_{A}"] \ar[d, "FG f"] & A \ar[d, "f"] \\
-        FGTB \ar[r, "\epsilon_{B}"] & TB
-    \end{tikzcd}\]
-    is commutative, since
+    we get that
+    \[
+        f \circ_{T} \epsilon_{A} = \epsilon_{B} \circ_{T} FGf
+    \]
+    since
     \begin{align*}
-        \epsilon_{B} \circ FGf
-            &= \epsilon_{B} \circ \eta_{TB} \circ Gf \\
-            &= Gf \\
+        \epsilon_B \circ_T FGf 
+            &= \epsilon^{\ast} \circ FGf \\
+%(definition of \circ_T)
+            &= \id_{TB}^{\ast} \circ (\eta_{TB} \circ \mu_{B} \circ Tf) \\
+%(definition of \epsilon, F and G)
+            &= (\id_{TB}^{\ast} \circ \eta_{TB}) \circ \mu_{B} \circ Tf \\
+%(associativity of \circ)
+            &= \id_{TB} \circ \mu_{B} \circ Tf \\
+%(Kleisli triple axiom 2)
             &= \mu_{B} \circ Tf \\
-            &= f \circ \mu_{A} \\
-            &= f \circ {\id_{TA}}^{\ast} \\
-            &= f \circ \epsilon_{A}
+            &= f^{\ast} \\
+            &= f^{\ast} \circ \id_{TA} \\
+%(definition of \epsilon)
+            &= f^{\ast} \circ \epsilon_{A} \\
+%(definition of \circ_T)
+            &= f \circ_{T} \epsilon_{A}
     \end{align*}
     and as such,~\(\eta\) and~\(\epsilon\) are natural.
 
     Next we must check that they satisfy the triangle equalities of adjunctions.
     Using the Kleisli triple laws we get
     \begin{align*}
-        \epsilon_{FA} \circ F\eta_{A}
-            &= {\id_{FA}}^{\ast} \circ F\eta_{A} \\
-            &= {\id_{FA}}^{\ast} \circ \eta_{FA} \\
-            &= \id_{FA}
+        \epsilon_{FA} \circ_{T} F(\eta_{A}) 
+            &= \id_{TFA}^{\ast} \circ F(\eta_{A}) \\
+            %(definition of \circ_T)
+            &= \id_{TA}^{\ast} \circ F(\eta_{A}) \\
+            %(since FA = A)
+            &= \id_{TA}^{\ast} \circ (\eta_{TA} \circ \eta_{A}) \\
+            %(definition of F)
+            &= (\id_{TA}^{\ast} \circ \eta_{TA}) \circ \eta_{A} \\
+            %(assoc. of \circ)
+            &= \id_{TA} \circ \eta_{A} \\
+            %(Kleisli triple axiom 2)
+            &= \eta_{A} \\
+            &= \id_{TA}
     \end{align*}
     and
     \begin{align*}
-        G\epsilon_{A} \circ \eta_{GA}
-            &= G{\id_{A}}^{\ast} \circ \eta_{GA} \\
-            &= G\id_{A} \\
-            &= \id_{GA}
+        G(\epsilon_{A}) \circ \eta_{GA} 
+            &= G(\id_{TA}) \circ \eta_{GA} \\
+            %(definition of \epsilon)
+            &= \mu_{A} \circ T(\id_{TA}) \circ \eta_{GA} \\
+            %(definition of G)
+            &= \mu_{A} \circ T(\id_{TA}) \circ \eta_{TA} \\
+            %(definition of G)
+            &= \mu_{A} \circ \id_{TTA} \circ \eta_{TA} \\
+            %(T is functor)
+            &= \mu_{A} \circ \eta_{TA} \\
+            &= \id_{TA}
     \end{align*}
 
-    Finally we check that the adjunction we have defined induces the original
-    monad~\(T\). It is easy to see that the endofunctor~\(T=GF\) coincides for
-    the monad and the adjunction, and it is also clear that the unit of the
-    monad is the unit of the adjunction.
-
-    Now we can check the multiplication. We see that
+    Finally we check that the monad induced by the
+    adjunction~\(F:\cat{C}\leftrightarrows\cat{C}_{T}:G\) recovers the original
+    monad. First of on objects~\(GFA = TA\). Similarly one checks that the
+    equality holds on morphisms, \ie,~\(GF f = T f\). The induced multiplication
+    is given by
     \begin{align*}
-        G \circ \epsilon_{B} \circ F \circ Tf
-            &= G \circ \epsilon_{B} \circ \eta_{TB} \circ Tf \\
-            &= G \circ TTf \\
-            &= \mu_{B} \circ TTf,
+        G(\epsilon_{FA}) 
+            &= G(\id_{TFA}) \\
+            %(definition of \epsilon)
+            &= G(\id_{TA}) \\
+            %(definition of F)
+            &= \mu_{A}
+            %(definition of G)
     \end{align*}
     which matches~\ref{prop:adjunction-induces-monad}.
 \end{proof}
