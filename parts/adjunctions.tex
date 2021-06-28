@@ -57,17 +57,18 @@ underlying set of a vector space. In our context the notion of adjunctions is
 important because it generates monads.
 
 \begin{proposition}
+    \label{prop:adjunction-induces-monad}
     Every adjunction induces a monad.
 \end{proposition}
 \begin{proof}
     Given an adjunction~\(F:\cat{C}\leftrightarrows\cat{D}:G\) we can define an
     endofunctor by composing~\(F\) and~\(G\) to get~\(T = G \circ
     F:\cat{C}\longrightarrow\cat{C}\). It gets monad structure by
-    setting~\(\mu_{A} = G \epsilon_{FA}\) for any object~\(A\) in~\(\cat{C}\)
+    setting~\(\mu_{A} = G \epsilon_{A}F\) for any object~\(A\) in~\(\cat{C}\)
     and using the unit of the adjunction as unit for the monad.
 
-    It follows from the two equations for unit and counit that $\mu$ and $\eta$
-    satisfy the monad laws.
+    It follows from the triangle equalities for unit and counit that~\(\mu\)
+    and~\(\eta\) satisfy the monad laws.
 \end{proof}
 This is the most important example of monad. One can ask if every monad arises
 like this, and the answer is yes.
@@ -153,19 +154,13 @@ this work.
     \end{tikzcd}\]
     is commutative, since
     \begin{align*}
-        \epsilon_{B} \circ_{T} FGf
-            &= \epsilon_{B} \circ_{T} \eta_{TB} \circ Gf \\
-            &= \id_{TB} \circ Gf \\
+        \epsilon_{B} \circ FGf
+            &= \epsilon_{B} \circ \eta_{TB} \circ Gf \\
             &= Gf \\
             &= \mu_{B} \circ Tf \\
-            &= STUCK \\
-            &= STUCK \\
-            &= STUCK \\
-            &= f^{\ast\ast} \\
-            &= (f^{\ast} \circ \id_{TA})^{\ast} \\
-            &= f^{\ast} \circ {\id_{TA}}^{\ast} \\
-            &= f \circ_{T} {\id_{TA}}^{\ast} \\
-            &= f \circ_{T} \epsilon_{A}
+            &= f \circ \mu_{A} \\
+            &= f \circ {\id_{TA}}^{\ast} \\
+            &= f \circ \epsilon_{A}
     \end{align*}
     and as such,~\(\eta\) and~\(\epsilon\) are natural.
 
@@ -185,25 +180,18 @@ this work.
             &= \id_{GA}
     \end{align*}
 
-%[Here we use the monad laws]
+    Finally we check that the adjunction we have defined induces the original
+    monad~\(T\). We already know that the endofunctor~\(T\) coincides for the
+    monad and the adjunction, and it is also clear that the unit of the monad is
+    the unit of the adjunction.
 
-%\bigskip
-
-%Finally we check that this new adjunction we have defined indeed
-%induces the original monad $T$. It is clear that the underlying
-%endofunctor is $T$, as already observed.
-
-%It is also clear that the unit of the new monad is the unit of
-%the adjunction, which in turn is the unit of the original monad $T$.
-%So that is fine too.
-
-%Finally we need to check that the multiplication of the new monad
-%agrees with the old. The new multiplication is defined in terms of the
-%counit for the adjunction, as already explained, and
-
-%in the end we see that the new multiplication coincides with the old.
-%So the Kleisli adjunction generates the original monad.
+    Now we can check the multiplication. We see that
+    \begin{align*}
+        G \circ \epsilon_{B} \circ F \circ Tf
+            &= G \circ \epsilon_{B} \circ \eta_{TB} \circ Tf \\
+            &= G \circ TTf \\
+            &= \mu_{B} \circ TTf,
+    \end{align*}
+    which matches~\ref{prop:adjunction-induces-monad}.
 \end{proof}
-
-%All this is explained on the wiki page for Kleisli category
 \end{document}
