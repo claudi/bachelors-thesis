@@ -613,4 +613,29 @@ designed to only deal with pure functions, and the abstractions we defined to
 ensure these functions are pure are only used to enable the compiler to reason
 about our code and produce machine code that satisfies some guarantees, while
 being itself impure.
+
+Returning to the~\mintinline{Haskell}{IO} data type, the notion that it is
+defined to be a function type is not relevant to the code written by the
+programmer, and is only a model that provides some convenient operations to deal
+with the specific problem of input and output. The programmer never directly
+handles the~\mintinline{Haskell}{World} elements nor
+the~\mintinline{Haskell}{IO} type as a function, as it is purposefully
+abstracted away, and for all intents and purposes can be seen as a tag that
+signals ``this function will perform input/output'' to the compiler, and
+provides the programmer with a series of tools to manage its behaviour, while
+not allowing the statefulness of such operations to pollute the rest of the
+code.
+
+Let's now delve on how~\mintinline{Haskell}{IO}, which we know to be a monad, is
+implemented in Haskell. For this it is convenient to first define
+\begin{minted}{Haskell}
+bindIO' :: (World, a) -> (a -> IO b) -> (World, b)
+bindIO' (w, x) k = (w, k x)
+
+bindIO :: IO a -> (a -> IO b) -> IO b
+bindIO (IO m) k = \s -> bindIO' (m s) k
+
+returnIO :: a -> IO a
+returnIO x = IO (\ s -> (s, x))
+\end{minted}
 \end{document}
