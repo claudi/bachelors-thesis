@@ -629,10 +629,35 @@ code.
 Let's now delve on how~\mintinline{Haskell}{IO}, which we know to be a monad, is
 implemented in Haskell. For this it is convenient to first define
 \begin{minted}{Haskell}
-bindIO :: IO a -> (a -> IO b) -> IO b
-bindIO (IO m) k = \s -> (\(w, x) k -> (w, k x)) (m s) k
+(>>=) :: IO a -> (a -> IO b) -> IO b
+(>>=) (IO m) = (\s -> (\(w, x) k -> (w, k x))) (m s)
 
-returnIO :: a -> IO a
-returnIO x = IO (\ s -> (s, x))
+return :: a -> IO a
+return x = IO (\s -> (s, x))
+\end{minted}
+and now we can show how the type classes are defined. Starting
+with~\mintinline{Haskell}{Functor} we have
+\begin{minted}{Haskell}
+instance Functor IO where
+    fmap :: (a -> b) -> IO a -> IO b
+    fmap f x = x >>= (return . f)
+\end{minted}
+to implement the~\mintinline{Haskell}{Applicative} type class we write
+\begin{minted}{Haskell}
+instance Applicative IO where
+    (<*>) :: IO (a -> b) -> IO a -> IO b
+    m1 <*> m2 = m1 >>= (\x -> m2 >>= (\y -> return (x y)))
+
+    pure :: a -> IO a
+    pure = return
+\end{minted}
+and lastly, the~\mintinline{Haskell}{Monad} type class is given by
+\begin{minted}{Haskell}
+instance Monad IO where
+    (>>=) :: IO a -> (a -> IO b) -> IO b
+    (>>=) (IO m) = (\s -> (\(w, x) k -> (w, k x))) (m s)
+
+    return :: a -> IO a
+    return x = IO (\s -> (s, x))
 \end{minted}
 \end{document}
