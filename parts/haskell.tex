@@ -540,9 +540,77 @@ are mode widely used in the literature on Category Theory, and have the
 advantage of being defined only in terms of functors and natural
 transformations, which make them more suitable for abstract manipulation.
 
-Monads where also more prevalent in computer science. Many of the structures
-that computer scientists work with are monadic in some natural sense, as can be
-seen in~\cite{hackage-monad}. This means that the introduction of
+Monads are also more prevalent in computer science. Many of the structures that
+computer scientists work with are monadic in some sense, as can be seen
+in~\cite{hackage-monad}. This means that the introduction of
 the~\mintinline{Haskell}{Monad} abstraction to the language did not, in theory,
 increase the complexity of the field, as it was already a member of it.
+
+\subsection{The \texorpdfstring{\mintinline{Haskell}{IO}}{IO} monad and impurity}
+We introduce one of the most important monads in Haskell,
+the~\mintinline{Haskell}{IO} monad, short of input-output, which enables Haskell
+programmers to perform system input and output operations in a pure context.
+
+This is based on the side effects Kleisli triple~\ref{ex:kleisli-side-effects}.
+In favour of not introducing yet more notation, we assume we have a
+type~\mintinline{Haskell}{World} containing some data about the state of the
+computer. We define the~\mintinline{Haskell}{IO} data type to be
+\begin{minted}{Haskell}
+data IO a = IO World -> (World, a)
+\end{minted}
+We will model input and output operations through this data type. For example, a
+function that reads an~\mintinline{Haskell}{Int} from user input would have type
+\begin{minted}{Haskell}
+readNumber :: IO Int
+\end{minted}
+which can be understood as
+\begin{minted}{Haskell}
+readNumber :: World -> (World, Int)
+\end{minted}
+We should interpret this as~\mintinline{Haskell}{readNumber} being a function
+that, when run, considers the state of the computer and returns a
+pair~\mintinline{Haskell}{(World, Int)} containing the state of the computer
+after having read a~\mintinline{Haskell}{Int} from it (might be unmodified),
+and the~\mintinline{Haskell}{Int} itself.
+
+Another example would be a function that stores an~\mintinline{Haskell}{Int} to
+a file. It would have type
+\begin{minted}{Haskell}
+saveNumber :: Int -> IO ()
+\end{minted}
+where~\mintinline{Haskell}{()} is the empty type, defined
+as~\mintinline{Haskell}{data () = ()}. Again, the type signature can be
+understood as
+\begin{minted}{Haskell}
+saveNumber :: Int -> World -> (World, ())
+\end{minted}
+We should interpret~\mintinline{Haskell}{saveNumber} as a function that receives
+a number and the state of the computer, and returns the updated state after
+having saved the number to a file (a state with the file containing the number),
+and no other result, as we did not request any additional information.
+
+This approach begs the question: how is handling the entire state of the
+computer, from inside the computer itself, viable? Just passing or returning the
+entire memory state to or from a function would require the same amount of
+memory to store the data. To answer this we must first narrow down our problem.
+
+Traditional computers are state machines~\cite{myers-state-machines}, which are
+highly stateful, and arguably impure code by design. We will avoid dwelling on
+this topic as it is not directly related to our work, and bordering the
+philosophical. For example, the argument that computers increase the entropy of
+the universe by releasing heat when running code, and as such are impure because
+that is a side-effect, can be made.
+
+For this we make the distinction to only refer to the paradigm of a programming
+language up to compilation, the process of converting the written code to
+something a machine understands (roughly speaking), since once they are compiled
+they must be shaped into stateful and impure code that a machine will execute.
+The advantages of pure functions are thanks to the reasoning the compiler can
+apply on them. As such, this distinction is justified.
+
+Following this, we say that a language is purely functional if the compiler is
+designed to only deal with pure functions, and the abstractions we defined to
+ensure these functions are pure are only used to enable the compiler to reason
+about our code and produce machine code that satisfies some guarantees, while
+being itself impure.
 \end{document}
