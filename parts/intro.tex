@@ -1,7 +1,8 @@
 \documentclass[../TGF.tex]{subfiles}
 
 \begin{document}
-\section{Motivation}
+\section{Introduction}
+\subsection{Motivation}
 \label{sec:motivation}
 We begin with an observation: functions found in computer programming may not
 behave like functions in mathematics.
@@ -30,8 +31,9 @@ the following definitions:
 \begin{definition}[Pure function]
     We say that a procedure that
     \begin{enumerate}
-        \item outputs the same result for the same inputs (\ie is well defined),
-        \item does not modify global state.
+        \item Outputs the same result for the same inputs (\ie is well defined),
+
+        \item Does not modify global state.
     \end{enumerate}
     is~\emph{pure}.
     Conversely, we say a procedure that is not pure is~\emph{impure}.
@@ -68,4 +70,51 @@ not at all obvious how they could be avoided, there is also no definitive proof
 they cannot. We promise to provide an abstraction that solves these limitations,
 and then we will see how it can be successfully implemented into a useful
 programming language.
+
+\subsection{Overview}
+The idea of using mathematical functions to model procedures is the starting
+point of~\emph{categorical semantics} of programming. Good semantics (meaning
+sound and complete) allows to reason about correctness of programs, as well as
+termination and complexity. The naive view on procedures suggests that the
+semantics takes value in the category of sets. The subtleties regarding the
+notions of procedures, and in particular impure procedures in programming, make
+this problematic.
+
+The big discovery by Moggi in~\emph{Notions of computation and
+monads}~\cite{Moggi-notions-computation-monads} 1991, is that functions that are
+impure from the viewpoint of the category of sets may become pure in other
+categories, and that these other categories are~\emph{Kleisli categories for
+monads}. There is one monad for each computational effect to achieve. The most
+important of these effects are IO, exceptions, state, non-determinism, and so
+on, the corresponding monads of which are well-known mathematical structures.
+While it was a big theoretic advance to be able to find categorical semantics in
+Kleisli categories, perhaps Moggi had not predicted how important it would be
+also in practical programming.
+
+This only became clear with the development of Haskell, one of the first
+programming languages to actually take these ideas in as a foundational
+principle. Since Haskell is based on category theory and designed to work well
+with monads, it can be more pure than traditional programming languages. With
+time, monadic ideas, and hence more principled programming, have been adopted in
+some form by most mainstream programming languages. Not as a foundation, but as
+an optional tool.
+
+This is a huge area of research, and it has changed the whole panorama of
+theoretical computer science, and is also impacting more mainstream programming.
+The goal of this bachelor's thesis is modest, just to explain the basic
+principles of how monads are used to model effects.
+
+In Section 1 we gave some motivation and context to our problem.
+Then in Section 2 we introduce the basic categorical notions we will build on to
+explain these results. Section 3 contains a brief introduction to the results
+Moggi showed in his famous paper, and in Section 4 we finish the mathematical
+part of the work with a treatment of the relationship between adjunctions and
+monads. We close with Section 5, where we start by giving a concise introduction
+to Haskell and its notation, to then explore how these abstractions are
+successfully implemented and used in practice.
+
+\subsection{Acknowledgements}
+I would like to express my sincere thank Joachim Kock and Thomas Mikhail, my
+supervisors for this bachelor's thesis, for the help they provided and their
+involvement from day one.
 \end{document}

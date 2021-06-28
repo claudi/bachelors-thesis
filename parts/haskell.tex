@@ -39,9 +39,9 @@ which we will be using throughout the document.
 The~\mintinline{Haskell}{::} symbol can be seen as the~\(\in\) symbol in math,
 and types may be regarded as sets for the most part.
 
-There are also types of functions. For any two types~\mintinline{Ocaml}{a}
-and~\mintinline{Ocaml}{b} there is a type
-\begin{minted}{Ocaml}
+There are also types of functions. For any two types~\mintinline{text}{a}
+and~\mintinline{text}{b} there is a type
+\begin{minted}{text}
 a -> b
 \end{minted}
 whose elements are functions from the first type to the second. This means that
@@ -64,11 +64,11 @@ f :: a -> (b -> c)
 g :: (a -> b) -> c
 \end{minted}
 Here~\mintinline{Haskell}{f} is a function that takes an element of
-type~\mintinline{Ocaml}{a} and returns an element of
-type~\mintinline{Ocaml}{b -> c}, \ie a function from~\mintinline{Ocaml}{b}
-to~\mintinline{Ocaml}{c}, while~\mintinline{Haskell}{g} is a function that
-takes a function from~\mintinline{Ocaml}{a} to~\mintinline{Ocaml}{b} as an
-argument an returns an element of type~\mintinline{Ocaml}{c}. If we
+type~\mintinline{text}{a} and returns an element of
+type~\mintinline{text}{b -> c}, \ie a function from~\mintinline{text}{b}
+to~\mintinline{text}{c}, while~\mintinline{Haskell}{g} is a function that
+takes a function from~\mintinline{text}{a} to~\mintinline{text}{b} as an
+argument an returns an element of type~\mintinline{text}{c}. If we
 regard~\mintinline{Haskell}{->} as an operator, we say it is right associative,
 and we can write
 \begin{minted}{Haskell}
@@ -126,7 +126,7 @@ where
         function~\mintinline{Haskell}{square} of
         type~\mintinline{Haskell}{Int -> Int}.
     \item Here we define the behaviour of our function given an
-        argument~\mintinline{Ocaml}{n}. The notation is similar to the one
+        argument~\mintinline{text}{n}. The notation is similar to the one
         we use in math, where we write \(f(n) = n*n\).
 \end{enumerate}
 Notice how the body of the function~\mintinline{Haskell}{square} also has no
@@ -163,7 +163,7 @@ multiplyBy n = \x -> x * n
 Lastly, we define the composition operator. If~\mintinline{Haskell}{f :: a -> b}
 and~\mintinline{Haskell}{g :: b -> c} are functions, we can compose them with
 the composition operator
-\begin{minted}{Ocaml}
+\begin{minted}{text}
 g . f :: a -> c
 \end{minted}
 which is defined as
@@ -265,7 +265,7 @@ example we can define a pair tree type to hold nodes of any type as
 data Pair a = Tuple a a
 \end{minted}
 
-Here~\mintinline{Ocaml}{a} is a generic type, and acts as a parameter to the
+Here~\mintinline{text}{a} is a generic type, and acts as a parameter to the
 type definition. We can then instantiate a pair
 of~\mintinline{Haskell}{Int} elements as
 \begin{minted}{Haskell}
@@ -337,16 +337,16 @@ Let's see an example. The~\mintinline{Haskell}{Functor} typeclass is
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 \end{minted}
-From the usage of~\mintinline{Ocaml}{f}, the Haskell compiler can infer
+From the usage of~\mintinline{text}{f}, the Haskell compiler can infer
 that it must be a parametric type with one parameter, and
 with this information we can read the previous statement as
 \begin{quote}
-    For a parametric datatype~\mintinline{Ocaml}{f} with one parameter to be
+    For a parametric datatype~\mintinline{text}{f} with one parameter to be
     called a Functor, it must be equipped with a structure
 
     \mintinline{Haskell}{fmap :: (a -> b) -> f a -> f b}
 \end{quote}
-Given a parametric datatype~\mintinline{Ocaml}{f}, the functor typeclass
+Given a parametric datatype~\mintinline{text}{f}, the functor typeclass
 provides a function that can be understood as having
 type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
 the property of functors to act on functions. Additionally, the parametric
@@ -382,17 +382,17 @@ We will not prove typeclass laws for specific instances we provide in this
 section, as the proofs are usually straightforward but uncomfortable to write.
 
 The laws for the functor typeclass can be written as
-\begin{minted}{Ocaml}
+\begin{minted}{text}
 fmap id = id
 fmap (f . g) = (fmap f . fmap g)
 \end{minted}
 where an informal mix of mathematical and Haskell notation is typically used.
-Most importantly, the~\mintinline{Ocaml}{=} in this case refers to the
+Most importantly, the~\mintinline{text}{=} in this case refers to the
 mathematical equality.
 
 Notice that these laws are clearly equivalent to the functor laws found
-in~\ref{def:functor}.  The~\mintinline{Ocaml}{f} that appears in these laws is
-different from the~\mintinline{Ocaml}{f} found in the definition of
+in~\ref{def:functor}.  The~\mintinline{text}{f} that appears in these laws is
+different from the~\mintinline{text}{f} found in the definition of
 the~\mintinline{Haskell}{Functor} typeclass, since it now corresponds to an
 arbitrary function. This misleading use of notation happens often in Haskell,
 and will be repeated in further typeclass laws in this document.
@@ -415,7 +415,7 @@ an~\mintinline{Haskell}{Applicative}, we must first prove it is
 a~\mintinline{Haskell}{Functor}, and then provide implementations for the two
 required functions.
 The laws for the~\mintinline{Haskell}{Applicative} typeclass are
-\begin{minted}{Haskell}
+\begin{minted}{text}
 pure id <*> v = v
 pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
 pure f <*> pure x = pure (f x)
@@ -478,7 +478,7 @@ class Applicative m => Monad m where
     return :: a -> m a
 \end{minted}
 subject to the laws
-\begin{minted}{Haskell}
+\begin{minted}{text}
 return a >>= k = k a
 m >>= return = m
 m >>= (\x -> k x >>= h) = (m >>= k) >>= h
@@ -660,4 +660,22 @@ instance Monad IO where
     return :: a -> IO a
     return x = IO (\s -> (s, x))
 \end{minted}
+
+\subsection{The influence of Haskell}
+The Haskell language can be regarded as a successful proof of concept on the
+usefulness and viability of pure functions, and this has led most traditional
+programming languages to adopt some of the features that research on functional
+programming has brought to light. Modern programming languages are designed with
+support for functional programming or pure functions~\cite{enwiki:1023837642},
+and plenty of old programming languages now support the functional programming
+paradigm.
+
+For example, the~\mintinline{C}{C} programming language, a famously imperative
+and state-full language supports a~\mintinline{C}{pure} attribute for
+functions~\cite{gccdoc:attributes}, which allows the programmer to manually mark
+them as being pure, so the compiler can take advantage of the information and
+reason about the code accordingly. In~\cite{haskell-useless}, Simon Peyton
+Jones, a major contributor to the design of the Haskell programming
+language~\cite{Simeone}, describes the mutual influence between programming
+languages of different paradigms.
 \end{document}
