@@ -1,0 +1,209 @@
+\documentclass[../TFG.tex]{subfiles}
+
+\begin{document}
+\subsection{Adjoint functors}
+In category theory we can use functors to compare categories that are not
+isomorphic or equivalent. For this we sometimes use functors in both directions.
+
+Adjunctions
+
+This is one of the most important concepts in category theory, and
+the definition can be found early on in any book on category theory,
+such as [Awodey] or [Leinster]
+
+
+\begin{definition}[Adjunction]
+A pair of functors~\(F:\cat{C}\leftrightarrows\cat{D}:G\) is
+an~\emph{adjunction} when for every object~\(C\) in~\(\cat{C}\) and every
+object~\(D\) in~\(\cat{D}\) we have a bijection
+\[
+    \Hom_{\cat{D}}(FD, C) \cong \Hom_{\cat{C}}(D, GC)
+\]
+This must be natural both in $C$ and in $D$.
+\end{definition}
+
+This does not imply that they are inverses to each other, but that there are non
+invertible comparison natural transformations
+\[
+    %\eta: \id_{\cat{C}} \Rightarrow \epsilon \circ \eta
+    \eta:1\longrightarrow GF
+\]
+and
+\[
+    %\epsilon : \eta \circ\epsilon \Rightarrow \id_{\cat{D}}
+    \epsilon:FG\longrightarrow 1
+\]
+where~\(\eta\) is called the unit for the adjunction and~\(\epsilon\) is called
+the counit.
+
+These satisfy the equations
+\[
+    \begin{tikzcd}
+        F \arrow[r, "F\eta", rightarrow] \arrow[dr, equal] & FGF \arrow[d, "\epsilon F", rightarrow] \\
+                                                           & F
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G \arrow[r, "\eta G", rightarrow] \arrow[dr, equal] & GFG \arrow[d, "G\epsilon", rightarrow] \\
+                                                            & G
+    \end{tikzcd}
+\]
+which are called the~\emph{triangle equalities} of adjunctions.
+
+Adjunctions are a common occurrence throughout mathematics. In algebra, the
+standard example is the adjunction between vector spaces and sets, where we have
+a functor generating a vector space spanned on a set, and another extracting the
+underlying set of a vector space. In our context the notion of adjunctions is
+important because it generates monads.
+
+\begin{proposition}
+    Every adjunction induces a monad.
+\end{proposition}
+\begin{proof}
+    Given an adjunction~\(F:\cat{C}\leftrightarrows\cat{D}:G\) we can define an
+    endofunctor by composing~\(F\) and~\(G\) to get~\(T = G \circ
+    F:\cat{C}\longrightarrow\cat{C}\). It gets monad structure by
+    setting~\(\mu_{A} = G \epsilon_{FA}\) for any object~\(A\) in~\(\cat{C}\)
+    and using the unit of the adjunction as unit for the monad.
+
+    It follows from the two equations for unit and counit that $\mu$ and $\eta$
+    satisfy the monad laws.
+\end{proof}
+This is the most important example of monad. One can ask if every monad arises
+like this, and the answer is yes.
+
+There are two main constructions of an adjunction to produce a given monad: the
+Kleisli construction and the Eilenberg--Moore construction (see [MacLane]).
+The Eilenberg--Moore construction seems to be more important in mathematics,
+since it is about algebraic structures, but the Kleisli construction has turned
+out to be central to theoretical computer science, and it is a main topic in
+this work.
+
+%(For example, the Kleisli category construction is not in the basic category
+%theory books such as Awodey or Leinster, but it is in the more comprehensive
+%text book of Mac Lane.)
+
+\subsection{Kleisli category and adjunctions}
+\begin{theorem}
+    Given a category~\(\cat{C}\) and a monad~\((T,\eta,\mu)\) on~\(\cat{C}\)
+    there exists an adjunction~\(F:\cat{C}\leftrightarrows\cat{C}_{T}:G\)
+    such that it induces the monad~\((T,\eta,\mu)\).
+\end{theorem}
+\begin{proof}
+    From the Kleisli category~\(\cat{C}_{T}\), there is a natural
+    functor~\(G:\cat{C}_{T}\longrightarrow\cat{C}\) which sends an
+    object~\(A\in\cat{C}_{T}\) to~\(TA\in\cat{C}\) and sends a
+    morphism~\(f:A\longrightarrow TB\) to the composite
+    \[\begin{tikzcd}
+        TA \ar[r, "Tf"] & TTB \ar[r, "\mu_{B}"] & TB
+    \end{tikzcd}\]
+    Indeed, given two morphisms~\(f:A\longrightarrow TB\)
+    and~\(g:B\longrightarrow TC\) in~\(\cat{C}_{T}\) we have
+    \begin{align*}
+        Gg \circ Gf
+            &= \mu_{C} \circ Tg \circ \mu_{B} \circ Tf \\
+            &= \mu_{C} \circ \mu_{TC} \circ TTg \circ Tf \\
+            &= \mu_{C} \circ Tg^{\ast} \circ Tf \\
+            &= \mu_{C} \circ Tg \circ_{T} Tf \\
+            &= \mu_{C} \circ T(g \circ_{T} f) \\
+            &= G(g \circ_{T} f)
+    \end{align*}
+    and for any object~\(A\) in~\(\cat{C}\) we have
+    \[
+        G\eta_{A} = \mu_{A} \circ T\eta_{A} = \id_{TA}.
+    \]
+
+    Next we define the functor~\(F:\cat{C}\longrightarrow\cat{C}_{T}\)
+    sending~\(A\) in~\(\cat{C}\) to~\(A\) in~\(\cat{C}_{T}\), and for sending a
+    morphism~\(f:A\longrightarrow B\) in~\(\cat{C}\) to the composite
+    in~\(\cat{C}_{T}\) given by
+    \[\begin{tikzcd}
+        A \ar[r, "f"] & B \ar[r, "\eta_{B}"] & TB
+    \end{tikzcd}\]
+    We can check that~\(F\) is a functor. If we take~\(f:A\longrightarrow B\)
+    and~\(g:B\longrightarrow C\) in~\(\cat{C}\) then
+    \begin{align*}
+        Fg \circ_{T} Ff
+            &= {Fg}^{\ast} \circ Ff \\
+            &= (\eta_{C} \circ g)^{\ast} \circ \eta_{B} \circ f \\
+            &= \eta_{C} \circ g \circ f \\
+            &= F(g \circ f)
+    \end{align*}
+    and for any object~\(A\) in~\(\cat{C}\) we have
+    \[
+        F\id_{A} = \eta_{A} \circ_{T} \id_{A} = {\eta_{A}}^{\ast} = \id_{TA}.
+    \]
+
+    Let's check that~\(F\) and~\(G\) are adjoint. We first observe
+    that~\(GF=T\) by construction. Now we need to provide the unit and
+    counit.
+
+    If we define
+    \[
+        \eta_{A} : A \longrightarrow GF A
+    \]
+    to be the monad unit and
+    \[
+        \epsilon_{B} = {\id_{TB}}^{\ast} : FG B \longrightarrow B
+    \]
+    we get that the diagram
+    \[\begin{tikzcd}
+        FGA \ar[r, "\epsilon_{A}"] \ar[d, "FG f"] & A \ar[d, "f"] \\
+        FGTB \ar[r, "\epsilon_{B}"] & TB
+    \end{tikzcd}\]
+    is commutative, since
+    \begin{align*}
+        \epsilon_{B} \circ_{T} FGf
+            &= \epsilon_{B} \circ_{T} \eta_{TB} \circ Gf \\
+            &= \id_{TB} \circ Gf \\
+            &= Gf \\
+            &= \mu_{B} \circ Tf \\
+            &= STUCK \\
+            &= STUCK \\
+            &= STUCK \\
+            &= f^{\ast\ast} \\
+            &= (f^{\ast} \circ \id_{TA})^{\ast} \\
+            &= f^{\ast} \circ {\id_{TA}}^{\ast} \\
+            &= f \circ_{T} {\id_{TA}}^{\ast} \\
+            &= f \circ_{T} \epsilon_{A}
+    \end{align*}
+    and as such,~\(\eta\) and~\(\epsilon\) are natural.
+
+    Next we must check that they satisfy the triangle equalities of adjunctions.
+    Using the kleisli triple laws we get
+    \begin{align*}
+        \epsilon_{FA} \circ F\eta_{A}
+            &= {\id_{FA}}^{\ast} \circ F\eta_{A} \\
+            &= {\id_{FA}}^{\ast} \circ \eta_{FA} \\
+            &= \id_{FA}
+    \end{align*}
+    and
+    \begin{align*}
+        G\epsilon_{A} \circ \eta_{GA}
+            &= G{\id_{A}}^{\ast} \circ \eta_{GA} \\
+            &= G\id_{A} \\
+            &= \id_{GA}
+    \end{align*}
+
+%[Here we use the monad laws]
+
+%\bigskip
+
+%Finally we check that this new adjunction we have defined indeed
+%induces the original monad $T$. It is clear that the underlying
+%endofunctor is $T$, as already observed.
+
+%It is also clear that the unit of the new monad is the unit of
+%the adjunction, which in turn is the unit of the original monad $T$.
+%So that is fine too.
+
+%Finally we need to check that the multiplication of the new monad
+%agrees with the old. The new multiplication is defined in terms of the
+%counit for the adjunction, as already explained, and
+
+%in the end we see that the new multiplication coincides with the old.
+%So the Kleisli adjunction generates the original monad.
+\end{proof}
+
+%All this is explained on the wiki page for Kleisli category
+\end{document}
