@@ -629,11 +629,8 @@ code.
 Let's now delve on how~\mintinline{Haskell}{IO}, which we know to be a monad, is
 implemented in Haskell. For this it is convenient to first define
 \begin{minted}{Haskell}
-bindIO' :: (World, a) -> (a -> IO b) -> (World, b)
-bindIO' (w, x) k = (w, k x)
-
 bindIO :: IO a -> (a -> IO b) -> IO b
-bindIO (IO m) k = \s -> bindIO' (m s) k
+bindIO (IO m) k = \s -> (\(w, x) k -> (w, k x)) (m s) k
 
 returnIO :: a -> IO a
 returnIO x = IO (\ s -> (s, x))
