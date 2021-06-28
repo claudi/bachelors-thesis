@@ -134,25 +134,19 @@ this work.
         F\id_{A} = \eta_{A} \circ_{T} \id_{A} = {\eta_{A}}^{\ast} = \id_{TA}.
     \]
 
-%Now check that these two functors $F$ and $G$ are adjoint.
+    Let's check that~\(F\) and~\(G\) are adjoint. We first observe
+    that~\(GF=T\) by construction. Now we need to provide the unit and
+    counit.
 
-%For this, note first that $G\circ F = T$ by construction.
-%Now we need to provide unit and counit. The unit should be a natural
-%transformation
-%$$
-%\eta_A : A \to G \circ F A
-%$$
-%Here since $G \circ F =T$ we can just use the monad unit.
-
-%We also need to provide the counit:
-%$$
-%\epsilon_B : F \circ G (B) \to B
-%$$
-%This morphism should be a morphism in the Kleisli category $\cat{C}_T$
-%so it is given by a morphism $FGB \to T B$ in $\cat{C}$.  But if we use the
-%definition of $F$ as the identity and of $G$ as $T$, then we
-%have precisely such a morphism, and it is just the identity
-%map $FGB = TB \to TB$.
+    If we define
+    \[
+        \eta_{A} : A \longrightarrow GF A
+    \]
+    to be the monad unit and
+    \[
+        \epsilon_{B} = {\id_{TB}}^{\ast} : FG B \longrightarrow B
+    \]
+    we get that
 
 %Now we have provided the components of the unit and counit,
 %and now we should check that they are natural.
