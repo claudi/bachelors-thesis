@@ -84,9 +84,9 @@ If we consider a function~\mintinline{Haskell}{sum :: Int -> Int -> Int} that
 adds two integers and two elements~\mintinline{Haskell}{41 :: Int}
 and~\mintinline{Haskell}{19 :: Int} we would have
 \begin{minted}{Haskell}
-sum       :: Int -> Int -> Int -- 1
-sum 41    :: Int -> Int        -- 2
-sum 41 19 :: Int               -- 3
+sum       :: Int -> Int -> Int   -- [1]
+sum 41    :: Int -> Int          -- [2]
+sum 41 19 :: Int                 -- [3]
 \end{minted}
 where
 \begin{enumerate}
@@ -117,8 +117,8 @@ and we can later write
 \subsubsection{Function bodies}
 To explain how to define the body of a function we start with an example
 \begin{minted}{Haskell}
-square :: Int -> Int -- 1
-square n = n * n     -- 2
+square :: Int -> Int   -- [1]
+square n = n * n       -- [2]
 \end{minted}
 where
 \begin{enumerate}
@@ -225,7 +225,7 @@ area (Circle r)    = pi*r*r
 area (Polygon n a) = n*a*a*tan(pi/n)
 \end{minted}
 where we are using the element constructors~\mintinline{Haskell}{Circle}
-and~\mintinline{Haskell}{Polygon} for~\emph{pattern matching}. To evaluate
+and~\mintinline{Haskell}{Polygon} for~\emph{pattern matching}. To define
 the~\mintinline{Haskell}{area} function on an element we must
 first be able to identify what kind of~\mintinline{Haskell}{Shape} it is. This
 is done through matching the instance of said element on the element
@@ -253,20 +253,26 @@ construct the instance of the type, for example
 sameArea :: Shape -> Shape -> Bool
 sameArea s1 s2 = (area s1) == (area s2)
 \end{minted}
+where~\mintinline{Haskell}{(==)} is the comparison operator, which
+outputs~\mintinline{Haskell}{True :: Bool} if its operands are equal,
+or~\mintinline{Haskell}{False :: Bool} if they are not.
 
 \subsubsection{Parametrized data types}
 So far we have seen how we can define types from other concrete types. The
 Haskell language also allows us to define types parametrized by other types, for
-example we can define a binary tree type to hold nodes of any type as
+example we can define a pair tree type to hold nodes of any type as
 \begin{minted}{Haskell}
 data Pair a = Tuple a a
 \end{minted}
+
 Here~\mintinline{Ocaml}{a} is a generic type, and acts as a parameter to the
 type definition. We can then instantiate a pair
 of~\mintinline{Haskell}{Int} elements as
 \begin{minted}{Haskell}
 Tuple 2 3 :: Pair Int
 \end{minted}
+This definition only allows pairs of elements of the same type. We will
+generalize it in a moment.
 
 Examples of generic functions over the type are
 \begin{minted}{Haskell}
@@ -282,17 +288,20 @@ flip (Tuple x y) = Tuple y x
 apply :: (a -> a -> b) -> Pair a -> b
 apply f (Tuple x y) = f x y
 \end{minted}
-here we have used~\mintinline{Haskell}{_} for the unused parameters
-in~\mintinline{Haskell}{first} and~\mintinline{Haskell}{second}. This is because
-they are clearly not used in the function body, and if we assign a variable name
-to an unused argument the Haskell compiler will throw an error.
+Notice how to define the~\mintinline{Haskell}{first} function, it is not
+necessary to know the value of the second element of the pair, and in fact
+remains unused through the body of the function. We mark this with
+a~\mintinline{Haskell}{_} character, instead of assigning a variable name to the
+argument. The Haskell language requires us to do so, to avoid unused arguments
+which are often the source of errors and undefined behaviour in code. The
+situation is analogue for the~\mintinline{Haskell}{second} function.
 
 Generic types can be parametrized by more than one type. We can generalize
 the~\mintinline{Haskell}{Pair} into
 \begin{minted}{Haskell}
 data Pair a b = Tuple a b
 \end{minted}
-and then we would have
+which is parametrized by two types, and then we would have
 \begin{minted}{Haskell}
 Tuple 3 'c' :: Pair Int Char
 
@@ -328,15 +337,21 @@ Let's see an example. The~\mintinline{Haskell}{Functor} typeclass is
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 \end{minted}
-From the usage of~\mintinline{Haskell}{f}, the Haskell compiler can infer
+From the usage of~\mintinline{Ocaml}{f}, the Haskell compiler can infer
 that it must be a parametric type with one parameter, and
 with this information we can read the previous statement as
 \begin{quote}
-    For a parametric datatype~\mintinline{Haskell}{f} with one parameter to be
+    For a parametric datatype~\mintinline{Ocaml}{f} with one parameter to be
     called a Functor, it must be equipped with a structure
 
     \mintinline{Haskell}{fmap :: (a -> b) -> f a -> f b}
 \end{quote}
+Given a parametric datatype~\mintinline{Ocaml}{f}, the functor typeclass
+provides a function that can be understood as having
+type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
+the property of functors to act on functions. Additionally, the parametric
+datatype itself acts on types, by transforming an existing type into a new one,
+behaviour similar to that of a functor.
 
 Let's see an example of an implementation. If we define the parametric data
 type~\mintinline{Haskell}{Maybe} as follows
@@ -355,13 +370,6 @@ where we first declare that we want to show that~\mintinline{Haskell}{Maybe} is
 a~\mintinline{Haskell}{Functor}, which we do by providing a definition
 for~\mintinline{Haskell}{fmap :: (a -> b) -> Maybe a -> Maybe b}.
 
-Given a parametric datatype~\mintinline{Haskell}{f}, the functor typeclass
-provides a function that can be understood as having
-type~\mintinline{Haskell}{fmap :: (a -> b) -> (f a -> f b)}, which reminds us of
-the property of functors to act on functions. Additionally, the parametric
-datatype itself acts on types, by transforming an existing type into a new one,
-behaviour similar to that of a functor.
-
 This is not enough for a function on objects and morphisms to be a functor. The
 functor laws must be satisfied as well. The Haskell language does not provide a
 way to express such laws, since for this it would need a way to write and
@@ -373,14 +381,18 @@ satisfy these laws could lead to buggy code and unintended behaviour.
 We will not prove typeclass laws for specific instances we provide in this
 section, as the proofs are usually straightforward but uncomfortable to write.
 
-The laws for the functor typeclass are
-\begin{minted}{Haskell}
+The laws for the functor typeclass can be written as
+\begin{minted}{Ocaml}
 fmap id = id
 fmap (f . g) = (fmap f . fmap g)
 \end{minted}
-that are clearly equivalent to the functor laws found in~\ref{def:functor}.
-The~\mintinline{Haskell}{f} that appears in these laws is different from
-the~\mintinline{Haskell}{f} found in the definition of
+where an informal mix of mathematical and Haskell notation is typically used.
+Most importantly, the~\mintinline{Ocaml}{=} in this case refers to the
+mathematical equality.
+
+Notice that these laws are clearly equivalent to the functor laws found
+in~\ref{def:functor}.  The~\mintinline{Ocaml}{f} that appears in these laws is
+different from the~\mintinline{Ocaml}{f} found in the definition of
 the~\mintinline{Haskell}{Functor} typeclass, since it now corresponds to an
 arbitrary function. This misleading use of notation happens often in Haskell,
 and will be repeated in further typeclass laws in this document.
@@ -486,7 +498,7 @@ This means that we can omit this operation from our reasoning. In fact, it is
 only defined because it is useful in a programming setting, and bears no
 particular mathematical relevance to us.
 
-Our next observation lies on the bind operation. If we flip its arguments, we
+Our next observation concerns the bind operation. If we flip its arguments, we
 get an operation with type signature
 \begin{minted}{Haskell}
 (a -> m b) -> (m a -> m b)
