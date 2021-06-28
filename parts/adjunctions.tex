@@ -146,13 +146,44 @@ this work.
     \[
         \epsilon_{B} = {\id_{TB}}^{\ast} : FG B \longrightarrow B
     \]
-    we get that
+    we get that the diagram
+    \[\begin{tikzcd}
+        FGA \ar[r, "\epsilon_{A}"] \ar[d, "FG f"] & A \ar[d, "f"] \\
+        FGTB \ar[r, "\epsilon_{B}"] & TB
+    \end{tikzcd}\]
+    is commutative, since
+    \begin{align*}
+        \epsilon_{B} \circ_{T} FGf
+            &= \epsilon_{B} \circ_{T} \eta_{TB} \circ Gf \\
+            &= \id_{TB} \circ Gf \\
+            &= Gf \\
+            &= \mu_{B} \circ Tf \\
+            &= STUCK \\
+            &= STUCK \\
+            &= STUCK \\
+            &= f^{\ast\ast} \\
+            &= (f^{\ast} \circ \id_{TA})^{\ast} \\
+            &= f^{\ast} \circ {\id_{TA}}^{\ast} \\
+            &= f \circ_{T} {\id_{TA}}^{\ast} \\
+            &= f \circ_{T} \epsilon_{A}
+    \end{align*}
+    and as such,~\(\eta\) and~\(\epsilon\) are natural.
 
-%Now we have provided the components of the unit and counit,
-%and now we should check that they are natural.
-
-%Finally, now that we know that $\eta$ and $\epsilon$ are natural,
-%we should check that they satisfy the uni-counit equations.
+    Next we must check that they satisfy the triangle equalities of adjunctions.
+    Using the kleisli triple laws we get
+    \begin{align*}
+        \epsilon_{FA} \circ F\eta_{A}
+            &= {\id_{FA}}^{\ast} \circ F\eta_{A} \\
+            &= {\id_{FA}}^{\ast} \circ \eta_{FA} \\
+            &= \id_{FA}
+    \end{align*}
+    and
+    \begin{align*}
+        G\epsilon_{A} \circ \eta_{GA}
+            &= G{\id_{A}}^{\ast} \circ \eta_{GA} \\
+            &= G\id_{A} \\
+            &= \id_{GA}
+    \end{align*}
 
 %[Here we use the monad laws]
 
