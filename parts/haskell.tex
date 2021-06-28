@@ -120,9 +120,12 @@ where
         function~\mintinline{Haskell}{square} of
         type~\mintinline{Haskell}{Int -> Int}.
     \item Here we define the behaviour of our function given an
-        argument~\mintinline{Haskell}{n}. The notation is similar to the one
+        argument~\mintinline{Ocaml}{n}. The notation is similar to the one
         we use in math, where we write \(f(n) = n*n\).
 \end{enumerate}
+Notice how the body of the function~\mintinline{Haskell}{square} also has no
+parentheses, as in function composition. These are optional again.
+
 Another example
 \begin{minted}{Haskell}
 multiply :: Int -> Int -> Int
@@ -138,13 +141,14 @@ multiplyByTwo :: Int -> Int
 multiplyByTwo = multiply 2
 \end{minted}
 are also valid. Here the function~\mintinline{Haskell}{multiplyByTwo} is defined
-in terms of the function~\mintinline{Haskell}{multiply 2}.
+in terms of the function~\mintinline{Haskell}{multiply 2 :: Int -> Int}.
 
 We can also define nameless functions by writing
 \begin{minted}{Haskell}
 \x -> x * x
 \end{minted}
-this is useful in situations where we need a function locally, for example
+where~\mintinline{Haskell}|\| is notation to mean~\(\lambda\). This is useful
+in situations where we need a function locally, for example
 \begin{minted}{Haskell}
 multiplyBy :: Int -> (Int -> Int)
 multiplyBy n = \x -> x * n
@@ -156,9 +160,10 @@ the composition operator
 \begin{minted}{Haskell}
 g . f :: a -> c
 \end{minted}
-which has type
+which is defined as
 \begin{minted}{Haskell}
 (.) :: (b -> c) -> (a -> b) -> a -> c
+(.) g f x = g(f(x))
 \end{minted}
 
 \subsubsection{Algebraic data types}
@@ -171,10 +176,11 @@ data Complex = Cartesian Double Double
 which consists of a space-separated blueprint~\mintinline{Haskell}{Cartesian
 Double Double} for the new~\mintinline{Haskell}{Complex} type.
 
-This defines a new called~\mintinline{Haskell}{Complex}. This definition comes
-with an associated
-map~\mintinline{Haskell}{Cartesian :: Double -> Double -> Complex} which lets us
-instantiate elements in the~\mintinline{Haskell}{Cartesian} type, \ie
+This defines a new type called~\mintinline{Haskell}{Complex}. This definition
+comes with an associated
+map~\mintinline{Haskell}{Cartesian :: Double -> Double -> Complex}, called
+an~\emph{element constructor}, which lets us instantiate elements in
+the~\mintinline{Haskell}{Cartesian} type, \ie
 \begin{minted}{Haskell}
 Cartesian 1.0 2.0 :: Complex
 \end{minted}
@@ -184,7 +190,7 @@ two~\mintinline{Haskell}{Double} types. We can see this as the Cartesian product
 of two types, which in math we would
 write~\(\mathbb{C}=\mathbb{R}\times\mathbb{R}\).
 
-We can also define new types in a similar fashion to the union of sets with
+We can also define new types in a similar fashion to the disjoint union with
 \begin{minted}{Haskell}
 data Shape = Circle Double | Polygon Int Double
 \end{minted}
@@ -196,39 +202,43 @@ type~\mintinline{Haskell}{Double} of its radius or a
 type~\mintinline{Haskell}{Int} and its apothem length, also of
 type~\mintinline{Haskell}{Double}.
 
-So far we are capable of defining new types by addition and multiplication. We
-call the first kind of types~\emph{sum types} and the second type~\emph{product
-types}. Together it is said that the types form an algebraic structure, and
-types made combining these operations are~\emph{algebraic data types}.
+So far we are capable of defining new types by multiplication and addition. We
+call the first kind of types~\emph{product types} and the second type~\emph{sum
+types}. Types made combining these operations are called~\emph{algebraic data
+types}.
 
-The definition of~\mintinline{Haskell}{Shape} induces two functions
+The definition of~\mintinline{Haskell}{Shape} includes two element constructors
 \begin{minted}{Haskell}
 Circle  :: Double -> Shape
 Polygon :: Int -> Double -> Shape
 \end{minted}
-but these words, in this case~\mintinline{Haskell}{Circle}
-and~\mintinline{Haskell}{Polygon}, acquire another meaning when defying a new
-type. To implement a function to calculate the area of our shapes we would write
+To implement a function to calculate the area of our shapes we would write
 \begin{minted}{Haskell}
 area :: Shape -> Double
 area (Circle r)    = pi*r*r
 area (Polygon n a) = n*a*a*tan(pi/n)
 \end{minted}
-which introduces the other use of the words~\mintinline{Haskell}{Circle}
-and~\mintinline{Haskell}{Polygon} we used to define~\mintinline{Haskell}{Shape}.
-They are used for~\emph{pattern matching}. To evaluate
+where we are using the element constructors~\mintinline{Haskell}{Circle}
+and~\mintinline{Haskell}{Polygon} for~\emph{pattern matching}. To evaluate
 the~\mintinline{Haskell}{area} function on an element we must
 first be able to identify what kind of~\mintinline{Haskell}{Shape} it is. This
-is done through matching the instance of said element on the constructors, and
-the program will make sure to execute the adequate one.
+is done through matching the instance of said element on the element
+constructors, and the program will make sure to execute the adequate one.
+
+We use pattern matching to specify the output if the
+input~\mintinline{Haskell}{Shape} is of the form~\mintinline{Haskell}{Circle r}
+or of the form~\mintinline{Haskell}{Polygon n a}. This must use all of the
+constructors found in the~\mintinline{Haskell}{Shape} type declaration for the
+function to be non-partial.
 
 Pattern matching also applies to the previous example:
 \begin{minted}{Haskell}
 conjugate :: Complex -> Complex
 conjugate (Cartesian x y) = Cartesian x (-y)
 \end{minted}
-notice here the use of~\mintinline{Haskell}{Cartesian} to pattern match and to
-construct an element of the~\mintinline{Haskell}{Complex} type.
+notice here the use of the~\mintinline{Haskell}{Cartesian} element constructor
+to pattern match and to construct an element of
+the~\mintinline{Haskell}{Complex} type.
 
 We do not always have to pattern match. We can avoid it when we can treat the
 different options equally and we do not need to access the parameters used to
@@ -293,9 +303,11 @@ apply :: (a -> b -> c) -> Pair a b -> c
 apply f (Tuple x y) = f x y
 \end{minted}
 
-In fact, Haskell already provides a pair-like data type, the tuple, which is
-denoted as~\mintinline{Haskell}{(a, b)}, and it's elements are also of the
-form~\mintinline{Haskell}{(1, 'a')}.
+In fact, Haskell already provides a pair data type, the tuple, which is denoted
+as~\mintinline{Haskell}{(a, b)}. Given two elements~\mintinline{Haskell}{1 ::
+Int} and~\mintinline{Haskell}{'a' :: Char} the corresponding element of the pair
+type combining them is also written, somewhat confusingly,
+as~\mintinline{Haskell}{(1, 'a') :: (Int, Char)}.
 
 \subsection{The \texorpdfstring{\mintinline{Haskell}{Monad}}{Monad} typeclass}
 The Haskell language allows users to define~\emph{typeclasses}, which area set
@@ -402,10 +414,9 @@ instance Applicative Maybe where
     pure :: a -> Maybe a
     pure = Just
 \end{minted}
-this class coincides with the notion of lax monoidal functor, which is not
-related to our topic. They are used to define the~\mintinline{Haskell}{Monad}
-typeclass.
-
+For our interests, this type class is only used as an intermediary building
+block to then define the~\mintinline{Haskell}{Monad} typeclass, which is defined
+as
 \begin{minted}{Haskell}
 class Applicative m => Monad m where
     (>>=) :: m a -> (a -> m b) -> m b
