@@ -29,13 +29,19 @@ type we write
 x :: Int
 \end{minted}
 which reads ``\mintinline{Haskell}{x} belongs to the~\mintinline{Haskell}{Int}
-type''.
+type''. There are a lot of types, but these are some of the most basic ones
+which we will be using throughout the document.
+\begin{minted}{Haskell}
+1   :: Int
+'a' :: Char
+1.0 :: Double
+\end{minted}
 The~\mintinline{Haskell}{::} symbol can be seen as the~\(\in\) symbol in math,
 and types may be regarded as sets for the most part.
 
-There are also types of functions. For any two types~\mintinline{Haskell}{a}
-and~\mintinline{Haskell}{b} there is a type
-\begin{minted}{Haskell}
+There are also types of functions. For any two types~\mintinline{Ocaml}{a}
+and~\mintinline{Ocaml}{b} there is a type
+\begin{minted}{Ocaml}
 a -> b
 \end{minted}
 whose elements are functions from the first type to the second. This means that
@@ -58,11 +64,11 @@ f :: a -> (b -> c)
 g :: (a -> b) -> c
 \end{minted}
 Here~\mintinline{Haskell}{f} is a function that takes an element of
-type~\mintinline{Haskell}{a} and returns an element of
-type~\mintinline{Haskell}{b -> c}, \ie a function from~\mintinline{Haskell}{b}
-to~\mintinline{Haskell}{c}, while~\mintinline{Haskell}{g} is a function that
-takes a function from~\mintinline{Haskell}{a} to~\mintinline{Haskell}{b} as an
-argument an returns an element of type~\mintinline{Haskell}{c}. If we
+type~\mintinline{Ocaml}{a} and returns an element of
+type~\mintinline{Ocaml}{b -> c}, \ie a function from~\mintinline{Ocaml}{b}
+to~\mintinline{Ocaml}{c}, while~\mintinline{Haskell}{g} is a function that
+takes a function from~\mintinline{Ocaml}{a} to~\mintinline{Ocaml}{b} as an
+argument an returns an element of type~\mintinline{Ocaml}{c}. If we
 regard~\mintinline{Haskell}{->} as an operator, we say it is right associative,
 and we can write
 \begin{minted}{Haskell}
@@ -157,7 +163,7 @@ multiplyBy n = \x -> x * n
 Lastly, we define the composition operator. If~\mintinline{Haskell}{f :: a -> b}
 and~\mintinline{Haskell}{g :: b -> c} are functions, we can compose them with
 the composition operator
-\begin{minted}{Haskell}
+\begin{minted}{Ocaml}
 g . f :: a -> c
 \end{minted}
 which is defined as
@@ -255,7 +261,7 @@ example we can define a binary tree type to hold nodes of any type as
 \begin{minted}{Haskell}
 data Pair a = Tuple a a
 \end{minted}
-Here~\mintinline{Haskell}{a} is a generic type, and acts as a parameter to the
+Here~\mintinline{Ocaml}{a} is a generic type, and acts as a parameter to the
 type definition. We can then instantiate a pair
 of~\mintinline{Haskell}{Int} elements as
 \begin{minted}{Haskell}
