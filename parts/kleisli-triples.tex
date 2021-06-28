@@ -1,7 +1,7 @@
 \documentclass[../TFG.tex]{subfiles}
 
 \begin{document}
-\section{The Kleisli Triples in Computer Science}
+\section{The Kleisli triples in Computer Science}
 \label{sec:kleisli-triple}
 In section~\ref{sec:motivation} we established that pure functions present some
 drawbacks. Let's put category theory aside for a moment and see how we could
@@ -210,10 +210,10 @@ Notice how the partiality example is a particular case of exceptions, \ie
 when~\(\#(E) = 1\). We separate them because in the programming context they
 have different use cases.
 
-\subsection{Kleisli Triple}
-\begin{definition}[Kleisli Triple]
+\subsection{Kleisli triple}
+\begin{definition}[Kleisli triple]
     \label{def:kleisli-triple}
-    We define a \emph{Kleisli Triple} over a category~\(\cat{C}\)
+    We define a \emph{Kleisli triple} over a category~\(\cat{C}\)
     as a triple~\((T, \eta, (-)^{\ast})\) consisting of
     \begin{enumerate}
         \item a class function
@@ -244,7 +244,7 @@ have different use cases.
 \begin{theorem}
     \label{thm:kleisli-triples-and-monads-correspondence}
     Let~\(\cat{C}\) be a category.
-    There is a bijective correspondence between Kleisli Triples over~\(\cat{C}\)
+    There is a bijective correspondence between Kleisli triples over~\(\cat{C}\)
     and monads over~\(\cat{C}\).
 \end{theorem}
 \begin{proof}
@@ -356,7 +356,7 @@ have different use cases.
             &= {\id_{TA}}^{\ast} \circ T(\id_{TA})^{\ast} \\
             &= \mu_{A} \circ T\mu_{A}
     \end{align*}
-    and this proves that a Kleisli Triple induces a monad.
+    and this proves that a Kleisli triple induces a monad.
 
     Let~\((T,\eta,\mu)\) be a monad over~\(\cat{C}\) and for any
     morphism~\(f:A\longrightarrow TB\) in~\(\cat{C}\) set
@@ -390,7 +390,7 @@ have different use cases.
             &= \id_{TB} \circ f \\
             &= f
     \end{align*}
-    and this proves that every monad induces a Kleisli Triple.
+    and this proves that every monad induces a Kleisli triple.
 
     It is clear that these two constructions are inverse to each other.
 \end{proof}
